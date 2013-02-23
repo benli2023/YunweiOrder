@@ -3,8 +3,7 @@
 
 <rapid:override name="head">
 	<title><%=Category.TABLE_ALIAS%>编辑</title>
-	<link rel="stylesheet" href="<c:url value="/resources/plugins/operamasks-ui/themes/default/operamasks-ui.min.css"/>" type="text/css" />
-	<script type="text/javascript" src="<c:url value="/resources/plugins/operamasks-ui/operamasks-ui.min.js"/>"></script>
+	<%@ include file="../../commons/opera-maskui-import.jsp" %>
 </rapid:override>
 
 <rapid:override name="content">

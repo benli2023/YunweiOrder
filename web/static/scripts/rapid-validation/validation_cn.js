@@ -93,7 +93,7 @@ Validator.messageSource['zh-cn'] = [
 	['validate-alphanum' , '请输入英文字母或是数字,其它字符是不允许的.'],
 	['validate-email' , '请输入有效的邮件地址,如 username@example.com.'],
 	['validate-url' , '请输入有效的URL地址.'],
-	['validate-currency-dollar' , 'Please enter a valid $ amount. For example $100.00 .'],
+	['validate-currency-dollar' , '请输入正确的金额格式，例如 100.00.'],
 	['validate-one-required' , '在前面选项至少选择一个.'],
 	['validate-integer' , '请输入正确的整数'],
 	['validate-pattern' , '输入的值不匹配'],
@@ -230,7 +230,7 @@ ValidationUtils = {
  		var lang = ValidationUtils.getLanguage();
  		var messageSource = Validator.messageSource['zh-cn'];
 		if(Validator.messageSource[lang]) {
-			messageSource = Validator.messageSource[lang];
+			//messageSource = Validator.messageSource[lang];
 		}
 		
 		var results = {};

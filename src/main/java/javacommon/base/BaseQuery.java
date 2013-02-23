@@ -13,5 +13,13 @@ public class BaseQuery extends PageRequest implements java.io.Serializable {
 	public BaseQuery() {
 		setPageSize(DEFAULT_PAGE_SIZE);
 	}
+	private String searchTerm;
+	public String getSearchTerm() {
+		return searchTerm;
+	}
+	public void setSearchTerm(String searchTerm) {
+		this.searchTerm = searchTerm;
+	}
+	
 	  
 }

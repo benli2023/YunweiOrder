@@ -1,138 +1,100 @@
-/*
- * Powered By [rapid-framework]
- * Web Site: http://www.rapid-framework.org.cn
- * Google Code: http://code.google.com/p/rapid-framework/
- * Since 2008 - 2013
- */
-
 package com.yunwei.order.vo.query;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import java.io.Serializable;
+import java.util.Date;
+import javacommon.base.BaseQuery;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import java.io.Serializable;
+public class StockProductQuery extends BaseQuery
+  implements Serializable
+{
+  private static final long serialVersionUID = 3148176768559230877L;
+  private Long stockProductId;
+  private Long stockId;
+  private Long productId;
+  private Integer quantity;
+  private Date firstEnterDateBegin;
+  private Date firstEnterDateEnd;
+  private Date outerDateBegin;
+  private Date outerDateEnd;
+  private Long price;
 
-import java.util.*;
+  public Long getStockProductId()
+  {
+    return this.stockProductId;
+  }
 
-import javacommon.base.*;
-import javacommon.util.*;
+  public void setStockProductId(Long value) {
+    this.stockProductId = value;
+  }
 
-import cn.org.rapid_framework.util.*;
-import cn.org.rapid_framework.web.util.*;
-import cn.org.rapid_framework.page.*;
-import cn.org.rapid_framework.page.impl.*;
+  public Long getStockId() {
+    return this.stockId;
+  }
 
-import com.yunwei.order.model.*;
-import com.yunwei.order.dao.*;
-import com.yunwei.order.service.*;
-import com.yunwei.order.vo.query.*;
+  public void setStockId(Long value) {
+    this.stockId = value;
+  }
 
-/**
- * @author badqiu email:badqiu(a)gmail.com
- * @version 1.0
- * @since 1.0
- */
+  public Long getProductId() {
+    return this.productId;
+  }
 
+  public void setProductId(Long value) {
+    this.productId = value;
+  }
 
-public class StockProductQuery extends BaseQuery implements Serializable {
-    private static final long serialVersionUID = 3148176768559230877L;
-    
+  public Integer getQuantity() {
+    return this.quantity;
+  }
 
-	/** stockProductId */
-	private java.lang.Long stockProductId;
-	/** stockId */
-	private java.lang.Long stockId;
-	/** productId */
-	private java.lang.Long productId;
-	/** quantity */
-	private java.lang.Integer quantity;
-	/** 首次入库时间 */
-	private java.util.Date firstEnterDateBegin;
-	private java.util.Date firstEnterDateEnd;
-	/** 最新出库时间 */
-	private java.util.Date outerDateBegin;
-	private java.util.Date outerDateEnd;
-	/** price */
-	private Long price;
+  public void setQuantity(Integer value) {
+    this.quantity = value;
+  }
 
-	public java.lang.Long getStockProductId() {
-		return this.stockProductId;
-	}
-	
-	public void setStockProductId(java.lang.Long value) {
-		this.stockProductId = value;
-	}
-	
-	public java.lang.Long getStockId() {
-		return this.stockId;
-	}
-	
-	public void setStockId(java.lang.Long value) {
-		this.stockId = value;
-	}
-	
-	public java.lang.Long getProductId() {
-		return this.productId;
-	}
-	
-	public void setProductId(java.lang.Long value) {
-		this.productId = value;
-	}
-	
-	public java.lang.Integer getQuantity() {
-		return this.quantity;
-	}
-	
-	public void setQuantity(java.lang.Integer value) {
-		this.quantity = value;
-	}
-	
-	public java.util.Date getFirstEnterDateBegin() {
-		return this.firstEnterDateBegin;
-	}
-	
-	public void setFirstEnterDateBegin(java.util.Date value) {
-		this.firstEnterDateBegin = value;
-	}	
-	
-	public java.util.Date getFirstEnterDateEnd() {
-		return this.firstEnterDateEnd;
-	}
-	
-	public void setFirstEnterDateEnd(java.util.Date value) {
-		this.firstEnterDateEnd = value;
-	}
-	
-	public java.util.Date getOuterDateBegin() {
-		return this.outerDateBegin;
-	}
-	
-	public void setOuterDateBegin(java.util.Date value) {
-		this.outerDateBegin = value;
-	}	
-	
-	public java.util.Date getOuterDateEnd() {
-		return this.outerDateEnd;
-	}
-	
-	public void setOuterDateEnd(java.util.Date value) {
-		this.outerDateEnd = value;
-	}
-	
-	public Long getPrice() {
-		return this.price;
-	}
-	
-	public void setPrice(Long value) {
-		this.price = value;
-	}
-	
+  public Date getFirstEnterDateBegin() {
+    return this.firstEnterDateBegin;
+  }
 
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this,ToStringStyle.MULTI_LINE_STYLE);
-	}
-	
+  public void setFirstEnterDateBegin(Date value) {
+    this.firstEnterDateBegin = value;
+  }
+
+  public Date getFirstEnterDateEnd() {
+    return this.firstEnterDateEnd;
+  }
+
+  public void setFirstEnterDateEnd(Date value) {
+    this.firstEnterDateEnd = value;
+  }
+
+  public Date getOuterDateBegin() {
+    return this.outerDateBegin;
+  }
+
+  public void setOuterDateBegin(Date value) {
+    this.outerDateBegin = value;
+  }
+
+  public Date getOuterDateEnd() {
+    return this.outerDateEnd;
+  }
+
+  public void setOuterDateEnd(Date value) {
+    this.outerDateEnd = value;
+  }
+
+  public Long getPrice() {
+    return this.price;
+  }
+
+  public void setPrice(Long value) {
+    this.price = value;
+  }
+
+  public String toString()
+  {
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+  }
 }
-

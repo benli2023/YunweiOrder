@@ -9,6 +9,7 @@
     <resultMap id="RM.Product" class="com.yunwei.order.model.Product">
         <result property="productId" column="product_id"/>
         <result property="catId" column="cat_id"/>
+        <result property="catIdTxt" column="cate_name"/>
         <result property="productName" column="product_name"/>
         <result property="productCode" column="product_code"/>
         <result property="ceilLimit" column="ceil_limit"/>
@@ -30,7 +31,7 @@
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="Product.columns">
 	    <![CDATA[
-        product_id ,cat_id ,product_name ,product_code ,ceil_limit ,low_limit ,piny_code ,product_spec ,sale_price ,purchase_price ,is_available ,is_sellable ,is_negative ,is_purchasable ,product_image ,manufacturer ,orginal_place ,cTime 
+        pro.product_id ,pro.cat_id ,pro.product_name ,pro.product_code ,pro.ceil_limit ,pro.low_limit ,pro.piny_code ,pro.product_spec ,pro.sale_price ,pro.purchase_price ,pro.is_available ,pro.is_sellable ,pro.is_negative ,pro.is_purchasable ,pro.product_image ,pro.manufacturer ,pro.orginal_place ,pro.cTime 
 	    ]]>
 	</sql>
 	
@@ -120,11 +121,11 @@
     </delete>
     
     <select id="Product.getById" resultMap="RM.Product">
-	    SELECT <include refid="Product.columns"/>
+	    SELECT <include refid="Product.columns"/>,cat.cate_name
 	    <![CDATA[
-	        FROM product 
+	        FROM product pro left join category cat on pro.cat_id= cat.cate_id
 	        WHERE 
-		        product_id = #productId# 
+		        pro.product_id = #productId# 
 	    ]]>
     </select>
 
@@ -192,7 +193,7 @@
     	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
     -->
     <select id="Product.findPage" resultMap="RM.Product">
-    	SELECT <include refid="Product.columns"/> FROM product 
+    	SELECT <include refid="Product.columns"/> ,cat.cate_name FROM product pro  left join category cat on pro.cat_id= cat.cate_id 
 		<include refid="Product.findPage.where"/>
 		<isNotEmpty property="sortColumns">
 			ORDER BY $sortColumns$

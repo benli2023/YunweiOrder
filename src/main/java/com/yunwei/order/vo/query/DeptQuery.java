@@ -1,90 +1,54 @@
-/*
- * Powered By [rapid-framework]
- * Web Site: http://www.rapid-framework.org.cn
- * Google Code: http://code.google.com/p/rapid-framework/
- * Since 2008 - 2013
- */
-
 package com.yunwei.order.vo.query;
 
-import org.apache.commons.lang.builder.EqualsBuilder;
-import org.apache.commons.lang.builder.HashCodeBuilder;
+import java.io.Serializable;
+import javacommon.base.BaseQuery;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import java.io.Serializable;
+public class DeptQuery extends BaseQuery
+  implements Serializable
+{
+  private static final long serialVersionUID = 3148176768559230877L;
+  private Integer deptId;
+  private String deptName;
+  private Integer parentId;
+  private String remark;
 
-import java.util.*;
+  public Integer getDeptId()
+  {
+    return this.deptId;
+  }
 
-import javacommon.base.*;
-import javacommon.util.*;
+  public void setDeptId(Integer value) {
+    this.deptId = value;
+  }
 
-import cn.org.rapid_framework.util.*;
-import cn.org.rapid_framework.web.util.*;
-import cn.org.rapid_framework.page.*;
-import cn.org.rapid_framework.page.impl.*;
+  public String getDeptName() {
+    return this.deptName;
+  }
 
-import com.yunwei.order.model.*;
-import com.yunwei.order.dao.*;
-import com.yunwei.order.service.*;
-import com.yunwei.order.vo.query.*;
+  public void setDeptName(String value) {
+    this.deptName = value;
+  }
 
-/**
- * @author badqiu email:badqiu(a)gmail.com
- * @version 1.0
- * @since 1.0
- */
+  public Integer getParentId() {
+    return this.parentId;
+  }
 
+  public void setParentId(Integer value) {
+    this.parentId = value;
+  }
 
-public class DeptQuery extends BaseQuery implements Serializable {
-    private static final long serialVersionUID = 3148176768559230877L;
-    
+  public String getRemark() {
+    return this.remark;
+  }
 
-	/** deptId */
-	private java.lang.Integer deptId;
-	/** deptName */
-	private java.lang.String deptName;
-	/** parentId */
-	private java.lang.Integer parentId;
-	/** remark */
-	private java.lang.String remark;
+  public void setRemark(String value) {
+    this.remark = value;
+  }
 
-	public java.lang.Integer getDeptId() {
-		return this.deptId;
-	}
-	
-	public void setDeptId(java.lang.Integer value) {
-		this.deptId = value;
-	}
-	
-	public java.lang.String getDeptName() {
-		return this.deptName;
-	}
-	
-	public void setDeptName(java.lang.String value) {
-		this.deptName = value;
-	}
-	
-	public java.lang.Integer getParentId() {
-		return this.parentId;
-	}
-	
-	public void setParentId(java.lang.Integer value) {
-		this.parentId = value;
-	}
-	
-	public java.lang.String getRemark() {
-		return this.remark;
-	}
-	
-	public void setRemark(java.lang.String value) {
-		this.remark = value;
-	}
-	
-
-	public String toString() {
-		return ToStringBuilder.reflectionToString(this,ToStringStyle.MULTI_LINE_STYLE);
-	}
-	
+  public String toString()
+  {
+    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+  }
 }
-

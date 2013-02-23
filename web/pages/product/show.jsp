@@ -16,7 +16,7 @@
 		<table class="formTable">
 			<tr>	
 				<td class="tdLabel"><%=Product.ALIAS_CAT_ID%></td>	
-				<td><c:out value='${product.catId}'/></td>
+				<td><c:out value='${product.catIdTxt}'/></td>
 			</tr>
 			<tr>	
 				<td class="tdLabel"><%=Product.ALIAS_PRODUCT_NAME%></td>	

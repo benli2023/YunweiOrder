@@ -3,8 +3,7 @@
 
 <rapid:override name="head">
 	<title><%=Product.TABLE_ALIAS%>编辑</title>
-	<link rel="stylesheet" href="<c:url value="/resources/plugins/operamasks-ui/themes/default/operamasks-ui.min.css"/>" type="text/css" />
-	<script type="text/javascript" src="<c:url value="/resources/plugins/operamasks-ui/operamasks-ui.min.js"/>"></script>
+	<%@ include file="../../commons/opera-maskui-import.jsp" %>
 	<script type="text/javascript" src="<c:url value="/scripts/image-priew/image-preview.js"/>"></script>
 	<!--[if gte IE 7]> 
 		<script type="text/javascript" src="<c:url value="/scripts/image-priew/image-preview-ie.js"/>"></script>
@@ -12,7 +11,7 @@
 </rapid:override>
 
 <rapid:override name="content">
-	<form:form method="post" action="${ctx}/product/update/${product.productId}" modelAttribute="product"  enctype="multipart/form-data">
+	<form:form method="put" action="${ctx}/product/update/${product.productId}" modelAttribute="product"  enctype="multipart/form-data">
 		<table class="formTable">
 		<%@ include file="form_include.jsp" %>
 		<input id="submitButton" name="submitButton" type="submit" value="提交" />

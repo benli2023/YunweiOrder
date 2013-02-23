@@ -1,16 +1,20 @@
 package javacommon.base;
 
+import javacommon.util.ConvertRegisterHelper;
+import javacommon.util.PageRequestFactory;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
-import javacommon.util.ConvertRegisterHelper;
-import javacommon.util.PageRequestFactory;
 import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
+
+import com.yunwei.order.session.SessionHelper;
+import com.yunwei.order.session.UserContext;
 
 
 /**
@@ -85,5 +89,10 @@ public class BaseRestSpringController<Entity,PK> {
             request.setAttribute(key, value);
         }
         return (T)value;
+    }
+    
+
+    public UserContext getLoginUser(HttpServletRequest request) {
+      return SessionHelper.getLoginUser(request);
     }
 }

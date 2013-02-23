@@ -4,8 +4,8 @@
 
 <rapid:override name="head">
 	<title><%=Staff.TABLE_ALIAS%>新增</title>
-		<link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/resources/plugins/operamasks-ui/themes/default/operamasks-ui.min.css"/>" />
-	<script src="<c:url value="/resources/plugins/operamasks-ui/operamasks-ui.min.js"/>" type="text/javascript"></script>
+	<%@ include file="../../commons/opera-maskui-import.jsp" %>
+	
 </rapid:override>
 
 <rapid:override name="content">
@@ -35,6 +35,7 @@
             $('#userGrid').omGrid({
                 dataSource : dataUrl+'?q=&amp;orgId=',
                 width : 500,
+                title : '表格',
                 height : 200,
                 limit : 10, //不分页
                 colModel : [ {header : '编号', name : 'staffId', width : 50, align : 'center'}, 

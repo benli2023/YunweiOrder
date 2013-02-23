@@ -91,9 +91,8 @@
 		       <isNotEmpty prepend="AND" property="cateName">
 		             cate_name = #cateName#
 		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="isAvailable">
-		             is_available = #isAvailable#
-		       </isNotEmpty>
+		       
+		       <isNotEqual	prepend="AND" property="isAvailable" compareValue="-1">  is_available = #isAvailable# </isNotEqual>
 		       <isNotEmpty prepend="AND" property="ctimeBegin">
 		             cTime >= #ctimeBegin#
 		       </isNotEmpty>

@@ -7,15 +7,18 @@
 
 <rapid:override name="head">
 	<title><%=Product.TABLE_ALIAS%> 维护</title>
-	
+	<%@ include file="../../commons/opera-maskui-import.jsp" %>
 	<script src="${ctx}/scripts/rest.js" ></script>
 	<link href="<c:url value="/widgets/simpletable/simpletable.css"/>" type="text/css" rel="stylesheet">
+	
 	<script type="text/javascript" src="<c:url value="/widgets/simpletable/simpletable.js"/>"></script>
 	<script type="text/javascript" >
 		$(document).ready(function() {
 			// 分页需要依赖的初始化动作
 			window.simpleTable = new SimpleTable('queryForm',${page.thisPageNumber},${page.pageSize},'${pageRequest.sortColumns}');
 		});
+		
+		
 	</script>
 </rapid:override>
 
@@ -28,8 +31,10 @@
 				<tr>	
 					<td class="tdLabel"><%=Product.ALIAS_CAT_ID%></td>		
 					<td>
-						<input id="category"   class="mini-buttonedit" onbuttonclick="onButtonEdit"/>
-						<input id="catId" type="hidden">
+						<input name="catIdTxt" id="catIdTxt" class="input-text small required" maxlength="19"  value="${query.catIdTxt}"  autocomplete="off"/>
+						<input id="catId" name="catId" type="hidden" class="userIDHidden" value="${product.catId}"/>
+						<a href="javascript:openSelection('catIdTxt');">选择</a>
+						<a href="javascript:clearSelection('catIdTxt','catId');">清除</a>
 					</td>
 					<td class="tdLabel"><%=Product.ALIAS_PRODUCT_NAME%></td>		
 					<td>
@@ -174,7 +179,7 @@
 				<td>${page.thisPageFirstElementNumber + status.index}</td>
 				<td><input type="checkbox" name="items" value="${item.productId}"></td>
 				
-				<td><c:out value='${item.catId}'/>&nbsp;</td>
+				<td><c:out value='${item.catIdTxt}'/>&nbsp;</td>
 				<td><c:out value='${item.productName}'/>&nbsp;</td>
 				<td><c:out value='${item.productCode}'/>&nbsp;</td>
 				<td><c:out value='${item.ceilLimit}'/>&nbsp;</td>
@@ -209,31 +214,56 @@
 	</div>
 	</form>
 	
-	<script type="text/javascript" >
-		  mini.parse();
-        function onButtonEdit(e) {
-            var btnEdit = this;
-            mini.open({
-                url: bootPATH + "../demo/CommonLibs/SelectTreeWindow.html",
-                showMaxButton: false,
-                title: "选择树",
-                width: 350,
-                height: 350,
-                ondestroy: function (action) {                    
-                    if (action == "ok") {
-                        var iframe = this.getIFrameEl();
-                        var data = iframe.contentWindow.GetData();
-                        data = mini.clone(data);
-                        if (data) {
-                            btnEdit.setValue(data.id);
-                            btnEdit.setText(data.text);
-                        }
-                    }
-                }
-            });            
-             
-        }    
+
+<script>
+	 var popupOption={
+		 'catIdTxt': {url:'${ctx}/category/query',title:'选择产品分类'}
+	 };
+     function fillBackAndCloseDialog(data){
+        $( "#dialog-modal").omDialog('close');
+        window.frames[0].location.href="about:blank";//reset the iframe location
+     };
+     
+     function clearSelection(id,hiddenId) {
+    	 var obj=document.getElementById(id);
+    	 if(obj) obj.value='';
+    	 var obj2=document.getElementById(hiddenId);
+    	 if(obj2) obj2.value='';
+     }
+     
+     function openSelection(fieldId) {
+     	var requestUrl=popupOption[fieldId].url;
+     	var title=popupOption[fieldId].title;
+         $( "#dialog-modal").omDialog({
+         	title:title
+         });
+         $( "#dialog-modal").omDialog('open');
+         var frameLoc=window.frames[0].location;
+         frameLoc.href=requestUrl+"?fieldId="+fieldId; 
+     }
+    $(function() {
+        $( "#dialog-modal").omDialog({
+            autoOpen: false,
+            width:535,
+            height: 465,
+            modal: true
+        });
+        for(var htmlId in popupOption) {
+		        $('#'+htmlId).keydown(function(e){
+		             if(e.keyCode==118){ //F7
+		            	 var fieldId=$(this).attr('id');
+						  openSelection(fieldId);
+		                return false;
+		           }else{
+		               return false; //forbide any input
+		           }
+		        });
+        }
+    });
 	</script>
+	  <div id="dialog-modal" title="">
+        <iframe frameborder="0" style="width:100%;height:99%;height:100%\9;" src="about:blank"></iframe>
+    </div>
 	
 </rapid:override>
 
