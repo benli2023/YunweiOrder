@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap>
+
+    <resultMap id="RM.SaleOrder" class="com.yunwei.order.model.SaleOrder">
+        <result property="orderId" column="order_id"/>
+        <result property="orderNo" column="order_no"/>
+        <result property="staffId" column="staff_id"/>
+        <result property="custId" column="cust_id"/>
+        <result property="orderDate" column="order_date"/>
+        <result property="paymentMode" column="payment_mode"/>
+        <result property="invoiceNo" column="invoice_no"/>
+        <result property="description" column="description"/>
+        <result property="accountingDeptId" column="accounting_deptId"/>
+        <result property="currency" column="currency"/>
+        <result property="deliveryMethod" column="delivery_method"/>
+        <result property="deliveryDate" column="delivery_date"/>
+        <result property="additionalText" column="additional_text"/>
+        <result property="isAvailable" column="is_available"/>
+        <result property="updator" column="updator"/>
+        <result property="utime" column="uTime"/>
+        <result property="ctime" column="cTime"/>
+        <result property="creatorId" column="creator_Id"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="SaleOrder.columns">
+	    <![CDATA[
+        order_id ,order_no ,staff_id ,cust_id ,order_date ,payment_mode ,invoice_no ,description ,accounting_deptId ,currency ,delivery_method ,delivery_date ,additional_text ,is_available ,updator ,uTime ,cTime ,creator_Id 
+	    ]]>
+	</sql>
+	
+    <insert id="SaleOrder.insert" >
+    <![CDATA[
+        INSERT INTO sale_order (
+        	order_id ,
+        	order_no ,
+        	staff_id ,
+        	cust_id ,
+        	order_date ,
+        	payment_mode ,
+        	invoice_no ,
+        	description ,
+        	accounting_deptId ,
+        	currency ,
+        	delivery_method ,
+        	delivery_date ,
+        	additional_text ,
+        	is_available ,
+        	updator ,
+        	uTime ,
+        	cTime ,
+        	creator_Id 
+        ) VALUES (
+        	#orderId# ,
+        	#orderNo# ,
+        	#staffId# ,
+        	#custId# ,
+        	#orderDate# ,
+        	#paymentMode# ,
+        	#invoiceNo# ,
+        	#description# ,
+        	#accountingDeptId# ,
+        	#currency# ,
+        	#deliveryMethod# ,
+        	#deliveryDate# ,
+        	#additionalText# ,
+        	#isAvailable# ,
+        	#updator# ,
+        	#utime# ,
+        	#ctime# ,
+        	#creatorId# 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+    -->
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="orderId" >
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <update id="SaleOrder.update" >
+    <![CDATA[
+        UPDATE sale_order SET
+	        order_no = #orderNo# ,
+	        staff_id = #staffId# ,
+	        cust_id = #custId# ,
+	        order_date = #orderDate# ,
+	        payment_mode = #paymentMode# ,
+	        invoice_no = #invoiceNo# ,
+	        description = #description# ,
+	        accounting_deptId = #accountingDeptId# ,
+	        currency = #currency# ,
+	        delivery_method = #deliveryMethod# ,
+	        delivery_date = #deliveryDate# ,
+	        additional_text = #additionalText# ,
+	        is_available = #isAvailable# ,
+	        updator = #updator# ,
+	        uTime = #utime# ,
+	        cTime = #ctime# ,
+	        creator_Id = #creatorId# 
+        WHERE 
+	        order_id = #orderId# 
+    ]]>
+    </update>
+
+    <delete id="SaleOrder.delete">
+    <![CDATA[
+        DELETE FROM sale_order WHERE
+        order_id = #orderId# 
+    ]]>
+    </delete>
+    
+    <select id="SaleOrder.getById" resultMap="RM.SaleOrder">
+	    SELECT <include refid="SaleOrder.columns"/>
+	    <![CDATA[
+	        FROM sale_order 
+	        WHERE 
+		        order_id = #orderId# 
+	    ]]>
+    </select>
+
+	<sql id="SaleOrder.findPage.where">
+	    <dynamic prepend="WHERE">
+		       <isNotEmpty prepend="AND" property="orderId">
+		             order_id = #orderId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="orderNo">
+		             order_no = #orderNo#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="staffId">
+		             staff_id = #staffId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="custId">
+		             cust_id = #custId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="orderDateBegin">
+		             order_date >= #orderDateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="orderDateEnd">
+		             order_date &lt;= #orderDateEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="paymentMode">
+		             payment_mode = #paymentMode#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="invoiceNo">
+		             invoice_no = #invoiceNo#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="description">
+		             description = #description#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="accountingDeptId">
+		             accounting_deptId = #accountingDeptId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="currency">
+		             currency = #currency#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="deliveryMethod">
+		             delivery_method = #deliveryMethod#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="deliveryDateBegin">
+		             delivery_date >= #deliveryDateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="deliveryDateEnd">
+		             delivery_date &lt;= #deliveryDateEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="additionalText">
+		             additional_text = #additionalText#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="isAvailable">
+		             is_available = #isAvailable#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="updator">
+		             updator = #updator#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="utimeBegin">
+		             uTime >= #utimeBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="utimeEnd">
+		             uTime &lt;= #utimeEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="ctimeBegin">
+		             cTime >= #ctimeBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="ctimeEnd">
+		             cTime &lt;= #ctimeEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="creatorId">
+		             creator_Id = #creatorId#
+		       </isNotEmpty>
+	    </dynamic>	
+	</sql>
+	 
+    <select id="SaleOrder.findPage.count" resultClass="long">
+        SELECT count(*) FROM sale_order <include refid="SaleOrder.findPage.where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="SaleOrder.findPage" resultMap="RM.SaleOrder">
+    	SELECT <include refid="SaleOrder.columns"/> FROM sale_order 
+		<include refid="SaleOrder.findPage.where"/>
+		<isNotEmpty property="sortColumns">
+			ORDER BY $sortColumns$
+		</isNotEmpty>
+    </select>
+
+    <select id="SaleOrder.getByOrderNo" resultMap="RM.SaleOrder" >
+	    SELECT <include refid="SaleOrder.columns"/>
+	    <![CDATA[
+	        FROM sale_order WHERE order_no = #orderNo#
+	    ]]>
+    </select>
+    
+	
+</sqlMap>
+

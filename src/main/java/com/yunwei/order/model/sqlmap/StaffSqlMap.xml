@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap>
+
+    <resultMap id="RM.Staff" class="com.yunwei.order.model.Staff">
+        <result property="staffId" column="staff_id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="staffName" column="staff_name"/>
+        <result property="loginName" column="login_name"/>
+        <result property="loginPassword" column="login_password"/>
+        <result property="position" column="position"/>
+        <result property="gender" column="gender"/>
+        <result property="birthDate" column="birth_date"/>
+        <result property="hireDate" column="hire_date"/>
+        <result property="matureDate" column="mature_date"/>
+        <result property="identityCard" column="identity_card"/>
+        <result property="address" column="address"/>
+        <result property="phone" column="phone"/>
+        <result property="email" column="email"/>
+        <result property="ctime" column="cTime"/>
+        <result property="adminId" column="adminId"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="Staff.columns">
+	    <![CDATA[
+        staff_id ,dept_id ,staff_name ,login_name ,login_password ,position ,gender ,birth_date ,hire_date ,mature_date ,identity_card ,address ,phone ,email ,cTime ,adminId 
+	    ]]>
+	</sql>
+	
+    <insert id="Staff.insert" >
+    <![CDATA[
+        INSERT INTO staff (
+        	staff_id ,
+        	dept_id ,
+        	staff_name ,
+        	login_name ,
+        	login_password ,
+        	position ,
+        	gender ,
+        	birth_date ,
+        	hire_date ,
+        	mature_date ,
+        	identity_card ,
+        	address ,
+        	phone ,
+        	email ,
+        	cTime ,
+        	adminId 
+        ) VALUES (
+        	#staffId# ,
+        	#deptId# ,
+        	#staffName# ,
+        	#loginName# ,
+        	#loginPassword# ,
+        	#position# ,
+        	#gender# ,
+        	#birthDate# ,
+        	#hireDate# ,
+        	#matureDate# ,
+        	#identityCard# ,
+        	#address# ,
+        	#phone# ,
+        	#email# ,
+        	#ctime# ,
+        	#adminId# 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+    -->
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="staffId" >
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <update id="Staff.update" >
+    <![CDATA[
+        UPDATE staff SET
+	        dept_id = #deptId# ,
+	        staff_name = #staffName# ,
+	        login_name = #loginName# ,
+	        login_password = #loginPassword# ,
+	        position = #position# ,
+	        gender = #gender# ,
+	        birth_date = #birthDate# ,
+	        hire_date = #hireDate# ,
+	        mature_date = #matureDate# ,
+	        identity_card = #identityCard# ,
+	        address = #address# ,
+	        phone = #phone# ,
+	        email = #email# ,
+	        cTime = #ctime# ,
+	        adminId = #adminId# 
+        WHERE 
+	        staff_id = #staffId# 
+    ]]>
+    </update>
+
+    <delete id="Staff.delete">
+    <![CDATA[
+        DELETE FROM staff WHERE
+        staff_id = #staffId# 
+    ]]>
+    </delete>
+    
+    <select id="Staff.getById" resultMap="RM.Staff">
+	    SELECT <include refid="Staff.columns"/>
+	    <![CDATA[
+	        FROM staff 
+	        WHERE 
+		        staff_id = #staffId# 
+	    ]]>
+    </select>
+
+	<sql id="Staff.findPage.where">
+	    <dynamic prepend="WHERE">
+		       <isNotEmpty prepend="AND" property="staffId">
+		             staff_id = #staffId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="deptId">
+		             dept_id = #deptId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="staffName">
+		             staff_name = #staffName#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="loginName">
+		             login_name = #loginName#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="loginPassword">
+		             login_password = #loginPassword#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="position">
+		             position = #position#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="gender">
+		             gender = #gender#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateBegin">
+		             birth_date >= #birthDateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="birthDateEnd">
+		             birth_date &lt;= #birthDateEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="hireDateBegin">
+		             hire_date >= #hireDateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="hireDateEnd">
+		             hire_date &lt;= #hireDateEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="matureDateBegin">
+		             mature_date >= #matureDateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="matureDateEnd">
+		             mature_date &lt;= #matureDateEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="identityCard">
+		             identity_card = #identityCard#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="address">
+		             address = #address#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="phone">
+		             phone = #phone#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="email">
+		             email = #email#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="ctimeBegin">
+		             cTime >= #ctimeBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="ctimeEnd">
+		             cTime &lt;= #ctimeEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="adminId">
+		             adminId = #adminId#
+		       </isNotEmpty>
+		        <isNotEmpty prepend="AND" property="searchTerm">
+		            (staff_name  like  '%$searchTerm$%' or login_name like  '%$searchTerm$%' or email like  '%$searchTerm$%')
+		       </isNotEmpty>
+	    </dynamic>	
+	</sql>
+	 
+    <select id="Staff.findPage.count" resultClass="long">
+        SELECT count(*) FROM staff <include refid="Staff.findPage.where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="Staff.findPage" resultMap="RM.Staff">
+    	SELECT <include refid="Staff.columns"/> FROM staff 
+		<include refid="Staff.findPage.where"/>
+		<isNotEmpty property="sortColumns">
+			ORDER BY $sortColumns$
+		</isNotEmpty>
+    </select>
+
+	
+</sqlMap>
+

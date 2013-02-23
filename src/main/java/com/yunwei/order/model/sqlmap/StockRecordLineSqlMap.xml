@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap>
+
+    <resultMap id="RM.StockRecordLine" class="com.yunwei.order.model.StockRecordLine">
+        <result property="stockOperDetailId" column="stock_oper_detail_id"/>
+        <result property="stockOperationId" column="stock_operation_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="price" column="price"/>
+        <result property="quantity" column="quantity"/>
+        <result property="haveInvoice" column="have_invoice"/>
+        <result property="invoiceNumber" column="invoice_number"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="StockRecordLine.columns">
+	    <![CDATA[
+        stock_oper_detail_id ,stock_operation_id ,product_id ,price ,quantity ,have_invoice ,invoice_number 
+	    ]]>
+	</sql>
+	
+    <insert id="StockRecordLine.insert" >
+    <![CDATA[
+        INSERT INTO stock_record_line (
+        	stock_oper_detail_id ,
+        	stock_operation_id ,
+        	product_id ,
+        	price ,
+        	quantity ,
+        	have_invoice ,
+        	invoice_number 
+        ) VALUES (
+        	#stockOperDetailId# ,
+        	#stockOperationId# ,
+        	#productId# ,
+        	#price# ,
+        	#quantity# ,
+        	#haveInvoice# ,
+        	#invoiceNumber# 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+    -->
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="stockOperDetailId" >
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <update id="StockRecordLine.update" >
+    <![CDATA[
+        UPDATE stock_record_line SET
+	        stock_operation_id = #stockOperationId# ,
+	        product_id = #productId# ,
+	        price = #price# ,
+	        quantity = #quantity# ,
+	        have_invoice = #haveInvoice# ,
+	        invoice_number = #invoiceNumber# 
+        WHERE 
+	        stock_oper_detail_id = #stockOperDetailId# 
+    ]]>
+    </update>
+
+    <delete id="StockRecordLine.delete">
+    <![CDATA[
+        DELETE FROM stock_record_line WHERE
+        stock_oper_detail_id = #stockOperDetailId# 
+    ]]>
+    </delete>
+    
+    <select id="StockRecordLine.getById" resultMap="RM.StockRecordLine">
+	    SELECT <include refid="StockRecordLine.columns"/>
+	    <![CDATA[
+	        FROM stock_record_line 
+	        WHERE 
+		        stock_oper_detail_id = #stockOperDetailId# 
+	    ]]>
+    </select>
+
+	<sql id="StockRecordLine.findPage.where">
+	    <dynamic prepend="WHERE">
+		       <isNotEmpty prepend="AND" property="stockOperDetailId">
+		             stock_oper_detail_id = #stockOperDetailId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="stockOperationId">
+		             stock_operation_id = #stockOperationId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="productId">
+		             product_id = #productId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="price">
+		             price = #price#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="quantity">
+		             quantity = #quantity#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="haveInvoice">
+		             have_invoice = #haveInvoice#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="invoiceNumber">
+		             invoice_number = #invoiceNumber#
+		       </isNotEmpty>
+	    </dynamic>	
+	</sql>
+	 
+    <select id="StockRecordLine.findPage.count" resultClass="long">
+        SELECT count(*) FROM stock_record_line <include refid="StockRecordLine.findPage.where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="StockRecordLine.findPage" resultMap="RM.StockRecordLine">
+    	SELECT <include refid="StockRecordLine.columns"/> FROM stock_record_line 
+		<include refid="StockRecordLine.findPage.where"/>
+		<isNotEmpty property="sortColumns">
+			ORDER BY $sortColumns$
+		</isNotEmpty>
+    </select>
+
+	
+</sqlMap>
+

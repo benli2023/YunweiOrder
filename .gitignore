@@ -1,0 +1,14 @@
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
+target
+.svn
+.settings
+.classpath
+operamasks-ui
+select2
+My97DatePicker
+simpletable

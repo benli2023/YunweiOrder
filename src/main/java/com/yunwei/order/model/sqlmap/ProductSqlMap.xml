@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap>
+
+    <resultMap id="RM.Product" class="com.yunwei.order.model.Product">
+        <result property="productId" column="product_id"/>
+        <result property="catId" column="cat_id"/>
+        <result property="productName" column="product_name"/>
+        <result property="productCode" column="product_code"/>
+        <result property="ceilLimit" column="ceil_limit"/>
+        <result property="lowLimit" column="low_limit"/>
+        <result property="pinyCode" column="piny_code"/>
+        <result property="productSpec" column="product_spec"/>
+        <result property="salePrice" column="sale_price"/>
+        <result property="purchasePrice" column="purchase_price"/>
+        <result property="isAvailable" column="is_available"/>
+        <result property="isSellable" column="is_sellable"/>
+        <result property="isNegative" column="is_negative"/>
+        <result property="isPurchasable" column="is_purchasable"/>
+        <result property="productImage" column="product_image"/>
+        <result property="manufacturer" column="manufacturer"/>
+        <result property="orginalPlace" column="orginal_place"/>
+        <result property="ctime" column="cTime"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="Product.columns">
+	    <![CDATA[
+        product_id ,cat_id ,product_name ,product_code ,ceil_limit ,low_limit ,piny_code ,product_spec ,sale_price ,purchase_price ,is_available ,is_sellable ,is_negative ,is_purchasable ,product_image ,manufacturer ,orginal_place ,cTime 
+	    ]]>
+	</sql>
+	
+    <insert id="Product.insert" >
+    <![CDATA[
+        INSERT INTO product (
+        	product_id ,
+        	cat_id ,
+        	product_name ,
+        	product_code ,
+        	ceil_limit ,
+        	low_limit ,
+        	piny_code ,
+        	product_spec ,
+        	sale_price ,
+        	purchase_price ,
+        	is_available ,
+        	is_sellable ,
+        	is_negative ,
+        	is_purchasable ,
+        	product_image ,
+        	manufacturer ,
+        	orginal_place ,
+        	cTime 
+        ) VALUES (
+        	#productId# ,
+        	#catId# ,
+        	#productName# ,
+        	#productCode# ,
+        	#ceilLimit# ,
+        	#lowLimit# ,
+        	#pinyCode# ,
+        	#productSpec# ,
+        	#salePrice# ,
+        	#purchasePrice# ,
+        	#isAvailable# ,
+        	#isSellable# ,
+        	#isNegative# ,
+        	#isPurchasable# ,
+        	#productImage# ,
+        	#manufacturer# ,
+        	#orginalPlace# ,
+        	#ctime# 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+    -->
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="productId" >
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <update id="Product.update" >
+    <![CDATA[
+        UPDATE product SET
+	        cat_id = #catId# ,
+	        product_name = #productName# ,
+	        product_code = #productCode# ,
+	        ceil_limit = #ceilLimit# ,
+	        low_limit = #lowLimit# ,
+	        piny_code = #pinyCode# ,
+	        product_spec = #productSpec# ,
+	        sale_price = #salePrice# ,
+	        purchase_price = #purchasePrice# ,
+	        is_available = #isAvailable# ,
+	        is_sellable = #isSellable# ,
+	        is_negative = #isNegative# ,
+	        is_purchasable = #isPurchasable# ,
+	        product_image = #productImage# ,
+	        manufacturer = #manufacturer# ,
+	        orginal_place = #orginalPlace# ,
+	        cTime = #ctime# 
+        WHERE 
+	        product_id = #productId# 
+    ]]>
+    </update>
+
+    <delete id="Product.delete">
+    <![CDATA[
+        DELETE FROM product WHERE
+        product_id = #productId# 
+    ]]>
+    </delete>
+    
+    <select id="Product.getById" resultMap="RM.Product">
+	    SELECT <include refid="Product.columns"/>
+	    <![CDATA[
+	        FROM product 
+	        WHERE 
+		        product_id = #productId# 
+	    ]]>
+    </select>
+
+	<sql id="Product.findPage.where">
+	    <dynamic prepend="WHERE">
+		       <isNotEmpty prepend="AND" property="productId">
+		             product_id = #productId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="catId">
+		             cat_id = #catId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="productName">
+		             product_name = #productName#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="productCode">
+		             product_code = #productCode#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="ceilLimit">
+		             ceil_limit = #ceilLimit#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="lowLimit">
+		             low_limit = #lowLimit#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="pinyCode">
+		             piny_code = #pinyCode#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="productSpec">
+		             product_spec = #productSpec#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="salePrice">
+		             sale_price = #salePrice#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="purchasePrice">
+		             purchase_price = #purchasePrice#
+		       </isNotEmpty>
+		       
+		       <isNotEqual	prepend="AND" property="isAvailable" compareValue="-1">  is_available = #isAvailable# </isNotEqual>	
+		       <isNotEqual	prepend="AND" property="isSellable" compareValue="-1">  is_sellable = #isSellable# </isNotEqual>	
+		       <isNotEqual	prepend="AND" property="isPurchasable" compareValue="-1">  is_purchasable = #isPurchasable# </isNotEqual>
+		   
+		       <isNotEmpty prepend="AND" property="productImage">
+		             product_image = #productImage#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="manufacturer">
+		             manufacturer = #manufacturer#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="orginalPlace">
+		             orginal_place = #orginalPlace#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="ctimeBegin">
+		             cTime >= #ctimeBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="ctimeEnd">
+		             cTime &lt;= #ctimeEnd#
+		       </isNotEmpty>
+	    </dynamic>	
+	</sql>
+	 
+    <select id="Product.findPage.count" resultClass="long">
+        SELECT count(*) FROM product <include refid="Product.findPage.where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="Product.findPage" resultMap="RM.Product">
+    	SELECT <include refid="Product.columns"/> FROM product 
+		<include refid="Product.findPage.where"/>
+		<isNotEmpty property="sortColumns">
+			ORDER BY $sortColumns$
+		</isNotEmpty>
+    </select>
+
+	
+</sqlMap>
+
