@@ -43,9 +43,9 @@
         					  </c:forEach>
                            ],
                 onRowDblClick:function(e, rowData) {
-                	  window.parent.$('#'+parentFieldId).val(rowData.cateName).next('.userIDHidden:eq(0)').val(rowData.cateId);
+                	  //window.parent.$('#'+parentFieldId).val(rowData.cateName).next('.userIDHidden:eq(0)').val(rowData.cateId);
                       //window.parent.$( "#dialog-modal").omDialog('close');
-                      if(window.parent.fillBackAndCloseDialog) window.parent.fillBackAndCloseDialog(rowData);
+                      if(window.parent.fillBackAndCloseDialog) window.parent.fillBackAndCloseDialog(rowData,parentFieldId);
                 }
             });
             $(searchButtonId).omButton({
@@ -80,7 +80,7 @@
         <tbody><tr valign="top">
             <td> 
                 <div class="toolbar">
-			        查询条件(编号或姓名模糊查询)：
+			        查询条件(模糊查询)：
 			        <input id="q" onkeyup="onKeyEnter(event)" autocomplete="off"/>
 			       <input id="query" type="submit" value="查询" />
 			    </div>

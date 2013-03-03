@@ -20,6 +20,96 @@
 		
 		
 	</script>
+	
+	<style>
+	body .mini-textbox *,
+body .mini-buttonedit *
+{
+
+box-sizing:content-box;
+-moz-box-sizing:content-box;
+-ms-box-sizing:content-box;
+-webkit-box-sizing:content-box;
+}
+
+
+.mini-buttonedit-border
+{
+background:white;
+border: solid 1px #a5acb5;
+width:123px;
+height:19px;
+display:inline-block;
+position:static;
+float:left;
+overflow:hidden;
+}
+
+
+.mini-buttonedit-input
+{
+background:none;
+border: 0;
+width:100px;
+height:19px;
+line-height:19px;
+font-family: Verdana;
+font-size: 9pt;
+padding: 0;
+margin:0;
+padding-left:1px;
+padding-right:1px;
+outline:none;
+float:left;
+z-index:1;
+cursor:text;
+}
+
+
+.mini-buttonedit-button, .mini-buttonedit-close
+{
+border:0px;
+padding:1px;
+background:none;
+width:15px;
+height:15px;
+overflow:hidden;
+cursor:pointer;
+margin-top:1px;
+margin-right:1px;
+float:right;
+z-index:10;
+}
+
+.mini-buttonedit-icon
+{
+display:block;
+width:15px;
+height:15px;
+overflow:hidden;
+background:url(<c:url value="${ctx}/scripts/plugins/popup-input/img/icon1.gif" />) no-repeat 50% 50%;
+}
+
+.mini-buttonedit-close
+{
+background:url(<c:url value="${ctx}/scripts/plugins/popup-input/img/close.gif" />) no-repeat 50% 50%;
+}
+
+.mini-buttonedit-button-hover,
+.mini-buttonedit-hover .mini-buttonedit-button
+{
+border:1px solid #ababab;
+padding:0;
+background:#dde6fe url(<c:url value="${ctx}/scripts/plugins/popup-input/img/hover.png" />) repeat-x 0 0;
+}
+
+	</style>
+	<script type="text/javascript">
+<!--
+
+
+//-->
+</script>
 </rapid:override>
 
 <rapid:override name="content">
@@ -30,12 +120,28 @@
 			<table>
 				<tr>	
 					<td class="tdLabel"><%=Product.ALIAS_CAT_ID%></td>		
+					<!--  
 					<td>
 						<input name="catIdTxt" id="catIdTxt" class="input-text small required" maxlength="19"  value="${query.catIdTxt}"  autocomplete="off"/>
-						<input id="catId" name="catId" type="hidden" class="userIDHidden" value="${product.catId}"/>
+						<input id="catId" name="catId" type="hidden" class="popup_hidden_Id" value="${product.catId}"/>
 						<a href="javascript:openSelection('catIdTxt');">选择</a>
 						<a href="javascript:clearSelection('catIdTxt','catId');">清除</a>
 					</td>
+					-->
+					<td>
+						 
+						<span class="mini-buttonedit" style="border-width: 0px; width: 130px;" id="btnEdit1">
+						<span class="mini-buttonedit-border" style="width: 130px;">
+						<input type="input" class="mini-buttonedit-input" autocomplete="off" placeholder="" name="catIdTxt" style="width: 103px;" id="popup_input_id" value="${query.catIdTxt}">
+						<input type="hidden" name="catId" value="${product.catId}" id="hidden_popup_id" class="popup_hidden_Id"/>
+						  <span class="mini-buttonedit-button mini-buttonedit-button-hover" onmouseover="addClass(this,'mini-buttonedit-button-hover');" onmouseout="removeClass(this,'mini-buttonedit-button-hover');" onclick="openDialog()">
+						  <span class="mini-buttonedit-icon"></span>
+						</span>
+						<span class="mini-buttonedit-close" style="display: none;"></span>
+						</span>
+						</span>
+					
+					<td>
 					<td class="tdLabel"><%=Product.ALIAS_PRODUCT_NAME%></td>		
 					<td>
 						<input value="${query.productName}" id="productName" name="productName" maxlength="64"  class=""/>
@@ -217,11 +323,12 @@
 
 <script>
 	 var popupOption={
-		 'catIdTxt': {url:'${ctx}/category/query',title:'选择产品分类'}
+		 'popup_input_id': {url:'${ctx}/category/query',title:'选择产品分类',hiddenId:''}
 	 };
-     function fillBackAndCloseDialog(data){
+     function fillBackAndCloseDialog(rowData,fieldId){
         $( "#dialog-modal").omDialog('close');
         window.frames[0].location.href="about:blank";//reset the iframe location
+        window.$('#'+fieldId).val(rowData.cateName).next('.popup_hidden_Id:eq(0)').val(rowData.cateId);
      };
      
      function clearSelection(id,hiddenId) {
@@ -260,6 +367,27 @@
 		        });
         }
     });
+    
+    function addClass(obj,cssClazz) {
+    		$(obj).addClass(cssClazz);
+    	}
+    	function removeClass(obj,cssClazz) {
+    	 $(obj).removeClass(cssClazz);
+    	}
+    	function openDialog() {
+    		openSelection('popup_input_id');
+    	}
+    	function onClose() {
+    	//$("#undo").show();
+    	}
+    	function close() {
+    	var kendoWindow = $("#window").data("kendoWindow");
+    	kendoWindow.close();
+    	}
+    	function setValue(txt,val) {
+    	$('#popup_input_id').val(txt);
+    	$('#hidden_popup_id').val(val);
+    	}
 	</script>
 	  <div id="dialog-modal" title="">
         <iframe frameborder="0" style="width:100%;height:99%;height:100%\9;" src="about:blank"></iframe>
