@@ -125,10 +125,10 @@ background:#dde6fe url(<c:url value="${ctx}/scripts/plugins/popup-input/img/hove
 						<span class="mini-buttonedit-border" style="width: 130px;">
 						<input type="input" class="mini-buttonedit-input" autocomplete="off" placeholder="" name="catIdTxt" style="width: 103px;" id="popup_input_id" value="${query.catIdTxt}">
 						<input type="hidden" name="catId" value="${product.catId}" id="hidden_popup_id" class="popup_hidden_Id"/>
-						  <span class="mini-buttonedit-button mini-buttonedit-button-hover" onmouseover="addClass(this,'mini-buttonedit-button-hover');" onmouseout="removeClass(this,'mini-buttonedit-button-hover');" onclick="openDialog()">
+						<span class="mini-buttonedit-button" onmouseover="addClass(this,'mini-buttonedit-button-hover');" onmouseout="removeClass(this,'mini-buttonedit-button-hover');" onclick="openSelection('popup_input_id')" >
 						  <span class="mini-buttonedit-icon"></span>
 						</span>
-						<span class="mini-buttonedit-close" style="display: none;"></span>
+						<span class="mini-buttonedit-close" style="display:none" onclick="clearSelection(this,'popup_input_id')"></span>
 						</span>
 						</span>
 					<td class="tdLabel"><%=Product.ALIAS_PRODUCT_NAME%></td>		
@@ -317,14 +317,15 @@ background:#dde6fe url(<c:url value="${ctx}/scripts/plugins/popup-input/img/hove
      function fillBackAndCloseDialog(rowData,fieldId){
         $( "#dialog-modal").omDialog('close');
         window.frames[0].location.href="about:blank";//reset the iframe location
-        window.$('#'+fieldId).val(rowData.cateName).next('.popup_hidden_Id:eq(0)').val(rowData.cateId);
+        $('#'+fieldId).val(rowData.cateName).next('.popup_hidden_Id:eq(0)').val(rowData.cateId);
+        $('#'+fieldId).next().next('.mini-buttonedit-button:eq(0)').hide();
+        $('#'+fieldId).next().next().next('.mini-buttonedit-close:eq(0)').show();
      };
      
-     function clearSelection(id,hiddenId) {
-    	 var obj=document.getElementById(id);
-    	 if(obj) obj.value='';
-    	 var obj2=document.getElementById(hiddenId);
-    	 if(obj2) obj2.value='';
+     function clearSelection(object,fieldId) {
+    	$(object).hide();
+    	$(object).prev('.mini-buttonedit-button:eq(0)').show();
+    	$('#'+fieldId).val('').next('.popup_hidden_Id:eq(0)').val('');
      }
      
      function openSelection(fieldId) {
@@ -337,6 +338,7 @@ background:#dde6fe url(<c:url value="${ctx}/scripts/plugins/popup-input/img/hove
          var frameLoc=window.frames[0].location;
          frameLoc.href=requestUrl+"?fieldId="+fieldId; 
      }
+     
     $(function() {
         $( "#dialog-modal").omDialog({
             autoOpen: false,
@@ -357,26 +359,12 @@ background:#dde6fe url(<c:url value="${ctx}/scripts/plugins/popup-input/img/hove
         }
     });
     
-    function addClass(obj,cssClazz) {
-    		$(obj).addClass(cssClazz);
-    	}
-    	function removeClass(obj,cssClazz) {
-    	 $(obj).removeClass(cssClazz);
-    	}
-    	function openDialog() {
-    		openSelection('popup_input_id');
-    	}
-    	function onClose() {
-    	//$("#undo").show();
-    	}
-    	function close() {
-    	var kendoWindow = $("#window").data("kendoWindow");
-    	kendoWindow.close();
-    	}
-    	function setValue(txt,val) {
-    	$('#popup_input_id').val(txt);
-    	$('#hidden_popup_id').val(val);
-    	}
+   	function addClass(obj,cssClazz) {
+   		$(obj).addClass(cssClazz);
+   	}
+   	function removeClass(obj,cssClazz) {
+   	 $(obj).removeClass(cssClazz);
+   	}
 	</script>
 	  <div id="dialog-modal" title="">
         <iframe frameborder="0" style="width:100%;height:99%;height:100%\9;" src="about:blank"></iframe>
