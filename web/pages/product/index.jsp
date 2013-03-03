@@ -121,7 +121,6 @@ background:#dde6fe url(<c:url value="${ctx}/scripts/plugins/popup-input/img/hove
 				<tr>	
 					<td class="tdLabel"><%=Product.ALIAS_CAT_ID%></td>
 					<td>
-						 
 						<span class="mini-buttonedit" style="border-width: 0px; width: 130px;" id="btnEdit1">
 						<span class="mini-buttonedit-border" style="width: 130px;">
 						<input type="input" class="mini-buttonedit-input" autocomplete="off" placeholder="" name="catIdTxt" style="width: 103px;" id="popup_input_id" value="${query.catIdTxt}">
@@ -132,8 +131,6 @@ background:#dde6fe url(<c:url value="${ctx}/scripts/plugins/popup-input/img/hove
 						<span class="mini-buttonedit-close" style="display: none;"></span>
 						</span>
 						</span>
-					
-					<td>
 					<td class="tdLabel"><%=Product.ALIAS_PRODUCT_NAME%></td>		
 					<td>
 						<input value="${query.productName}" id="productName" name="productName" maxlength="64"  class=""/>
