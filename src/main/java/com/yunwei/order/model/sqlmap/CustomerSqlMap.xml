@@ -121,7 +121,6 @@
 	        tax_id = #taxId# ,
 	        business_people = #businessPeople# ,
 	        collection_people = #collectionPeople# ,
-	        cTime = #ctime# ,
 	        remark = #remark# 
         WHERE 
 	        cust_id = #custId# 

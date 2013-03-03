@@ -26,7 +26,7 @@
 <script src="<c:url value="/scripts/application.js"/>" type="text/javascript"></script>
 
 <script src="<c:url value="/scripts/My97DatePicker/WdatePicker.js"/>" type="text/javascript"></script>
-<script src="<c:url value="/scripts/jquery.js"/>" type="text/javascript"></script>
+<script src="<c:url value="/scripts/jquery.min.js"/>" type="text/javascript"></script>
 
 
 

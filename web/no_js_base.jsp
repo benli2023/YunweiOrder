@@ -8,10 +8,11 @@ String path = request.getContextPath();
 String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
 %>
 <!DOCTYPE html>
-<html>
-<head>
 
-	<%@ include file="/commons/meta.jsp" %>
+<html>
+
+<head>
+<script src="<c:url value="/scripts/jquery.min.js"/>" type="text/javascript"></script>
 	<base href="<%=basePath%>">
 	
  <style>
@@ -24,8 +25,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<rapid:block name="head"/>
 </head>
 <body>
-	<%@ include file="/commons/messages.jsp" %>
-
 	<rapid:block name="content"/>
 	
 </body>

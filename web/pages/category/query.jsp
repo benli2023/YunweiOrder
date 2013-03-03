@@ -3,9 +3,8 @@
 <%@ include file="/commons/taglibs.jsp" %>
 
 <rapid:override name="head">
-	<title><%=Category.TABLE_ALIAS%></title>
+	<title>${pageTitle}</title>
 	<%@ include file="../../commons/opera-maskui-import.jsp" %>
-	
 </rapid:override>
 
 <rapid:override name="content">
@@ -28,30 +27,50 @@
     </style>
     <!-- view_source_begin -->
     <script type="text/javascript">
-        var orgId=null;
-        var parentFieldId='${fieldId}';
         $(document).ready(function() {
-            var dataUrl='${ctx}/category/index.json'; 
-            $('#userGrid').omGrid({
-                dataSource : dataUrl+'?q=&amp;orgId=',
+        	var parentFieldId='${fieldId}';
+        	var dataUrl='${ctx}${jsonURL}'; 
+        	var dataGridId='#userGrid';
+        	var searchFieldId="#q";
+        	var searchButtonId="#query";
+            $(dataGridId).omGrid({
+                dataSource : dataUrl+'?q=',
                 width : 500,
-                height : 200,
+                height : 300,
                 limit : 10, //不分页
-                colModel : [ {header : '编号', name : 'cateId', width : 50, align : 'center'}, 
-                             {header : '类别名称', name : 'cateName', width : 60, align : 'left'},
-                             {header : '父类ID', name : 'parentId', width : 60, align : 'left'}
+                colModel : [ <c:forEach items="${colModelList}" var="current" varStatus="loop">
+        	    			   {header: '<c:out value="${current.header}" />',name:'<c:out value="${current.name}" />',width:'<c:out value="${current.width}" />',align:'<c:out value="${current.align}" />' }<c:if test="${!loop.last}">,</c:if>
+        					  </c:forEach>
                            ],
                 onRowDblClick:function(e, rowData) {
                 	  window.parent.$('#'+parentFieldId).val(rowData.cateName).next('.userIDHidden:eq(0)').val(rowData.cateId);
                       //window.parent.$( "#dialog-modal").omDialog('close');
-                      window.parent.fillBackAndCloseDialog(rowData);
+                      if(window.parent.fillBackAndCloseDialog) window.parent.fillBackAndCloseDialog(rowData);
                 }
             });
-            $('#query').omButton({
+            $(searchButtonId).omButton({
                 onClick:function(e) {
-                    $('#userGrid').omGrid("setData", encodeURI(dataUrl+'?searchTerm='+$('#q').val()));
+                    $(dataGridId).omGrid("setData", encodeURI(dataUrl+'?searchTerm='+$(searchFieldId).val()));
                 }
             });
+            
+        	function onKeyEnter(event) {
+        		var searchOnEnter=true;
+        		if(searchOnEnter) {
+        			doSearch();
+        		}else {
+        		var keycode = (event.keyCode ? event.keyCode : event.which);
+        		if(keycode == '13'){
+        			doSearch();
+        		}
+        		}
+        	}
+        	
+        	function doSearch() {
+        		$(dataGridId).omGrid("setData", encodeURI(dataUrl+'?searchTerm='+$(searchFieldId).val()));
+        	}
+        	
+        	window.onKeyEnter=onKeyEnter;
         });
     </script>
 
@@ -62,7 +81,7 @@
             <td> 
                 <div class="toolbar">
 			        查询条件(编号或姓名模糊查询)：
-			        <input id="q">
+			        <input id="q" onkeyup="onKeyEnter(event)" autocomplete="off"/>
 			       <input id="query" type="submit" value="查询" />
 			    </div>
 				<table id="userGrid"></div>

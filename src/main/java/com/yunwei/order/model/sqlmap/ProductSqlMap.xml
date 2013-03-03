@@ -106,8 +106,7 @@
 	        is_purchasable = #isPurchasable# ,
 	        product_image = #productImage# ,
 	        manufacturer = #manufacturer# ,
-	        orginal_place = #orginalPlace# ,
-	        cTime = #ctime# 
+	        orginal_place = #orginalPlace# 
         WHERE 
 	        product_id = #productId# 
     ]]>

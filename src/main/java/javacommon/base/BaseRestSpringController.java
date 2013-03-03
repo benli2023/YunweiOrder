@@ -1,5 +1,8 @@
 package javacommon.base;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javacommon.util.ConvertRegisterHelper;
 import javacommon.util.PageRequestFactory;
 
@@ -95,4 +98,16 @@ public class BaseRestSpringController<Entity,PK> {
     public UserContext getLoginUser(HttpServletRequest request) {
       return SessionHelper.getLoginUser(request);
     }
+    
+    protected Map<String,Object> jsonPagination(Page page) {
+	  	Map<String,Object> map = new HashMap<String,Object>(4);
+	    map.put("rows", page.getResult());
+	    map.put("page", Integer.valueOf(page.getThisPageNumber()));
+	    int pageCount = page.getTotalCount();
+	    int pageSize = page.getPageSize();
+	    int totalPage = pageCount % pageSize == 0 ? pageCount / pageSize : pageCount / pageSize + 1;
+	    map.put("total", Integer.valueOf(totalPage));
+	    map.put("records", Integer.valueOf(pageCount));
+	    return map;
+  }
 }

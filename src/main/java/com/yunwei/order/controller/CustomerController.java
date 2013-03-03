@@ -95,13 +95,22 @@ public class CustomerController extends BaseRestSpringController<Customer, Long>
     return "/customer/new";
   }
 
-  @RequestMapping(method={org.springframework.web.bind.annotation.RequestMethod.POST})
+  /**
+ * @param model
+ * @param customer
+ * @param errors
+ * @param request
+ * @param response
+ * @return
+ * @throws Exception
+ */
+@RequestMapping(method={org.springframework.web.bind.annotation.RequestMethod.POST})
   public String create(ModelMap model, @Valid Customer customer, BindingResult errors, HttpServletRequest request, HttpServletResponse response) throws Exception
   {
     if (errors.hasErrors()) {
       return "/customer/new";
     }
-
+    customer.setCtime(new Date());
     this.customerManager.save(customer);
     Flash.current().success("创建成功", new Object[0]);
     return "redirect:/customer";

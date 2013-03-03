@@ -194,6 +194,7 @@
 		</td>
 	</tr>	
 	
+	<!--  
 	<tr>	
 		<td class="tdLabel">
 			<%=Customer.ALIAS_CTIME%>:
@@ -203,7 +204,7 @@
 		<font color='red'><form:errors path="ctime"/></font>
 		</td>
 	</tr>	
-	
+	-->
 	<tr>	
 		<td class="tdLabel">
 			<%=Customer.ALIAS_REMARK%>:

@@ -102,6 +102,9 @@
 		       <isNotEmpty prepend="AND" property="admin">
 		             admin = #admin#
 		       </isNotEmpty>
+		        <isNotEmpty prepend="AND" property="searchTerm">
+		            (cate_name  like  '%$searchTerm$%' )
+		       </isNotEmpty>
 	    </dynamic>	
 	</sql>
 	 

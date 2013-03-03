@@ -3,7 +3,7 @@
 
 <rapid:override name="head">
 	<title><%=Category.TABLE_ALIAS%>编辑</title>
-	<%@ include file="../../commons/opera-maskui-import.jsp" %>
+	<%@ include file="../../commons/opera-maskui-dialog-import.jsp" %>
 </rapid:override>
 
 <rapid:override name="content">

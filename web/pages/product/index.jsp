@@ -7,7 +7,7 @@
 
 <rapid:override name="head">
 	<title><%=Product.TABLE_ALIAS%> 维护</title>
-	<%@ include file="../../commons/opera-maskui-import.jsp" %>
+	<%@ include file="../../commons/opera-maskui-dialog-import.jsp" %>
 	<script src="${ctx}/scripts/rest.js" ></script>
 	<link href="<c:url value="/widgets/simpletable/simpletable.css"/>" type="text/css" rel="stylesheet">
 	
@@ -192,7 +192,7 @@
 				<td><c:choose><c:when test="${item.isSellable==1}">是</c:when><c:when test="${item.isSellable==0}">否</c:when></c:choose></td>
 				<td><c:choose><c:when test="${item.isNegative==1}">是</c:when><c:when test="${item.isNegative==0}">否</c:when></c:choose></td>
 				<td><c:choose><c:when test="${item.isPurchasable==1}">是</c:when><c:when test="${item.isPurchasable==0}">否</c:when></c:choose></td>
-				<td><c:out value='${item.productImage}'/>&nbsp;</td>
+				<td><img id="preview" <c:if test="${! empty item.productImage}">src="${ctx}/${item.productImage}" </c:if>  alt="" style="<c:if test="${ empty item.productImage}">display:none;</c:if> max-width: 100px; max-height: 60px; border: none; width:100px;height:60px"/></td>
 				<td><c:out value='${item.manufacturer}'/>&nbsp;</td>
 				<td><c:out value='${item.orginalPlace}'/>&nbsp;</td>
 				<td><c:out value='${item.ctimeString}'/>&nbsp;</td>
