@@ -119,15 +119,7 @@ background:#dde6fe url(<c:url value="${ctx}/scripts/plugins/popup-input/img/hove
 			<legend>搜索</legend>
 			<table>
 				<tr>	
-					<td class="tdLabel"><%=Product.ALIAS_CAT_ID%></td>		
-					<!--  
-					<td>
-						<input name="catIdTxt" id="catIdTxt" class="input-text small required" maxlength="19"  value="${query.catIdTxt}"  autocomplete="off"/>
-						<input id="catId" name="catId" type="hidden" class="popup_hidden_Id" value="${product.catId}"/>
-						<a href="javascript:openSelection('catIdTxt');">选择</a>
-						<a href="javascript:clearSelection('catIdTxt','catId');">清除</a>
-					</td>
-					-->
+					<td class="tdLabel"><%=Product.ALIAS_CAT_ID%></td>
 					<td>
 						 
 						<span class="mini-buttonedit" style="border-width: 0px; width: 130px;" id="btnEdit1">
