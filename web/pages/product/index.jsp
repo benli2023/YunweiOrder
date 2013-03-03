@@ -10,7 +10,7 @@
 	<%@ include file="../../commons/opera-maskui-dialog-import.jsp" %>
 	<script src="${ctx}/scripts/rest.js" ></script>
 	<link href="<c:url value="/widgets/simpletable/simpletable.css"/>" type="text/css" rel="stylesheet">
-	
+	<link href="<c:url value="${ctx}/scripts/plugins/popup-input/popup-input.css"/>" type="text/css" rel="stylesheet">
 	<script type="text/javascript" src="<c:url value="/widgets/simpletable/simpletable.js"/>"></script>
 	<script type="text/javascript" >
 		$(document).ready(function() {
@@ -21,89 +21,7 @@
 		
 	</script>
 	
-	<style>
-	body .mini-textbox *,
-body .mini-buttonedit *
-{
-
-box-sizing:content-box;
--moz-box-sizing:content-box;
--ms-box-sizing:content-box;
--webkit-box-sizing:content-box;
-}
-
-
-.mini-buttonedit-border
-{
-background:white;
-border: solid 1px #a5acb5;
-width:123px;
-height:19px;
-display:inline-block;
-position:static;
-float:left;
-overflow:hidden;
-}
-
-
-.mini-buttonedit-input
-{
-background:none;
-border: 0;
-width:100px;
-height:19px;
-line-height:19px;
-font-family: Verdana;
-font-size: 9pt;
-padding: 0;
-margin:0;
-padding-left:1px;
-padding-right:1px;
-outline:none;
-float:left;
-z-index:1;
-cursor:text;
-}
-
-
-.mini-buttonedit-button, .mini-buttonedit-close
-{
-border:0px;
-padding:1px;
-background:none;
-width:15px;
-height:15px;
-overflow:hidden;
-cursor:pointer;
-margin-top:1px;
-margin-right:1px;
-float:right;
-z-index:10;
-}
-
-.mini-buttonedit-icon
-{
-display:block;
-width:15px;
-height:15px;
-overflow:hidden;
-background:url(<c:url value="${ctx}/scripts/plugins/popup-input/img/icon1.gif" />) no-repeat 50% 50%;
-}
-
-.mini-buttonedit-close
-{
-background:url(<c:url value="${ctx}/scripts/plugins/popup-input/img/close.gif" />) no-repeat 50% 50%;
-}
-
-.mini-buttonedit-button-hover,
-.mini-buttonedit-hover .mini-buttonedit-button
-{
-border:1px solid #ababab;
-padding:0;
-background:#dde6fe url(<c:url value="${ctx}/scripts/plugins/popup-input/img/hover.png" />) repeat-x 0 0;
-}
-
-	</style>
+	
 	<script type="text/javascript">
 <!--
 
@@ -314,50 +232,55 @@ background:#dde6fe url(<c:url value="${ctx}/scripts/plugins/popup-input/img/hove
 	 var popupOption={
 		 'popup_input_id': {url:'${ctx}/category/query',title:'选择产品分类',hiddenId:''}
 	 };
-     function fillBackAndCloseDialog(rowData,fieldId){
-        $( "#dialog-modal").omDialog('close');
-        window.frames[0].location.href="about:blank";//reset the iframe location
-        $('#'+fieldId).val(rowData.cateName).next('.popup_hidden_Id:eq(0)').val(rowData.cateId);
-        $('#'+fieldId).next().next('.mini-buttonedit-button:eq(0)').hide();
-        $('#'+fieldId).next().next().next('.mini-buttonedit-close:eq(0)').show();
-     };
-     
-     function clearSelection(object,fieldId) {
-    	$(object).hide();
-    	$(object).prev('.mini-buttonedit-button:eq(0)').show();
-    	$('#'+fieldId).val('').next('.popup_hidden_Id:eq(0)').val('');
-     }
-     
-     function openSelection(fieldId) {
-     	var requestUrl=popupOption[fieldId].url;
-     	var title=popupOption[fieldId].title;
-         $( "#dialog-modal").omDialog({
-         	title:title
-         });
-         $( "#dialog-modal").omDialog('open');
-         var frameLoc=window.frames[0].location;
-         frameLoc.href=requestUrl+"?fieldId="+fieldId; 
-     }
-     
-    $(function() {
-        $( "#dialog-modal").omDialog({
-            autoOpen: false,
-            width:535,
-            height: 465,
-            modal: true
-        });
-        for(var htmlId in popupOption) {
-		        $('#'+htmlId).keydown(function(e){
-		             if(e.keyCode==118){ //F7
-		            	 var fieldId=$(this).attr('id');
-						  openSelection(fieldId);
-		                return false;
-		           }else{
-		               return false; //forbide any input
-		           }
+	 
+	
+	 
+		     function fillBackAndCloseDialog(rowData,fieldId){
+		        $( "#dialog-modal").omDialog('close');
+		        window.frames[0].location.href="about:blank";//reset the iframe location
+		        $('#'+fieldId).val(rowData.cateName).next('.popup_hidden_Id:eq(0)').val(rowData.cateId);
+		        $('#'+fieldId).next().next('.mini-buttonedit-button:eq(0)').hide();
+		        $('#'+fieldId).next().next().next('.mini-buttonedit-close:eq(0)').show();
+		     };
+		     
+		     function clearSelection(object,fieldId) {
+		    	$(object).hide();
+		    	$(object).prev('.mini-buttonedit-button:eq(0)').show();
+		    	$('#'+fieldId).val('').next('.popup_hidden_Id:eq(0)').val('');
+		     }
+		     
+		     function openSelection(fieldId) {
+		     	var requestUrl=popupOption[fieldId].url;
+		     	var title=popupOption[fieldId].title;
+		         $( "#dialog-modal").omDialog({
+		         	title:title
+		         });
+		         $( "#dialog-modal").omDialog('open');
+		         var frameLoc=window.frames[0].location;
+		         frameLoc.href=requestUrl+"?fieldId="+fieldId; 
+		     }
+		     
+		    $(function() {
+		        $( "#dialog-modal").omDialog({
+		            autoOpen: false,
+		            width:535,
+		            height: 465,
+		            modal: true
 		        });
-        }
-    });
+		        for(var htmlId in popupOption) {
+				        $('#'+htmlId).keydown(function(e){
+				             if(e.keyCode==118){ //F7
+				            	 var fieldId=$(this).attr('id');
+								  openSelection(fieldId);
+				                return false;
+				           }else{
+				               return false; //forbide any input
+				           }
+				        });
+		        }
+		    });
+    
+	 
     
    	function addClass(obj,cssClazz) {
    		$(obj).addClass(cssClazz);
