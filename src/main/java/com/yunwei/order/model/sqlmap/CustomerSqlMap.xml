@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap>
+
+    <resultMap id="RM.Customer" class="com.yunwei.order.model.Customer">
+        <result property="custId" column="cust_id"/>
+        <result property="custName" column="cust_name"/>
+        <result property="shortName" column="short_name"/>
+        <result property="custCode" column="cust_code"/>
+        <result property="contactName" column="contact_name"/>
+        <result property="contryCode" column="contry_code"/>
+        <result property="provCode" column="prov_code"/>
+        <result property="cityCode" column="city_code"/>
+        <result property="address" column="address"/>
+        <result property="contact" column="contact"/>
+        <result property="telephone" column="telephone"/>
+        <result property="fax" column="fax"/>
+        <result property="email" column="email"/>
+        <result property="website" column="website"/>
+        <result property="bank" column="bank"/>
+        <result property="bankAccount" column="bank_account"/>
+        <result property="bankAccountName" column="bank_account_name"/>
+        <result property="taxId" column="tax_id"/>
+        <result property="businessPeople" column="business_people"/>
+        <result property="collectionPeople" column="collection_people"/>
+        <result property="ctime" column="cTime"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="Customer.columns">
+	    <![CDATA[
+        cust_id ,cust_name ,short_name ,cust_code ,contact_name ,contry_code ,prov_code ,city_code ,address ,contact ,telephone ,fax ,email ,website ,bank ,bank_account ,bank_account_name ,tax_id ,business_people ,collection_people ,cTime ,remark 
+	    ]]>
+	</sql>
+	
+    <insert id="Customer.insert" >
+    <![CDATA[
+        INSERT INTO customer (
+        	cust_id ,
+        	cust_name ,
+        	short_name ,
+        	cust_code ,
+        	contact_name ,
+        	contry_code ,
+        	prov_code ,
+        	city_code ,
+        	address ,
+        	contact ,
+        	telephone ,
+        	fax ,
+        	email ,
+        	website ,
+        	bank ,
+        	bank_account ,
+        	bank_account_name ,
+        	tax_id ,
+        	business_people ,
+        	collection_people ,
+        	cTime ,
+        	remark 
+        ) VALUES (
+        	#custId# ,
+        	#custName# ,
+        	#shortName# ,
+        	#custCode# ,
+        	#contactName# ,
+        	#contryCode# ,
+        	#provCode# ,
+        	#cityCode# ,
+        	#address# ,
+        	#contact# ,
+        	#telephone# ,
+        	#fax# ,
+        	#email# ,
+        	#website# ,
+        	#bank# ,
+        	#bankAccount# ,
+        	#bankAccountName# ,
+        	#taxId# ,
+        	#businessPeople# ,
+        	#collectionPeople# ,
+        	#ctime# ,
+        	#remark# 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+    -->
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="custId" >
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <update id="Customer.update" >
+    <![CDATA[
+        UPDATE customer SET
+	        cust_name = #custName# ,
+	        short_name = #shortName# ,
+	        cust_code = #custCode# ,
+	        contact_name = #contactName# ,
+	        contry_code = #contryCode# ,
+	        prov_code = #provCode# ,
+	        city_code = #cityCode# ,
+	        address = #address# ,
+	        contact = #contact# ,
+	        telephone = #telephone# ,
+	        fax = #fax# ,
+	        email = #email# ,
+	        website = #website# ,
+	        bank = #bank# ,
+	        bank_account = #bankAccount# ,
+	        bank_account_name = #bankAccountName# ,
+	        tax_id = #taxId# ,
+	        business_people = #businessPeople# ,
+	        collection_people = #collectionPeople# ,
+	        remark = #remark# 
+        WHERE 
+	        cust_id = #custId# 
+    ]]>
+    </update>
+
+    <delete id="Customer.delete">
+    <![CDATA[
+        DELETE FROM customer WHERE
+        cust_id = #custId# 
+    ]]>
+    </delete>
+    
+    <select id="Customer.getById" resultMap="RM.Customer">
+	    SELECT <include refid="Customer.columns"/>
+	    <![CDATA[
+	        FROM customer 
+	        WHERE 
+		        cust_id = #custId# 
+	    ]]>
+    </select>
+
+	<sql id="Customer.findPage.where">
+	    <dynamic prepend="WHERE">
+		       <isNotEmpty prepend="AND" property="custId">
+		             cust_id = #custId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="custName">
+		             cust_name = #custName#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="shortName">
+		             short_name = #shortName#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="custCode">
+		             cust_code = #custCode#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="contactName">
+		             contact_name = #contactName#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="contryCode">
+		             contry_code = #contryCode#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="provCode">
+		             prov_code = #provCode#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="cityCode">
+		             city_code = #cityCode#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="address">
+		             address = #address#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="contact">
+		             contact = #contact#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="telephone">
+		             telephone = #telephone#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="fax">
+		             fax = #fax#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="email">
+		             email = #email#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="website">
+		             website = #website#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="bank">
+		             bank = #bank#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="bankAccount">
+		             bank_account = #bankAccount#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="bankAccountName">
+		             bank_account_name = #bankAccountName#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="taxId">
+		             tax_id = #taxId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="businessPeople">
+		             business_people = #businessPeople#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="collectionPeople">
+		             collection_people = #collectionPeople#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="ctimeBegin">
+		             cTime >= #ctimeBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="ctimeEnd">
+		             cTime &lt;= #ctimeEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="remark">
+		             remark = #remark#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="searchTerm">
+		            (cust_name  like  '%$searchTerm$%' or short_name like  '%$searchTerm$%' or cust_code like  '%$searchTerm$%')
+		       </isNotEmpty>
+	    </dynamic>	
+	</sql>
+	 
+    <select id="Customer.findPage.count" resultClass="long">
+        SELECT count(*) FROM customer <include refid="Customer.findPage.where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="Customer.findPage" resultMap="RM.Customer">
+    	SELECT <include refid="Customer.columns"/> FROM customer 
+		<include refid="Customer.findPage.where"/>
+		<isNotEmpty property="sortColumns">
+			ORDER BY $sortColumns$
+		</isNotEmpty>
+    </select>
+
+	
+</sqlMap>
+

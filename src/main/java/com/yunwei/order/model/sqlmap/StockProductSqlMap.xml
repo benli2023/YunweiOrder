@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap>
+
+    <resultMap id="RM.StockProduct" class="com.yunwei.order.model.StockProduct">
+        <result property="stockProductId" column="stock_product_id"/>
+        <result property="stockId" column="stock_id"/>
+        <result property="productId" column="product_id"/>
+        <result property="quantity" column="quantity"/>
+        <result property="firstEnterDate" column="first_enter_date"/>
+        <result property="outerDate" column="outer_date"/>
+        <result property="price" column="price"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="StockProduct.columns">
+	    <![CDATA[
+        stock_product_id ,stock_id ,product_id ,quantity ,first_enter_date ,outer_date ,price 
+	    ]]>
+	</sql>
+	
+    <insert id="StockProduct.insert" >
+    <![CDATA[
+        INSERT INTO stock_product (
+        	stock_product_id ,
+        	stock_id ,
+        	product_id ,
+        	quantity ,
+        	first_enter_date ,
+        	outer_date ,
+        	price 
+        ) VALUES (
+        	#stockProductId# ,
+        	#stockId# ,
+        	#productId# ,
+        	#quantity# ,
+        	#firstEnterDate# ,
+        	#outerDate# ,
+        	#price# 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+    -->
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="stockProductId" >
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <update id="StockProduct.update" >
+    <![CDATA[
+        UPDATE stock_product SET
+	        stock_id = #stockId# ,
+	        product_id = #productId# ,
+	        quantity = #quantity# ,
+	        first_enter_date = #firstEnterDate# ,
+	        outer_date = #outerDate# ,
+	        price = #price# 
+        WHERE 
+	        stock_product_id = #stockProductId# 
+    ]]>
+    </update>
+
+    <delete id="StockProduct.delete">
+    <![CDATA[
+        DELETE FROM stock_product WHERE
+        stock_product_id = #stockProductId# 
+    ]]>
+    </delete>
+    
+    <select id="StockProduct.getById" resultMap="RM.StockProduct">
+	    SELECT <include refid="StockProduct.columns"/>
+	    <![CDATA[
+	        FROM stock_product 
+	        WHERE 
+		        stock_product_id = #stockProductId# 
+	    ]]>
+    </select>
+
+	<sql id="StockProduct.findPage.where">
+	    <dynamic prepend="WHERE">
+		       <isNotEmpty prepend="AND" property="stockProductId">
+		             stock_product_id = #stockProductId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="stockId">
+		             stock_id = #stockId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="productId">
+		             product_id = #productId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="quantity">
+		             quantity = #quantity#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="firstEnterDateBegin">
+		             first_enter_date >= #firstEnterDateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="firstEnterDateEnd">
+		             first_enter_date &lt;= #firstEnterDateEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="outerDateBegin">
+		             outer_date >= #outerDateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="outerDateEnd">
+		             outer_date &lt;= #outerDateEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="price">
+		             price = #price#
+		       </isNotEmpty>
+	    </dynamic>	
+	</sql>
+	 
+    <select id="StockProduct.findPage.count" resultClass="long">
+        SELECT count(*) FROM stock_product <include refid="StockProduct.findPage.where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="StockProduct.findPage" resultMap="RM.StockProduct">
+    	SELECT <include refid="StockProduct.columns"/> FROM stock_product 
+		<include refid="StockProduct.findPage.where"/>
+		<isNotEmpty property="sortColumns">
+			ORDER BY $sortColumns$
+		</isNotEmpty>
+    </select>
+
+	
+</sqlMap>
+

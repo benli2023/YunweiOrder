@@ -1,0 +1,142 @@
+package com.yunwei.order.controller;
+
+import cn.org.rapid_framework.page.Page;
+import cn.org.rapid_framework.web.scope.Flash;
+import com.yunwei.order.model.Category;
+import com.yunwei.order.model.Product;
+import com.yunwei.order.service.CategoryManager;
+import com.yunwei.order.service.ProductManager;
+import com.yunwei.order.vo.query.ProductQuery;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javacommon.base.BaseRestSpringController;
+import javacommon.util.FileUploadUtil;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.validation.Valid;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+@Controller
+@RequestMapping({"/product"})
+public class ProductController extends BaseRestSpringController<Product, Long>
+{
+  protected static final String DEFAULT_SORT_COLUMNS = null;
+  private ProductManager productManager;
+  private CategoryManager categoryManager;
+  private final String LIST_ACTION = "redirect:/product";
+
+  public void setProductManager(ProductManager manager)
+  {
+    this.productManager = manager;
+  }
+
+  public void setCategoryManager(CategoryManager categoryManager) {
+    this.categoryManager = categoryManager;
+  }
+
+  @InitBinder
+  public void initBinder(WebDataBinder binder)
+  {
+    binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
+  }
+
+  @ModelAttribute
+  public void init(ModelMap model)
+  {
+    model.put("now", new Timestamp(System.currentTimeMillis()));
+  }
+
+  @RequestMapping
+  public String index(ModelMap model, ProductQuery query, HttpServletRequest request, HttpServletResponse response)
+  {
+    Page page = this.productManager.findPage(query);
+
+    model.addAllAttributes(toModelMap(page, query));
+    return "/product/index";
+  }
+
+  @RequestMapping({"/{id}"})
+  public String show(ModelMap model, @PathVariable Long id) throws Exception
+  {
+    Product product = (Product)this.productManager.getById(id);
+    model.addAttribute("product", product);
+    return "/product/show";
+  }
+
+  @RequestMapping({"/new"})
+  public String _new(ModelMap model, Product product, HttpServletRequest request, HttpServletResponse response) throws Exception
+  {
+    model.addAttribute("product", product);
+    product.setFlag(1);
+    return "/product/new";
+  }
+
+  @RequestMapping(method={org.springframework.web.bind.annotation.RequestMethod.POST})
+  public String create(ModelMap model, @Valid Product product, BindingResult errors, HttpServletRequest request, HttpServletResponse response) throws Exception
+  {
+    if (errors.hasErrors()) {
+      return "/product/new";
+    }
+
+    if (!product.getProductImageFile().isEmpty()) {
+      product.setProductImage(FileUploadUtil.saveFileUpload(product.getProductImageFile(), "fileUpload/productInfo"));
+    }
+    product.setCtime(new Date());
+    this.productManager.save(product);
+    Flash.current().success("创建成功", new Object[0]);
+    return "redirect:/product";
+  }
+
+  @RequestMapping({"/{id}/edit"})
+  public String edit(ModelMap model, @PathVariable Long id) throws Exception
+  {
+    Product product = (Product)this.productManager.getById(id);
+    model.addAttribute("product", product);
+    //Category category = (Category)this.categoryManager.getById(product.getCatId());
+    //product.setCatIdTxt(category.getCateName());
+    return "/product/edit";
+  }
+
+  @RequestMapping({"/update/{id}"})
+  public String update(ModelMap model, @PathVariable Long id, @Valid Product product, BindingResult errors, HttpServletRequest request, HttpServletResponse response) throws Exception
+  {
+    if (errors.hasErrors()) {
+      return "/product/edit";
+    }
+    if (!product.getProductImageFile().isEmpty()) {
+      product.setProductImage(FileUploadUtil.saveFileUpload(product.getProductImageFile(), "fileUpload/productInfo"));
+    }
+    this.productManager.update(product);
+    Flash.current().success("更新成功", new Object[0]);
+    return "redirect:/product";
+  }
+
+  @RequestMapping(value={"/{id}"}, method={org.springframework.web.bind.annotation.RequestMethod.DELETE})
+  public String delete(ModelMap model, @PathVariable Long id)
+  {
+    this.productManager.removeById(id);
+    Flash.current().success("删除成功", new Object[0]);
+    return "redirect:/product";
+  }
+
+  @RequestMapping(method={org.springframework.web.bind.annotation.RequestMethod.DELETE})
+  public String batchDelete(ModelMap model, @RequestParam("items") Long[] items)
+  {
+    for (int i = 0; i < items.length; i++) {
+      this.productManager.removeById(items[i]);
+    }
+    Flash.current().success("删除成功", new Object[0]);
+    return "redirect:/product";
+  }
+}

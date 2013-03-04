@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap>
+
+    <resultMap id="RM.FundsRecord" class="com.yunwei.order.model.FundsRecord">
+        <result property="fundsId" column="funds_id"/>
+        <result property="approvalId" column="approval_id"/>
+        <result property="staffId" column="staff_id"/>
+        <result property="orderId" column="order_id"/>
+        <result property="custId" column="cust_id"/>
+        <result property="fundsType" column="funds_type"/>
+        <result property="amount" column="amount"/>
+        <result property="paidAmount" column="paid_amount"/>
+        <result property="approvalStatus" column="approval_status"/>
+        <result property="approvalDate" column="approval_date"/>
+        <result property="status" column="status"/>
+        <result property="paymentMode" column="payment_mode"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="FundsRecord.columns">
+	    <![CDATA[
+        funds_id ,approval_id ,staff_id ,order_id ,cust_id ,funds_type ,amount ,paid_amount ,approval_status ,approval_date ,status ,payment_mode ,remark 
+	    ]]>
+	</sql>
+	
+    <insert id="FundsRecord.insert" >
+    <![CDATA[
+        INSERT INTO funds_record (
+        	funds_id ,
+        	approval_id ,
+        	staff_id ,
+        	order_id ,
+        	cust_id ,
+        	funds_type ,
+        	amount ,
+        	paid_amount ,
+        	approval_status ,
+        	approval_date ,
+        	status ,
+        	payment_mode ,
+        	remark 
+        ) VALUES (
+        	#fundsId# ,
+        	#approvalId# ,
+        	#staffId# ,
+        	#orderId# ,
+        	#custId# ,
+        	#fundsType# ,
+        	#amount# ,
+        	#paidAmount# ,
+        	#approvalStatus# ,
+        	#approvalDate# ,
+        	#status# ,
+        	#paymentMode# ,
+        	#remark# 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+    -->
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="fundsId" >
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <update id="FundsRecord.update" >
+    <![CDATA[
+        UPDATE funds_record SET
+	        approval_id = #approvalId# ,
+	        staff_id = #staffId# ,
+	        order_id = #orderId# ,
+	        cust_id = #custId# ,
+	        funds_type = #fundsType# ,
+	        amount = #amount# ,
+	        paid_amount = #paidAmount# ,
+	        approval_status = #approvalStatus# ,
+	        approval_date = #approvalDate# ,
+	        status = #status# ,
+	        payment_mode = #paymentMode# ,
+	        remark = #remark# 
+        WHERE 
+	        funds_id = #fundsId# 
+    ]]>
+    </update>
+
+    <delete id="FundsRecord.delete">
+    <![CDATA[
+        DELETE FROM funds_record WHERE
+        funds_id = #fundsId# 
+    ]]>
+    </delete>
+    
+    <select id="FundsRecord.getById" resultMap="RM.FundsRecord">
+	    SELECT <include refid="FundsRecord.columns"/>
+	    <![CDATA[
+	        FROM funds_record 
+	        WHERE 
+		        funds_id = #fundsId# 
+	    ]]>
+    </select>
+
+	<sql id="FundsRecord.findPage.where">
+	    <dynamic prepend="WHERE">
+		       <isNotEmpty prepend="AND" property="fundsId">
+		             funds_id = #fundsId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="approvalId">
+		             approval_id = #approvalId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="staffId">
+		             staff_id = #staffId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="orderId">
+		             order_id = #orderId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="custId">
+		             cust_id = #custId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="fundsType">
+		             funds_type = #fundsType#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="amount">
+		             amount = #amount#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="paidAmount">
+		             paid_amount = #paidAmount#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="approvalStatus">
+		             approval_status = #approvalStatus#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="approvalDateBegin">
+		             approval_date >= #approvalDateBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="approvalDateEnd">
+		             approval_date &lt;= #approvalDateEnd#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="status">
+		             status = #status#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="paymentMode">
+		             payment_mode = #paymentMode#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="remark">
+		             remark = #remark#
+		       </isNotEmpty>
+	    </dynamic>	
+	</sql>
+	 
+    <select id="FundsRecord.findPage.count" resultClass="long">
+        SELECT count(*) FROM funds_record <include refid="FundsRecord.findPage.where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="FundsRecord.findPage" resultMap="RM.FundsRecord">
+    	SELECT <include refid="FundsRecord.columns"/> FROM funds_record 
+		<include refid="FundsRecord.findPage.where"/>
+		<isNotEmpty property="sortColumns">
+			ORDER BY $sortColumns$
+		</isNotEmpty>
+    </select>
+
+	
+</sqlMap>
+

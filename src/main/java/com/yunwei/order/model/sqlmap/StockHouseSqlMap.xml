@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+
+<!-- 不使用namespace是由于sql搜索定位会比较方便 -->
+<sqlMap>
+
+    <resultMap id="RM.StockHouse" class="com.yunwei.order.model.StockHouse">
+        <result property="stockId" column="stock_id"/>
+        <result property="staffId" column="staff_id"/>
+        <result property="address" column="address"/>
+        <result property="phone" column="phone"/>
+        <result property="ctime" column="cTime"/>
+    </resultMap>
+
+	<!-- 用于select查询公用抽取的列 -->
+	<sql id="StockHouse.columns">
+	    <![CDATA[
+        stock_id ,staff_id ,address ,phone ,cTime 
+	    ]]>
+	</sql>
+	
+    <insert id="StockHouse.insert" >
+    <![CDATA[
+        INSERT INTO stock_house (
+        	stock_id ,
+        	staff_id ,
+        	address ,
+        	phone ,
+        	cTime 
+        ) VALUES (
+        	#stockId# ,
+        	#staffId# ,
+        	#address# ,
+        	#phone# ,
+        	#ctime# 
+        )
+    ]]>
+    <!--
+    mysql:		type="post" SELECT  select last_insert_id()
+    sqlserver:	type="post" SELECT  @@identity  AS  ID
+    oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
+    DB2:		type="pre"	values nextval for sequenceName
+    -->
+        <selectKey resultClass="java.lang.Long" type="post" keyProperty="stockId" >
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <update id="StockHouse.update" >
+    <![CDATA[
+        UPDATE stock_house SET
+	        staff_id = #staffId# ,
+	        address = #address# ,
+	        phone = #phone# ,
+	        cTime = #ctime# 
+        WHERE 
+	        stock_id = #stockId# 
+    ]]>
+    </update>
+
+    <delete id="StockHouse.delete">
+    <![CDATA[
+        DELETE FROM stock_house WHERE
+        stock_id = #stockId# 
+    ]]>
+    </delete>
+    
+    <select id="StockHouse.getById" resultMap="RM.StockHouse">
+	    SELECT <include refid="StockHouse.columns"/>
+	    <![CDATA[
+	        FROM stock_house 
+	        WHERE 
+		        stock_id = #stockId# 
+	    ]]>
+    </select>
+
+	<sql id="StockHouse.findPage.where">
+	    <dynamic prepend="WHERE">
+		       <isNotEmpty prepend="AND" property="stockId">
+		             stock_id = #stockId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="staffId">
+		             staff_id = #staffId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="address">
+		             address = #address#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="phone">
+		             phone = #phone#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="ctimeBegin">
+		             cTime >= #ctimeBegin#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="ctimeEnd">
+		             cTime &lt;= #ctimeEnd#
+		       </isNotEmpty>
+	    </dynamic>	
+	</sql>
+	 
+    <select id="StockHouse.findPage.count" resultClass="long">
+        SELECT count(*) FROM stock_house <include refid="StockHouse.findPage.where"/>    
+    </select>
+    
+    <!--
+    	分页查询已经使用Dialect进行分页,也可以不使用Dialect直接编写分页
+    	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
+    -->
+    <select id="StockHouse.findPage" resultMap="RM.StockHouse">
+    	SELECT <include refid="StockHouse.columns"/> FROM stock_house 
+		<include refid="StockHouse.findPage.where"/>
+		<isNotEmpty property="sortColumns">
+			ORDER BY $sortColumns$
+		</isNotEmpty>
+    </select>
+
+	
+</sqlMap>
+
