@@ -7,7 +7,7 @@
 	</column-model>
 	<column-model>
 		<header>类别名称</header>
-		<name>cateName</name>
+		<name>cate_name</name>
 		<width>100</width>
 		<align>center</align>
 	</column-model>

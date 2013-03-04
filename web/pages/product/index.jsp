@@ -11,6 +11,7 @@
 	<script src="${ctx}/scripts/rest.js" ></script>
 	<link href="<c:url value="/widgets/simpletable/simpletable.css"/>" type="text/css" rel="stylesheet">
 	<link href="<c:url value="${ctx}/scripts/plugins/popup-input/popup-input.css"/>" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="${ctx}/scripts/plugins/popup-input/popup_selection.js"></script>
 	<script type="text/javascript" src="<c:url value="/widgets/simpletable/simpletable.js"/>"></script>
 	<script type="text/javascript" >
 		$(document).ready(function() {
@@ -39,16 +40,20 @@
 				<tr>	
 					<td class="tdLabel"><%=Product.ALIAS_CAT_ID%></td>
 					<td>
+					<!--
 						<span class="mini-buttonedit" style="border-width: 0px; width: 130px;" id="btnEdit1">
 						<span class="mini-buttonedit-border" style="width: 130px;">
-						<input type="input" class="mini-buttonedit-input" autocomplete="off" placeholder="" name="catIdTxt" style="width: 103px;" id="popup_input_id" value="${query.catIdTxt}">
-						<input type="hidden" name="catId" value="${product.catId}" id="hidden_popup_id" class="popup_hidden_Id"/>
-						<span class="mini-buttonedit-button" onmouseover="addClass(this,'mini-buttonedit-button-hover');" onmouseout="removeClass(this,'mini-buttonedit-button-hover');" onclick="openSelection('popup_input_id')" >
+						<input type="input" class="mini-buttonedit-input" autocomplete="off" placeholder="" name="catIdTxt" style="width: 103px;" id="popup_input_id" value="${query.catIdTxt}" />
+						<input type="hidden" name="catId" value="${query.catId}" id="hidden_popup_id" class="popup_hidden_Id"/>
+						<span class="mini-buttonedit-button" onmouseover="PopupSelection.addClass(this,'mini-buttonedit-button-hover');" onmouseout="PopupSelection.removeClass(this,'mini-buttonedit-button-hover');" onclick="PopupSelection.openSelection('popup_input_id')" >
 						  <span class="mini-buttonedit-icon"></span>
 						</span>
-						<span class="mini-buttonedit-close" style="display:none" onclick="clearSelection(this,'popup_input_id')"></span>
+						<span class="mini-buttonedit-close" style="display:none" onclick="PopupSelection.clearSelection(this,'popup_input_id')"></span>
 						</span>
 						</span>
+					  -->
+						<yun:button-edit name="catIdTxt" hiddenName="catId" id="popup_input_id" txtVal="${query.catIdTxt}"  hiddenVal="${query.catId}" width="130" /> 
+					</td>	 
 					<td class="tdLabel"><%=Product.ALIAS_PRODUCT_NAME%></td>		
 					<td>
 						<input value="${query.productName}" id="productName" name="productName" maxlength="64"  class=""/>
@@ -228,66 +233,12 @@
 	</form>
 	
 
-<script>
+	<script type="text/javascript">
+
 	 var popupOption={
-		 'popup_input_id': {url:'${ctx}/category/query',title:'选择产品分类',hiddenId:''}
+		 'popup_input_id': {url:'${ctx}/category/query',title:'选择产品分类',hiddenId:'',textColumn:'cate_name',valueColumn:'cateId'}
 	 };
-	 
-	
-	 
-		     function fillBackAndCloseDialog(rowData,fieldId){
-		        $( "#dialog-modal").omDialog('close');
-		        window.frames[0].location.href="about:blank";//reset the iframe location
-		        $('#'+fieldId).val(rowData.cateName).next('.popup_hidden_Id:eq(0)').val(rowData.cateId);
-		        $('#'+fieldId).next().next('.mini-buttonedit-button:eq(0)').hide();
-		        $('#'+fieldId).next().next().next('.mini-buttonedit-close:eq(0)').show();
-		     };
-		     
-		     function clearSelection(object,fieldId) {
-		    	$(object).hide();
-		    	$(object).prev('.mini-buttonedit-button:eq(0)').show();
-		    	$('#'+fieldId).val('').next('.popup_hidden_Id:eq(0)').val('');
-		     }
-		     
-		     function openSelection(fieldId) {
-		     	var requestUrl=popupOption[fieldId].url;
-		     	var title=popupOption[fieldId].title;
-		         $( "#dialog-modal").omDialog({
-		         	title:title
-		         });
-		         $( "#dialog-modal").omDialog('open');
-		         var frameLoc=window.frames[0].location;
-		         frameLoc.href=requestUrl+"?fieldId="+fieldId; 
-		     }
-		     
-		    $(function() {
-		        $( "#dialog-modal").omDialog({
-		            autoOpen: false,
-		            width:535,
-		            height: 465,
-		            modal: true
-		        });
-		        for(var htmlId in popupOption) {
-				        $('#'+htmlId).keydown(function(e){
-				             if(e.keyCode==118){ //F7
-				            	 var fieldId=$(this).attr('id');
-								  openSelection(fieldId);
-				                return false;
-				           }else{
-				               return false; //forbide any input
-				           }
-				        });
-		        }
-		    });
-    
-	 
-    
-   	function addClass(obj,cssClazz) {
-   		$(obj).addClass(cssClazz);
-   	}
-   	function removeClass(obj,cssClazz) {
-   	 $(obj).removeClass(cssClazz);
-   	}
+	 PopupSelection.initOption(popupOption); 	
 	</script>
 	  <div id="dialog-modal" title="">
         <iframe frameborder="0" style="width:100%;height:99%;height:100%\9;" src="about:blank"></iframe>

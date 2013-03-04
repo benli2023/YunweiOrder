@@ -7,12 +7,17 @@
 	<tr>	
 		<td class="tdLabel">
 			<%=Product.ALIAS_CAT_ID%>:
-		</td>		
+		</td>
+		
+		<!--  	
 		<td>
 	<input name="catIdTxt" id="catIdTxt" class="input-text small required" maxlength="19"  value="${product.catIdTxt}"  autocomplete="off"/>
 	<input id="catId" name="catId" type="hidden" class="userIDHidden" value="${product.catId}"/>
 		<font color='red'><form:errors path="catId"/></font>
 		</td>
+		-->	
+		
+		<td><yun:button-edit name="catIdTxt" hiddenName="catId" id="popup_input_id" txtVal="${product.catIdTxt}"  hiddenVal="${product.catId}" width="130" /> </td>
 	</tr>	
 	
 	<tr>	

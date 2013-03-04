@@ -45,7 +45,7 @@
                 onRowDblClick:function(e, rowData) {
                 	  //window.parent.$('#'+parentFieldId).val(rowData.cateName).next('.userIDHidden:eq(0)').val(rowData.cateId);
                       //window.parent.$( "#dialog-modal").omDialog('close');
-                      if(window.parent.fillBackAndCloseDialog) window.parent.fillBackAndCloseDialog(rowData,parentFieldId);
+                      if(window.parent.PopupSelection.fillBackAndCloseDialog) window.parent.PopupSelection.fillBackAndCloseDialog(rowData,parentFieldId);
                 }
             });
             $(searchButtonId).omButton({

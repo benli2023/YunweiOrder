@@ -3,11 +3,15 @@
 
 <rapid:override name="head">
 	<title><%=Product.TABLE_ALIAS%>新增</title>
-	<%@ include file="../../commons/opera-maskui-import.jsp" %>
+	
 	<script type="text/javascript" src="<c:url value="/scripts/image-priew/image-preview.js"/>"></script>
 	<!--[if gte IE 7]> 
 		<script type="text/javascript" src="<c:url value="/scripts/image-priew/image-preview-ie.js"/>"></script>
 	<![endif]-->
+	
+	<%@ include file="../../commons/opera-maskui-dialog-import.jsp" %>
+	<link href="<c:url value="${ctx}/scripts/plugins/popup-input/popup-input.css"/>" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="${ctx}/scripts/plugins/popup-input/popup_selection.js"></script>
 </rapid:override>
 
 <rapid:override name="content">
@@ -27,41 +31,15 @@
 		}});
 	</script>
 		
-	<script>
+		
+		
+		
+	<script type="text/javascript">
+
 	 var popupOption={
-		 'catIdTxt': {url:'${ctx}/category/query',title:'选择产品分类'}
+		 'popup_input_id': {url:'${ctx}/category/query',title:'选择产品分类',hiddenId:'',textColumn:'cate_name',valueColumn:'cateId'}
 	 };
-     function fillBackAndCloseDialog(data){
-        $( "#dialog-modal").omDialog('close');
-        window.frames[0].location.href="about:blank";//reset the iframe location
-     };
-    $(function() {
-        $( "#dialog-modal").omDialog({
-            autoOpen: false,
-            width:535,
-            height: 465,
-            modal: true
-        });
-        for(var htmlId in popupOption) {
-		        $('#'+htmlId).keydown(function(e){
-		             if(e.keyCode==118){ //F7
-		            	var fieldId=$(this).attr('id');
-		            	var requestUrl=popupOption[fieldId].url;
-		            	var title=popupOption[fieldId].title;
-			            $( "#dialog-modal").omDialog({
-			            	title:title
-			            });
-		                $( "#dialog-modal").omDialog('open');
-		                var frameLoc=window.frames[0].location;
-		                var date=new Date();
-		                frameLoc.href=requestUrl+"?fieldId="+fieldId;
-		                return false;
-		           }else{
-		               return false; //forbide any input
-		           }
-		        });
-        }
-    });
+	 PopupSelection.initOption(popupOption); 	
 	</script>
 	  <div id="dialog-modal" title="">
         <iframe frameborder="0" style="width:100%;height:99%;height:100%\9;" src="about:blank"></iframe>
