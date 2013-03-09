@@ -10,12 +10,12 @@ public class ColModel {
 	private final String width;
 	private final String align;
 
-	@ObjectCreate(pattern = "column-models/column-model")
+	@ObjectCreate(pattern = "column-models/profile/column-model")
 	public ColModel(
-			@CallParam(pattern = "column-models/column-model/header") String header,
-			@CallParam(pattern = "column-models/column-model/name") String name,
-			@CallParam(pattern = "column-models/column-model/width") String width,
-			@CallParam(pattern = "column-models/column-model/align") String align) {
+			@CallParam(pattern = "column-models/profile/column-model/header") String header,
+			@CallParam(pattern = "column-models/profile/column-model/name") String name,
+			@CallParam(pattern = "column-models/profile/column-model/width") String width,
+			@CallParam(pattern = "column-models/profile/column-model/align") String align) {
 		super();
 		this.header = header;
 		this.name = name;

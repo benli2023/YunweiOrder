@@ -60,8 +60,12 @@ public class ProductController extends BaseRestSpringController<Product, Long>
   @RequestMapping
   public String index(ModelMap model, ProductQuery query, HttpServletRequest request, HttpServletResponse response)
   {
+	  
+    if(query.getSortColumns()==null||query.getSortColumns().trim().length()==0) {
+    	query.setSortColumns("cTime desc");
+    	
+    }
     Page page = this.productManager.findPage(query);
-
     model.addAllAttributes(toModelMap(page, query));
     return "/product/index";
   }

@@ -195,7 +195,7 @@
     	SELECT <include refid="Product.columns"/> ,cat.cate_name FROM product pro  left join category cat on pro.cat_id= cat.cate_id 
 		<include refid="Product.findPage.where"/>
 		<isNotEmpty property="sortColumns">
-			ORDER BY $sortColumns$
+			ORDER BY pro.$sortColumns$
 		</isNotEmpty>
     </select>
 

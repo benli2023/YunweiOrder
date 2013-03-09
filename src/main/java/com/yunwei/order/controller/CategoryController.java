@@ -27,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.web.scope.Flash;
 
-import com.yunwei.order.controller.colmodel.ColModelList;
+import com.yunwei.order.controller.colmodel.ColModelProfile;
 import com.yunwei.order.model.Category;
 import com.yunwei.order.service.CategoryManager;
 import com.yunwei.order.session.UserContext;
@@ -77,13 +77,13 @@ public class CategoryController extends
 	}
 
 	@RequestMapping({ "/query" })
-	public String query(ModelMap model, String fieldId) throws Exception {
+	public String query(ModelMap model, String fieldId,String profileId) throws Exception {
 		model.addAttribute("fieldId", fieldId);
 		model.addAttribute("jsonURL", "/category/index.json");
 		model.addAttribute("pageTitle",Category.TABLE_ALIAS);
-		ColModelList colModelList=colModelFactory.getColModel("category-colmodel.xml");
-		model.addAttribute("colModelList", colModelList.getColModels());
-		return "/category/query";
+		ColModelProfile colModelProfile=colModelFactory.getColModel("category-colmodel.xml",profileId);
+		model.addAttribute("colModelList", colModelProfile.getColModels());
+		return "/popup/table_window";
 	}
 
 	@RequestMapping({ "/{id}" })

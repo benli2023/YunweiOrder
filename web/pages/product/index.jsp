@@ -52,7 +52,7 @@
 						</span>
 						</span>
 					  -->
-						<yun:button-edit name="catIdTxt" hiddenName="catId" id="popup_input_id" txtVal="${query.catIdTxt}"  hiddenVal="${query.catId}" width="130" /> 
+						<yun:button-edit name="catIdTxt" hiddenName="catId" id="popup_input_id" txtVal="${query.catIdTxt}"  hiddenVal="${query.catId}" width="130"  profileId="product"/> 
 					</td>	 
 					<td class="tdLabel"><%=Product.ALIAS_PRODUCT_NAME%></td>		
 					<td>
@@ -119,7 +119,8 @@
 					</td>
 				</tr>	
 				<tr>	
-					<td class="tdLabel"><%=Product.ALIAS_IS_PURCHASABLE%></td>		
+					<td class="tdLabel"><%=Product.ALIAS_IS_PURCHASABLE%></td>	
+						
 					<td>
 						<select name="isPurchasable">
 							<option value="-1" <c:if test="${query.isPurchasable==-1}">selected</c:if>>不限</option>
@@ -128,6 +129,7 @@
 						</select>
 						
 					</td>
+					
 					<td class="tdLabel"><%=Product.ALIAS_MANUFACTURER%></td>		
 					<td>
 						<input value="${query.manufacturer}" id="manufacturer" name="manufacturer" maxlength="256"  class=""/>

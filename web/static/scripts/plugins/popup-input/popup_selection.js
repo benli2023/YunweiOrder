@@ -20,7 +20,7 @@ var PopupSelection=(function($) {
 		    	$('#'+fieldId).val('').next('.popup_hidden_Id:eq(0)').val('');
 		     }
 		     
-		     function openSelection(fieldId) {
+		     function openSelection(fieldId,profileId) {
 		     	if(localPopupOption[fieldId]) {
 			     	var requestUrl=localPopupOption[fieldId].url;
 			     	var title=localPopupOption[fieldId].title;
@@ -29,9 +29,8 @@ var PopupSelection=(function($) {
 			         });
 			         $( "#dialog-modal").omDialog('open');
 			         var frameLoc=window.frames[0].location;
-			         frameLoc.href=requestUrl+"?fieldId="+fieldId; 
+			         frameLoc.href=requestUrl+"?fieldId="+fieldId+"&profileId="+profileId; 
 		         }else {
-		         
 		         	alert("no such field id.");
 		         }
 		     }
@@ -46,8 +45,8 @@ var PopupSelection=(function($) {
 		        for(var htmlId in localPopupOption) {
 				        $('#'+htmlId).keydown(function(e){
 				             if(e.keyCode==118){ //F7
-				            	 var fieldId=$(this).attr('id');
-								  openSelection(fieldId);
+				            	 //var fieldId=$(this).attr('id');
+								  //openSelection(fieldId);
 				                return false;
 				           }else{
 				               return false; //forbide any input

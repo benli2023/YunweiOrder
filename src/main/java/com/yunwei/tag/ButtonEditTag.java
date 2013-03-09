@@ -31,6 +31,8 @@ public class ButtonEditTag extends TagSupport {
 	
 	private String hiddenVal="";
 	
+	private String profileId;
+	
 	
 	
 	
@@ -48,7 +50,7 @@ public class ButtonEditTag extends TagSupport {
 		builder.append("<span class=\"mini-buttonedit-border\" style=\"width: "+width+"px;\">");
 		builder.append("<input type=\"input\" class=\"mini-buttonedit-input\" autocomplete=\"off\" placeholder=\"\" name=\""+name+"\" style=\"width: 103px;\" id=\""+id+"\" value=\""+txtVal+"\" />");
 		builder.append("<input type=\"hidden\" name=\""+hiddenName+"\" value=\""+hiddenVal+"\"  class=\"popup_hidden_Id\" />");
-		builder.append("<span class=\"mini-buttonedit-button\" onmouseover=\"PopupSelection.addClass(this,'mini-buttonedit-button-hover');\" onmouseout=\"PopupSelection.removeClass(this,'mini-buttonedit-button-hover');\" onclick=\"PopupSelection.openSelection('"+id+"')\" >");
+		builder.append("<span class=\"mini-buttonedit-button\" onmouseover=\"PopupSelection.addClass(this,'mini-buttonedit-button-hover');\" onmouseout=\"PopupSelection.removeClass(this,'mini-buttonedit-button-hover');\" onclick=\"PopupSelection.openSelection('"+id+"','"+profileId+"')\" >");
 		builder.append("<span class=\"mini-buttonedit-icon\"></span></span>");
 		builder.append("<span class=\"mini-buttonedit-close\" style=\"display:none\" onclick=\"PopupSelection.clearSelection(this,'"+id+"')\"></span>");
 		builder.append("</span></span>");
@@ -82,7 +84,9 @@ public class ButtonEditTag extends TagSupport {
 		this.hiddenName = hiddenName;
 	}
 	
-	
+	public void setProfileId(String profileId) {
+		this.profileId = profileId;
+	}
 
 	public void setId(String id) {
 		this.id = id;

@@ -9,12 +9,14 @@ import org.apache.commons.digester3.Digester;
 import org.apache.commons.digester3.annotations.FromAnnotationsRuleModule;
 import org.apache.commons.digester3.binder.DigesterLoader;
 import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.FileSystemResourceLoader;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.xml.sax.SAXException;
 
 import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
-import com.yunwei.order.controller.colmodel.ColModelList;
+import com.yunwei.order.controller.colmodel.ColModelProfile;
+import com.yunwei.order.controller.colmodel.ColModelRoot;
 
 public class ColModelFactory {
 
@@ -22,13 +24,13 @@ public class ColModelFactory {
 
 	private final ResourceLoader resourceLoader;
 	
-	private final ConcurrentLinkedHashMap<String, ColModelList> colModelCache;
+	private final ConcurrentLinkedHashMap<String, ColModelRoot> colModelCache;
 
 	private final DigesterLoader digesterLoader = newLoader(new FromAnnotationsRuleModule() {
 		@Override
 		protected void configureRules() {
-			bindRulesFrom(ColModelList.class);
-		}
+			bindRulesFrom(ColModelRoot.class);
+		} 
 	});
 
 	public ColModelFactory(String colModelPath, ResourceLoader resourceLoader,int capacity) {
@@ -39,22 +41,22 @@ public class ColModelFactory {
 		} else {
 			this.resourceLoader = resourceLoader;
 		}
-		colModelCache = new ConcurrentLinkedHashMap.Builder<String, ColModelList>().maximumWeightedCapacity(capacity).build();
+		colModelCache = new ConcurrentLinkedHashMap.Builder<String, ColModelRoot>().maximumWeightedCapacity(capacity).build();
 	}
 
-	public ColModelList getColModel(String modelxml)
+	public ColModelProfile getColModel(String modelxml,String profileId)
 			throws FileNotFoundException, IOException, SAXException {
-		ColModelList result = null;
+		ColModelRoot result = null;
 		if ((result = colModelCache.get(modelxml)) == null) {
 			Digester digester = digesterLoader.newDigester();
 			Resource resource = resourceLoader.getResource(colModelPath.concat(modelxml));
-			ColModelList colModelList = (ColModelList) digester.parse(resource.getInputStream());
-			result = colModelCache.putIfAbsent(modelxml, colModelList);
-			result = (result == null ? colModelList : result);
+			ColModelRoot colModelRoot = (ColModelRoot) digester.parse(resource.getInputStream());
+			result = colModelCache.putIfAbsent(modelxml, colModelRoot);
+			result = (result == null ? colModelRoot : result);
 		}
 		  System.out.println("Weighed size = " + colModelCache.weightedSize());
 		  System.out.println("Capacity = " + colModelCache.capacity());
-		return result;
+		return result.getProfile(profileId);
 	}
 	
 
@@ -63,8 +65,10 @@ public class ColModelFactory {
 	 */
 	 public static void main(String[] args) {
 	 try {
-	 new
-	 ColModelFactory("com/yunwei/order/controller/colmodel/",null,4).getColModel("category-colmodel.xml");
+	 
+	 ColModelProfile colModelProfile=new ColModelFactory("E:\\workspace\\OpenSource\\RapidFramework\\YunweiOrder\\src\\main\\java\\com\\yunwei\\order\\controller\\colmodel\\",new FileSystemResourceLoader(),4).getColModel("category-colmodel.xml",null);
+	 
+	System.out.println( colModelProfile.getColModels().size());
 	 } catch (FileNotFoundException e) {
 	 e.printStackTrace();
 	 } catch (IOException e) {

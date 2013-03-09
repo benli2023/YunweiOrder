@@ -1,20 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <column-models id="category">
-	<column-model>
-		<header>编号</header>
-		<name>cateId</name>
-		<width>50</width>
-		<align>center</align>
-	</column-model>
-	<column-model>
-		<header>类别名称</header>
-		<name>cate_name</name>
-		<width>100</width>
-		<align>center</align>
-	</column-model>
-	<column-model>
-		<header>父类ID</header>
-		<name>parentId</name>
-		<width>60</width>
-		<align>left</align>
-	</column-model>
+
+	<profile id="product" default="true">
+		<column-model>
+			<header>编号</header>
+			<name>cateId</name>
+			<width>50</width>
+			<align>center</align>
+		</column-model>
+		<column-model>
+			<header>类别名称</header>
+			<name>cate_name</name>
+			<width>100</width>
+			<align>center</align>
+		</column-model>
+		<column-model>
+			<header>父类ID</header>
+			<name>parentId</name>
+			<width>60</width>
+			<align>left</align>
+		</column-model>
+	</profile>
+
+	<profile id="product2">
+		<column-model>
+			<header>编号</header>
+			<name>cateId</name>
+			<width>50</width>
+			<align>center</align>
+		</column-model>
+		<column-model>
+			<header>类别名称</header>
+			<name>cate_name</name>
+			<width>100</width>
+			<align>center</align>
+		</column-model>
+	</profile>
 </column-models>
