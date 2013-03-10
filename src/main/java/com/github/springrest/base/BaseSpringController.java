@@ -1,12 +1,10 @@
-package javacommon.base;
+package com.github.springrest.base;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import javacommon.util.ConvertRegisterHelper;
-import javacommon.util.PageRequestFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -22,6 +20,8 @@ import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 
+import com.github.springrest.util.ConvertRegisterHelper;
+import com.github.springrest.util.PageRequestFactory;
 import com.sun.jmx.snmp.Timestamp;
 
 public class BaseSpringController extends MultiActionController{

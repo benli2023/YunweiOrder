@@ -3,12 +3,13 @@ package com.yunwei.order.model;
 import cn.org.rapid_framework.util.DateConvertUtils;
 import java.io.Serializable;
 import java.util.Date;
-import javacommon.base.BaseEntity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.hibernate.validator.constraints.Length;
+
+import com.github.springrest.base.BaseEntity;
 
 public class StockRecord extends BaseEntity
   implements Serializable

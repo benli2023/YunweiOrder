@@ -1,4 +1,4 @@
-package javacommon.filter;
+package com.github.springrest.filter;
 
 import java.io.IOException;
 import java.util.Map;

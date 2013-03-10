@@ -16,14 +16,14 @@ import org.apache.commons.lang.builder.ToStringStyle;
 
 import java.util.*;
 
-import javacommon.base.*;
-import javacommon.util.*;
 
 import cn.org.rapid_framework.util.*;
 import cn.org.rapid_framework.web.util.*;
 import cn.org.rapid_framework.page.*;
 import cn.org.rapid_framework.page.impl.*;
 
+import com.github.springrest.base.*;
+import com.github.springrest.util.*;
 import com.yunwei.order.model.*;
 import com.yunwei.order.dao.*;
 import com.yunwei.order.service.*;

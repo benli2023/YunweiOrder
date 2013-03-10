@@ -1,4 +1,4 @@
-package com.yunwei.order.session;
+package com.github.springrest.base;
 
 import java.util.Date;
 import javax.servlet.http.HttpServletRequest;

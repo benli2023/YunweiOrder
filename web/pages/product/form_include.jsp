@@ -17,7 +17,7 @@
 		</td>
 		-->	
 		
-		<td><yun:button-edit name="catIdTxt" hiddenName="catId" id="popup_input_id" txtVal="${product.catIdTxt}"  hiddenVal="${product.catId}" width="130" /> </td>
+		<td><yun:button-edit name="catIdTxt" hiddenName="catId" id="popup_input_id" txtVal="${product.catIdTxt}"  hiddenVal="${product.catId}" width="130"  profileId="product2"/> </td>
 	</tr>	
 	
 	<tr>	

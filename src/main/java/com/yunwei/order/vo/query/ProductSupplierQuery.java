@@ -1,9 +1,10 @@
 package com.yunwei.order.vo.query;
 
 import java.io.Serializable;
-import javacommon.base.BaseQuery;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+
+import com.github.springrest.base.BaseQuery;
 
 public class ProductSupplierQuery extends BaseQuery
   implements Serializable

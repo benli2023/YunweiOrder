@@ -2,6 +2,8 @@ package com.yunwei.order.controller;
 
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.web.scope.Flash;
+
+import com.github.springrest.base.BaseRestSpringController;
 import com.yunwei.order.model.Customer;
 import com.yunwei.order.service.CustomerManager;
 import com.yunwei.order.vo.query.CustomerQuery;
@@ -10,7 +12,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-import javacommon.base.BaseRestSpringController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;

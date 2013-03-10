@@ -1,4 +1,4 @@
-package javacommon.util;
+package com.github.springrest.util;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;

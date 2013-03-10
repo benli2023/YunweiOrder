@@ -1,4 +1,4 @@
-package com.yunwei.order.controller.colmodel;
+package com.github.springrest.base;
 
 import org.apache.commons.digester3.annotations.rules.CallParam;
 import org.apache.commons.digester3.annotations.rules.ObjectCreate;

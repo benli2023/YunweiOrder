@@ -1,4 +1,4 @@
-package com.yunwei.order.session;
+package com.github.springrest.base;
 
 import java.io.Serializable;
 import java.util.Date;

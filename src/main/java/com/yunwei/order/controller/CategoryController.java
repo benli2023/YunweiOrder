@@ -5,8 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
-import javacommon.base.BaseRestSpringController;
-import javacommon.util.ColModelFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,10 +25,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.web.scope.Flash;
 
-import com.yunwei.order.controller.colmodel.ColModelProfile;
+import com.github.springrest.base.BaseRestSpringController;
+import com.github.springrest.base.ColModelProfile;
+import com.github.springrest.base.UserContext;
+import com.github.springrest.util.ColModelFactory;
 import com.yunwei.order.model.Category;
 import com.yunwei.order.service.CategoryManager;
-import com.yunwei.order.session.UserContext;
 import com.yunwei.order.vo.query.CategoryQuery;
 
 @Controller

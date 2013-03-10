@@ -1,9 +1,10 @@
-package javacommon.util;
+package com.github.springrest.util;
 
 import static org.apache.commons.digester3.binder.DigesterLoader.newLoader;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+
 
 import org.apache.commons.digester3.Digester;
 import org.apache.commons.digester3.annotations.FromAnnotationsRuleModule;
@@ -14,9 +15,9 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
 import org.xml.sax.SAXException;
 
+import com.github.springrest.base.ColModelProfile;
+import com.github.springrest.base.ColModelRoot;
 import com.googlecode.concurrentlinkedhashmap.ConcurrentLinkedHashMap;
-import com.yunwei.order.controller.colmodel.ColModelProfile;
-import com.yunwei.order.controller.colmodel.ColModelRoot;
 
 public class ColModelFactory {
 
@@ -54,8 +55,8 @@ public class ColModelFactory {
 			result = colModelCache.putIfAbsent(modelxml, colModelRoot);
 			result = (result == null ? colModelRoot : result);
 		}
-		  System.out.println("Weighed size = " + colModelCache.weightedSize());
-		  System.out.println("Capacity = " + colModelCache.capacity());
+		  //System.out.println("Weighed size = " + colModelCache.weightedSize());
+		  //System.out.println("Capacity = " + colModelCache.capacity());
 		return result.getProfile(profileId);
 	}
 	

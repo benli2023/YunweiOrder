@@ -1,11 +1,12 @@
 package com.yunwei.order.model;
 
 import java.io.Serializable;
-import javacommon.base.BaseEntity;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+
+import com.github.springrest.base.BaseEntity;
 
 public class ProductSupplier extends BaseEntity
   implements Serializable

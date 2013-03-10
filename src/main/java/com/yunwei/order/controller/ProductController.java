@@ -2,6 +2,9 @@ package com.yunwei.order.controller;
 
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.web.scope.Flash;
+
+import com.github.springrest.base.BaseRestSpringController;
+import com.github.springrest.util.FileUploadUtil;
 import com.yunwei.order.model.Category;
 import com.yunwei.order.model.Product;
 import com.yunwei.order.service.CategoryManager;
@@ -10,8 +13,6 @@ import com.yunwei.order.vo.query.ProductQuery;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javacommon.base.BaseRestSpringController;
-import javacommon.util.FileUploadUtil;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;

@@ -8,10 +8,10 @@
 <rapid:override name="head">
 	<title><%=Product.TABLE_ALIAS%> 维护</title>
 	<%@ include file="../../commons/opera-maskui-dialog-import.jsp" %>
-	<script src="${ctx}/scripts/rest.js" ></script>
-	<link href="<c:url value="/widgets/simpletable/simpletable.css"/>" type="text/css" rel="stylesheet">
 	<link href="<c:url value="${ctx}/scripts/plugins/popup-input/popup-input.css"/>" type="text/css" rel="stylesheet">
 	<script type="text/javascript" src="${ctx}/scripts/plugins/popup-input/popup_selection.js"></script>
+	<script src="${ctx}/scripts/rest.js" ></script>
+	<link href="<c:url value="/widgets/simpletable/simpletable.css"/>" type="text/css" rel="stylesheet">
 	<script type="text/javascript" src="<c:url value="/widgets/simpletable/simpletable.js"/>"></script>
 	<script type="text/javascript" >
 		$(document).ready(function() {
@@ -238,7 +238,7 @@
 	<script type="text/javascript">
 
 	 var popupOption={
-		 'popup_input_id': {url:'${ctx}/category/query',title:'选择产品分类',hiddenId:'',textColumn:'cate_name',valueColumn:'cateId'}
+		 'popup_input_id': {url:'${ctx}/category/query',title:'选择产品分类',textColumn:'cate_name',valueColumn:'cateId'}
 	 };
 	 PopupSelection.initOption(popupOption); 	
 	</script>

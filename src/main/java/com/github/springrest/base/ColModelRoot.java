@@ -1,4 +1,4 @@
-package com.yunwei.order.controller.colmodel;
+package com.github.springrest.base;
 
 import java.util.HashMap;
 import java.util.Map;

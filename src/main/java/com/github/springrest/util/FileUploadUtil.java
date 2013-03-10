@@ -1,4 +1,4 @@
-/*    */ package javacommon.util;
+/*    */ package com.github.springrest.util;
 /*    */ 
 /*    */ import java.io.IOException;
 /*    */ import java.util.UUID;

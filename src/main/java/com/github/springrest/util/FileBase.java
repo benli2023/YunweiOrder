@@ -1,4 +1,4 @@
-/*     */ package javacommon.util;
+/*     */ package com.github.springrest.util;
 /*     */ 
 /*     */ import java.io.File;
 /*     */ import java.io.FileInputStream;

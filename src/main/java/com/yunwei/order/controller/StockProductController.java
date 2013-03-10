@@ -2,13 +2,14 @@ package com.yunwei.order.controller;
 
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.web.scope.Flash;
+
+import com.github.springrest.base.BaseRestSpringController;
 import com.yunwei.order.model.StockProduct;
 import com.yunwei.order.service.StockProductManager;
 import com.yunwei.order.vo.query.StockProductQuery;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import javacommon.base.BaseRestSpringController;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;

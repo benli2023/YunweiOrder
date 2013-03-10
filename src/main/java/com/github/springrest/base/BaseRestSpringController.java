@@ -1,10 +1,8 @@
-package javacommon.base;
+package com.github.springrest.base;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import javacommon.util.ConvertRegisterHelper;
-import javacommon.util.PageRequestFactory;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,12 +10,13 @@ import org.springframework.ui.ModelMap;
 import org.springframework.util.Assert;
 import org.springframework.util.ReflectionUtils;
 
+import com.github.springrest.util.ConvertRegisterHelper;
+import com.github.springrest.util.PageRequestFactory;
+
 import cn.org.rapid_framework.beanutils.BeanUtils;
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.page.PageRequest;
 
-import com.yunwei.order.session.SessionHelper;
-import com.yunwei.order.session.UserContext;
 
 
 /**

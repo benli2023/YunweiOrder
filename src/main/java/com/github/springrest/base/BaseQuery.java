@@ -1,4 +1,4 @@
-package javacommon.base;
+package com.github.springrest.base;
 
 import cn.org.rapid_framework.page.PageRequest;
 

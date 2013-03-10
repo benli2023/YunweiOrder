@@ -1,16 +1,17 @@
-package javacommon.util;
+package com.github.springrest.util;
 
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
-import javacommon.base.BaseQuery;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.beanutils.BeanUtilsBean;
 import org.springframework.web.bind.ServletRequestUtils;
 import org.springframework.web.util.WebUtils;
+
+import com.github.springrest.base.BaseQuery;
 
 import cn.org.rapid_framework.page.PageRequest;
 /**

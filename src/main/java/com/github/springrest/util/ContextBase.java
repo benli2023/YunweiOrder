@@ -1,4 +1,4 @@
-/*    */ package javacommon.util;
+/*    */ package com.github.springrest.util;
 /*    */ 
 /*    */ import javax.servlet.ServletContext;
 /*    */ import org.springframework.web.context.ContextLoader;
