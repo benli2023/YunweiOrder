@@ -26,7 +26,7 @@
 	<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
 		<!-- 拦截器注册 -->
 		<property name="interceptors">
-			<bean class="javacommon.springmvc.interceptor.SharedRenderVariableInterceptor" />
+			<bean class="com.github.springrest.interceptor.SharedRenderVariableInterceptor" />
 		</property>
 	</bean>
 

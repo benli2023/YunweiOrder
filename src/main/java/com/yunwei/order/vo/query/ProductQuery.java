@@ -22,13 +22,13 @@ public class ProductQuery extends BaseQuery
   private String productSpec;
   private Long salePrice;
   private Long purchasePrice;
-  private int isAvailable = -1;
+  private Integer isAvailable = -1;
 
-  private int isSellable = -1;
+  private Integer isSellable = -1;
 
-  private int isNegative = -1;
+  private Integer isNegative = -1;
 
-  private int isPurchasable = -1;
+  private Integer isPurchasable = -1;
   private String productImage;
   private String manufacturer;
   private String orginalPlace;
