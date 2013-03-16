@@ -7,28 +7,31 @@
 <sqlMap>
 
     <resultMap id="RM.Staff" class="com.yunwei.order.model.Staff">
-        <result property="staffId" column="staff_id"/>
+         <result property="staffId" column="staff_id"/>
         <result property="deptId" column="dept_id"/>
-        <result property="staffName" column="staff_name"/>
-        <result property="loginName" column="login_name"/>
-        <result property="loginPassword" column="login_password"/>
-        <result property="position" column="position"/>
-        <result property="gender" column="gender"/>
-        <result property="birthDate" column="birth_date"/>
-        <result property="hireDate" column="hire_date"/>
-        <result property="matureDate" column="mature_date"/>
-        <result property="identityCard" column="identity_card"/>
-        <result property="address" column="address"/>
-        <result property="phone" column="phone"/>
-        <result property="email" column="email"/>
-        <result property="ctime" column="cTime"/>
+        <result property="deptIdTxt" column="dep1_deptname"/>
+         <result property="staffName" column="staff_name"/>
+         <result property="loginName" column="login_name"/>
+         <result property="loginPassword" column="login_password"/>
+         <result property="position" column="position"/>
+         <result property="gender" column="gender"/>
+         <result property="birthDate" column="birth_date"/>
+         <result property="hireDate" column="hire_date"/>
+         <result property="matureDate" column="mature_date"/>
+         <result property="identityCard" column="identity_card"/>
+         <result property="address" column="address"/>
+         <result property="phone" column="phone"/>
+         <result property="email" column="email"/>
+         <result property="ctime" column="cTime"/>
         <result property="adminId" column="adminId"/>
+        <result property="adminIdTxt" column="sta2_staffname"/>
     </resultMap>
 
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="Staff.columns">
 	    <![CDATA[
-        staff_id ,dept_id ,staff_name ,login_name ,login_password ,position ,gender ,birth_date ,hire_date ,mature_date ,identity_card ,address ,phone ,email ,cTime ,adminId 
+         sta0.staff_id , sta0.dept_id , sta0.staff_name , sta0.login_name , sta0.login_password , sta0.position , sta0.gender , sta0.birth_date , sta0.hire_date , sta0.mature_date , sta0.identity_card , sta0.address , sta0.phone , sta0.email , sta0.cTime , sta0.adminId  , dep1.dept_name as dep1_deptname, sta2.staff_name as sta2_staffname
+        
 	    ]]>
 	</sql>
 	
@@ -114,82 +117,80 @@
     <select id="Staff.getById" resultMap="RM.Staff">
 	    SELECT <include refid="Staff.columns"/>
 	    <![CDATA[
-	        FROM staff 
+	        FROM staff AS sta0   Left Join dept AS dep1 ON sta0.dept_id=dep1.dept_id  Left Join staff AS sta2 ON sta0.adminId=sta2.staff_id
 	        WHERE 
-		        staff_id = #staffId# 
+		        sta0.staff_id = #staffId# 
 	    ]]>
     </select>
 
 	<sql id="Staff.findPage.where">
 	    <dynamic prepend="WHERE">
 		       <isNotEmpty prepend="AND" property="staffId">
-		             staff_id = #staffId#
+		              sta0.staff_id = #staffId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="deptId">
-		             dept_id = #deptId#
+		              sta0.dept_id = #deptId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="staffName">
-		             staff_name = #staffName#
+		              sta0.staff_name = #staffName#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="loginName">
-		             login_name = #loginName#
+		              sta0.login_name = #loginName#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="loginPassword">
-		             login_password = #loginPassword#
+		              sta0.login_password = #loginPassword#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="position">
-		             position = #position#
+		              sta0.position = #position#
 		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="gender">
-		             gender = #gender#
-		       </isNotEmpty>
+		       <isNotEqual	prepend="AND" property="gender" compareValue="-1">  sta0.gender = #gender#</isNotEqual>	
 		       <isNotEmpty prepend="AND" property="birthDateBegin">
-		             birth_date >= #birthDateBegin#
+		              sta0.birth_date >= #birthDateBegin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="birthDateEnd">
-		             birth_date &lt;= #birthDateEnd#
+		              sta0.birth_date &lt;= #birthDateEnd#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="hireDateBegin">
-		             hire_date >= #hireDateBegin#
+		              sta0.hire_date >= #hireDateBegin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="hireDateEnd">
-		             hire_date &lt;= #hireDateEnd#
+		              sta0.hire_date &lt;= #hireDateEnd#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="matureDateBegin">
-		             mature_date >= #matureDateBegin#
+		              sta0.mature_date >= #matureDateBegin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="matureDateEnd">
-		             mature_date &lt;= #matureDateEnd#
+		              sta0.mature_date &lt;= #matureDateEnd#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="identityCard">
-		             identity_card = #identityCard#
+		              sta0.identity_card = #identityCard#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="address">
-		             address = #address#
+		              sta0.address = #address#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="phone">
-		             phone = #phone#
+		              sta0.phone = #phone#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="email">
-		             email = #email#
+		              sta0.email = #email#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="ctimeBegin">
-		             cTime >= #ctimeBegin#
+		              sta0.cTime >= #ctimeBegin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="ctimeEnd">
-		             cTime &lt;= #ctimeEnd#
+		              sta0.cTime &lt;= #ctimeEnd#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="adminId">
-		             adminId = #adminId#
+		              sta0.adminId = #adminId#
 		       </isNotEmpty>
-		        <isNotEmpty prepend="AND" property="searchTerm">
-		            (staff_name  like  '%$searchTerm$%' or login_name like  '%$searchTerm$%' or email like  '%$searchTerm$%')
-		       </isNotEmpty>
+	       	   <isNotEmpty prepend="AND" property="searchTerm">
+	        	(  sta0.staff_name like '%$searchTerm$%'   )
+	           </isNotEmpty>
 	    </dynamic>	
 	</sql>
 	 
     <select id="Staff.findPage.count" resultClass="long">
-        SELECT count(*) FROM staff <include refid="Staff.findPage.where"/>    
+        SELECT count(*) FROM  staff AS sta0 <include refid="Staff.findPage.where"/>    
     </select>
     
     <!--
@@ -197,10 +198,10 @@
     	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
     -->
     <select id="Staff.findPage" resultMap="RM.Staff">
-    	SELECT <include refid="Staff.columns"/> FROM staff 
+    	SELECT <include refid="Staff.columns"/> FROM staff AS sta0   Left Join dept AS dep1 ON sta0.dept_id=dep1.dept_id  Left Join staff AS sta2 ON sta0.adminId=sta2.staff_id
 		<include refid="Staff.findPage.where"/>
 		<isNotEmpty property="sortColumns">
-			ORDER BY $sortColumns$
+			ORDER BY sta0.$sortColumns$
 		</isNotEmpty>
     </select>
 

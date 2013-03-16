@@ -19,7 +19,8 @@
 			<%=Dept.ALIAS_PARENT_ID%>:
 		</td>		
 		<td>
-		<form:input path="parentId" id="parentId" cssClass="validate-integer max-value-2147483647" maxlength="10" />
+		<yun:button-edit name="parentIdTxt" hiddenName="parentId" id="dept_parentId" txtVal="${dept.parentIdTxt}"  hiddenVal="${dept.parentId}" width="130"  profileId="dept"/> 
+	
 		<font color='red'><form:errors path="parentId"/></font>
 		</td>
 	</tr>	

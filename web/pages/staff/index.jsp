@@ -7,7 +7,9 @@
 
 <rapid:override name="head">
 	<title><%=Staff.TABLE_ALIAS%> 维护</title>
-	
+	<%@ include file="../../commons/opera-maskui-dialog-import.jsp" %>
+	<link href="<c:url value="${ctx}/scripts/plugins/popup-input/popup-input.css"/>" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="${ctx}/scripts/plugins/popup-input/popup_selection.js"></script>
 	<script src="${ctx}/scripts/rest.js" ></script>
 	<link href="<c:url value="/widgets/simpletable/simpletable.css"/>" type="text/css" rel="stylesheet">
 	<script type="text/javascript" src="<c:url value="/widgets/simpletable/simpletable.js"/>"></script>
@@ -29,7 +31,8 @@
 				<tr>	
 					<td class="tdLabel"><%=Staff.ALIAS_DEPT_ID%></td>		
 					<td>
-						<input value="${query.deptId}" id="deptId" name="deptId" maxlength="10"  class="validate-integer max-value-2147483647"/>
+						<yun:button-edit name="deptIdTxt" hiddenName="deptId" id="staff_deptId" txtVal="${query.deptIdTxt}"  hiddenVal="${query.deptId}" width="130"  profileId="dept"/> 
+						
 					</td>
 					<td class="tdLabel"><%=Staff.ALIAS_STAFF_NAME%></td>		
 					<td>
@@ -51,7 +54,12 @@
 					</td>
 					<td class="tdLabel"><%=Staff.ALIAS_GENDER%></td>		
 					<td>
-						<input value="${query.gender}" id="gender" name="gender" maxlength="10"  class="validate-integer max-value-2147483647"/>
+						<select name="gender">
+							<option value="1" <c:if test="${query.gender==1}">selected</c:if>>男</option>
+							<option value="0" <c:if test="${query.gender==0}">selected</c:if>>女</option>
+							<option value="2" <c:if test="${query.gender==2}">selected</c:if>>其他</option>
+							<option value="-1" <c:if test="${query.gender==-1}">selected</c:if>>不限</option>
+						</select>
 					</td>
 					<td class="tdLabel"><%=Staff.ALIAS_BIRTH_DATE%></td>		
 					<td>
@@ -95,7 +103,8 @@
 					</td>
 					<td class="tdLabel"><%=Staff.ALIAS_ADMIN_ID%></td>		
 					<td>
-						<input value="${query.adminId}" id="adminId" name="adminId" maxlength="19"  class="validate-integer "/>
+						<yun:button-edit name="adminIdTxt" hiddenName="adminId" id="staff_adminId" txtVal="${query.adminIdTxt}"  hiddenVal="${query.adminId}" width="130"  profileId="staff"/> 
+						
 					</td>
 				</tr>	
 			</table>
@@ -149,12 +158,12 @@
 				<td>${page.thisPageFirstElementNumber + status.index}</td>
 				<td><input type="checkbox" name="items" value="${item.staffId}"></td>
 				
-				<td><c:out value='${item.deptId}'/>&nbsp;</td>
+				<td><c:out value='${item.deptIdTxt}'/>&nbsp;</td>
 				<td><c:out value='${item.staffName}'/>&nbsp;</td>
 				<td><c:out value='${item.loginName}'/>&nbsp;</td>
 				<td><c:out value='${item.loginPassword}'/>&nbsp;</td>
 				<td><c:out value='${item.position}'/>&nbsp;</td>
-				<td><c:out value='${item.gender}'/>&nbsp;</td>
+				<td><c:choose><c:when test="${item.gender==1}">男</c:when><c:when test="${item.gender==0}">女</c:when><c:when test="${item.gender==2}">其他</c:when></c:choose></td>
 				<td><c:out value='${item.birthDateString}'/>&nbsp;</td>
 				<td><c:out value='${item.hireDateString}'/>&nbsp;</td>
 				<td><c:out value='${item.matureDateString}'/>&nbsp;</td>
@@ -163,7 +172,7 @@
 				<td><c:out value='${item.phone}'/>&nbsp;</td>
 				<td><c:out value='${item.email}'/>&nbsp;</td>
 				<td><c:out value='${item.ctimeString}'/>&nbsp;</td>
-				<td><c:out value='${item.adminId}'/>&nbsp;</td>
+				<td><c:out value='${item.adminIdTxt}'/>&nbsp;</td>
 				<td>
 					<a href="${ctx}/staff/${item.staffId}">查看</a>&nbsp;&nbsp;
 					<a href="${ctx}/staff/${item.staffId}/edit">修改</a>&nbsp;&nbsp;
@@ -178,9 +187,20 @@
 		<simpletable:pageToolbar page="${page}">
 		显示在这里是为了提示你如何自定义表头,可修改模板删除此行
 		</simpletable:pageToolbar>
-		
 	</div>
 	</form>
+	
+	<script type="text/javascript">
+	 var popupOption={
+		 'staff_deptId': {url:'${ctx}/dept/query',title:'选择部门',textColumn:'dept_name',valueColumn:'deptId'},
+		 'staff_adminId': {url:'${ctx}/staff/query',title:'选择创建人',textColumn:'staff_name',valueColumn:'staffId'}
+	 };
+	 PopupSelection.initOption(popupOption); 	
+	</script>
+	  <div id="dialog-modal" title="">
+        <iframe frameborder="0" style="width:100%;height:99%;height:100%\9;" src="about:blank"></iframe>
+    </div>
+	
 </rapid:override>
 
 <%-- jsp模板继承,具体使用请查看: http://code.google.com/p/rapid-framework/wiki/rapid_jsp_extends --%>

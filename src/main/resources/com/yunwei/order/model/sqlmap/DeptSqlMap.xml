@@ -7,16 +7,18 @@
 <sqlMap>
 
     <resultMap id="RM.Dept" class="com.yunwei.order.model.Dept">
-        <result property="deptId" column="dept_id"/>
-        <result property="deptName" column="dept_name"/>
+         <result property="deptId" column="dept_id"/>
+         <result property="deptName" column="dept_name"/>
         <result property="parentId" column="parent_id"/>
-        <result property="remark" column="remark"/>
+        <result property="parentIdTxt" column="dep1_deptname"/>
+         <result property="remark" column="remark"/>
     </resultMap>
 
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="Dept.columns">
 	    <![CDATA[
-        dept_id ,dept_name ,parent_id ,remark 
+         dep0.dept_id , dep0.dept_name , dep0.parent_id , dep0.remark  , dep1.dept_name as dep1_deptname
+        
 	    ]]>
 	</sql>
 	
@@ -40,7 +42,7 @@
     oracle:		type="pre" 	SELECT  sequenceName.nextval AS ID FROM DUAL
     DB2:		type="pre"	values nextval for sequenceName
     -->
-        <selectKey resultClass="java.lang.Long" type="post" keyProperty="deptId" >
+        <selectKey resultClass="java.lang.Integer" type="post" keyProperty="deptId" >
             select last_insert_id()
         </selectKey>
     </insert>
@@ -66,31 +68,34 @@
     <select id="Dept.getById" resultMap="RM.Dept">
 	    SELECT <include refid="Dept.columns"/>
 	    <![CDATA[
-	        FROM dept 
+	        FROM dept AS dep0   Left Join dept AS dep1 ON dep0.parent_id=dep1.dept_id
 	        WHERE 
-		        dept_id = #deptId# 
+		        dep0.dept_id = #deptId# 
 	    ]]>
     </select>
 
 	<sql id="Dept.findPage.where">
 	    <dynamic prepend="WHERE">
 		       <isNotEmpty prepend="AND" property="deptId">
-		             dept_id = #deptId#
+		              dep0.dept_id = #deptId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="deptName">
-		             dept_name = #deptName#
+		              dep0.dept_name = #deptName#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="parentId">
-		             parent_id = #parentId#
+		              dep0.parent_id = #parentId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="remark">
-		             remark = #remark#
+		              dep0.remark = #remark#
 		       </isNotEmpty>
+	       	   <isNotEmpty prepend="AND" property="searchTerm">
+	        	(  dep0.dept_name like '%$searchTerm$%'   )
+	           </isNotEmpty>
 	    </dynamic>	
 	</sql>
 	 
     <select id="Dept.findPage.count" resultClass="long">
-        SELECT count(*) FROM dept <include refid="Dept.findPage.where"/>    
+        SELECT count(*) FROM  dept AS dep0 <include refid="Dept.findPage.where"/>    
     </select>
     
     <!--
@@ -98,10 +103,10 @@
     	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
     -->
     <select id="Dept.findPage" resultMap="RM.Dept">
-    	SELECT <include refid="Dept.columns"/> FROM dept 
+    	SELECT <include refid="Dept.columns"/> FROM dept AS dep0   Left Join dept AS dep1 ON dep0.parent_id=dep1.dept_id
 		<include refid="Dept.findPage.where"/>
 		<isNotEmpty property="sortColumns">
-			ORDER BY $sortColumns$
+			ORDER BY dep0.$sortColumns$
 		</isNotEmpty>
     </select>
 

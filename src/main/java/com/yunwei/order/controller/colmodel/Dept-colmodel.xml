@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<column-models id="dept">
+	<profile id="dept" default="true" >
+		<column-model>
+			<header>deptId</header>
+			<name>deptId</name>
+			<width>50</width>
+			<align>center</align>
+		</column-model>
+		<column-model>
+			<header>部门名称</header>
+			<name>dept_name</name>
+			<width>100</width>
+			<align>center</align>
+		</column-model>
+	</profile>
+</column-models>

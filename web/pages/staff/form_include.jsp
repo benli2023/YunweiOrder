@@ -9,7 +9,8 @@
 			<%=Staff.ALIAS_DEPT_ID%>:
 		</td>		
 		<td>
-		<form:input path="deptId" id="deptId" cssClass="validate-integer max-value-2147483647" maxlength="10" />
+		<yun:button-edit name="deptIdTxt" hiddenName="deptId" id="staff_deptId" txtVal="${staff.deptIdTxt}"  hiddenVal="${staff.deptId}" width="130"  profileId="dept"/> 
+	
 		<font color='red'><form:errors path="deptId"/></font>
 		</td>
 	</tr>	
@@ -59,7 +60,11 @@
 			<%=Staff.ALIAS_GENDER%>:
 		</td>		
 		<td>
-		<form:input path="gender" id="gender" cssClass="validate-integer max-value-2147483647" maxlength="10" />
+		<form:select path="gender" id="gender">
+			<form:option value="1" >男</form:option>
+			<form:option value="0" >女</form:option>
+			<form:option value="2" >其他</form:option>
+		</form:select>
 		<font color='red'><form:errors path="gender"/></font>
 		</td>
 	</tr>	
@@ -70,6 +75,7 @@
 		</td>		
 		<td>
 		<input value="${staff.birthDateString}" onclick="WdatePicker({dateFmt:'<%=Staff.FORMAT_BIRTH_DATE%>'})" id="birthDateString" name="birthDateString"  maxlength="0" class="" />
+	
 		<font color='red'><form:errors path="birthDate"/></font>
 		</td>
 	</tr>	
@@ -80,6 +86,7 @@
 		</td>		
 		<td>
 		<input value="${staff.hireDateString}" onclick="WdatePicker({dateFmt:'<%=Staff.FORMAT_HIRE_DATE%>'})" id="hireDateString" name="hireDateString"  maxlength="0" class="" />
+	
 		<font color='red'><form:errors path="hireDate"/></font>
 		</td>
 	</tr>	
@@ -90,6 +97,7 @@
 		</td>		
 		<td>
 		<input value="${staff.matureDateString}" onclick="WdatePicker({dateFmt:'<%=Staff.FORMAT_MATURE_DATE%>'})" id="matureDateString" name="matureDateString"  maxlength="0" class="" />
+	
 		<font color='red'><form:errors path="matureDate"/></font>
 		</td>
 	</tr>	
@@ -131,26 +139,6 @@
 		<td>
 		<form:input path="email" id="email" cssClass="validate-email " maxlength="128" />
 		<font color='red'><form:errors path="email"/></font>
-		</td>
-	</tr>	
-	
-	<tr>	
-		<td class="tdLabel">
-			<%=Staff.ALIAS_CTIME%>:
-		</td>		
-		<td>
-		<input value="${staff.ctimeString}" onclick="WdatePicker({dateFmt:'<%=Staff.FORMAT_CTIME%>'})" id="ctimeString" name="ctimeString"  maxlength="0" class="" />
-		<font color='red'><form:errors path="ctime"/></font>
-		</td>
-	</tr>	
-	
-	<tr>	
-		<td class="tdLabel">
-			<%=Staff.ALIAS_ADMIN_ID%>:
-		</td>		
-		<td>
-		<form:input path="adminId" id="adminId" cssClass="validate-integer " maxlength="19" />
-		<font color='red'><form:errors path="adminId"/></font>
 		</td>
 	</tr>	
 	

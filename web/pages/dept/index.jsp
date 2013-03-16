@@ -7,7 +7,9 @@
 
 <rapid:override name="head">
 	<title><%=Dept.TABLE_ALIAS%> 维护</title>
-	
+	<%@ include file="../../commons/opera-maskui-dialog-import.jsp" %>
+	<link href="<c:url value="${ctx}/scripts/plugins/popup-input/popup-input.css"/>" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="${ctx}/scripts/plugins/popup-input/popup_selection.js"></script>
 	<script src="${ctx}/scripts/rest.js" ></script>
 	<link href="<c:url value="/widgets/simpletable/simpletable.css"/>" type="text/css" rel="stylesheet">
 	<script type="text/javascript" src="<c:url value="/widgets/simpletable/simpletable.js"/>"></script>
@@ -33,7 +35,8 @@
 					</td>
 					<td class="tdLabel"><%=Dept.ALIAS_PARENT_ID%></td>		
 					<td>
-						<input value="${query.parentId}" id="parentId" name="parentId" maxlength="10"  class="validate-integer max-value-2147483647"/>
+						<yun:button-edit name="parentIdTxt" hiddenName="parentId" id="dept_parentId" txtVal="${query.parentIdTxt}"  hiddenVal="${query.parentId}" width="130"  profileId="dept"/> 
+						
 					</td>
 					<td class="tdLabel"><%=Dept.ALIAS_REMARK%></td>		
 					<td>
@@ -80,7 +83,7 @@
 				<td><input type="checkbox" name="items" value="${item.deptId}"></td>
 				
 				<td><c:out value='${item.deptName}'/>&nbsp;</td>
-				<td><c:out value='${item.parentId}'/>&nbsp;</td>
+				<td><c:out value='${item.parentIdTxt}'/>&nbsp;</td>
 				<td><c:out value='${item.remark}'/>&nbsp;</td>
 				<td>
 					<a href="${ctx}/dept/${item.deptId}">查看</a>&nbsp;&nbsp;
@@ -96,9 +99,19 @@
 		<simpletable:pageToolbar page="${page}">
 		显示在这里是为了提示你如何自定义表头,可修改模板删除此行
 		</simpletable:pageToolbar>
-		
 	</div>
 	</form>
+	
+	<script type="text/javascript">
+	 var popupOption={
+		 'dept_parentId': {url:'${ctx}/dept/query',title:'选择部门',textColumn:'dept_name',valueColumn:'deptId'}
+	 };
+	 PopupSelection.initOption(popupOption); 	
+	</script>
+	  <div id="dialog-modal" title="">
+        <iframe frameborder="0" style="width:100%;height:99%;height:100%\9;" src="about:blank"></iframe>
+    </div>
+	
 </rapid:override>
 
 <%-- jsp模板继承,具体使用请查看: http://code.google.com/p/rapid-framework/wiki/rapid_jsp_extends --%>

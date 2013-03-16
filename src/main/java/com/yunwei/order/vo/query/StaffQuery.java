@@ -1,200 +1,266 @@
+/*
+ * Powered By [rapid-framework]
+ * Web Site: http://www.rapid-framework.org.cn
+ * Google Code: http://code.google.com/p/rapid-framework/
+ * Since 2008 - 2013
+ */
+
 package com.yunwei.order.vo.query;
 
-import java.io.Serializable;
-import java.util.Date;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import com.github.springrest.base.BaseQuery;
+import java.io.Serializable;
 
-public class StaffQuery extends BaseQuery
-  implements Serializable
-{
-  private static final long serialVersionUID = 3148176768559230877L;
-  private Long staffId;
-  private Integer deptId;
-  private String staffName;
-  private String loginName;
-  private String loginPassword;
-  private String position;
-  private Integer gender;
-  private Date birthDateBegin;
-  private Date birthDateEnd;
-  private Date hireDateBegin;
-  private Date hireDateEnd;
-  private Date matureDateBegin;
-  private Date matureDateEnd;
-  private String identityCard;
-  private String address;
-  private String phone;
-  private String email;
-  private Date ctimeBegin;
-  private Date ctimeEnd;
-  private Long adminId;
+import java.util.*;
 
-  public Long getStaffId()
-  {
-    return this.staffId;
-  }
+import com.github.springrest.base.*;
+import com.github.springrest.util.*;
+import org.codehaus.jackson.annotate.*;
+import cn.org.rapid_framework.util.*;
+import cn.org.rapid_framework.web.util.*;
+import cn.org.rapid_framework.page.*;
+import cn.org.rapid_framework.page.impl.*;
 
-  public void setStaffId(Long value) {
-    this.staffId = value;
-  }
+import com.yunwei.order.model.*;
+import com.yunwei.order.dao.*;
+import com.yunwei.order.service.*;
+import com.yunwei.order.vo.query.*;
 
-  public Integer getDeptId() {
-    return this.deptId;
-  }
+/**
+ * @author badqiu email:badqiu(a)gmail.com
+ * @version 1.0
+ * @since 1.0
+ */
 
-  public void setDeptId(Integer value) {
-    this.deptId = value;
-  }
 
-  public String getStaffName() {
-    return this.staffName;
-  }
+public class StaffQuery extends BaseQuery implements Serializable {
+    private static final long serialVersionUID = 3148176768559230877L;
+    
 
-  public void setStaffName(String value) {
-    this.staffName = value;
-  }
+	/** 员工ID */
+	private java.lang.Long staffId;
+	/** 所在部门 */
+	private java.lang.Integer deptId;
+	private String deptIdTxt;
+	/** 员工名称 */
+	private java.lang.String staffName;
+	/** 登录名称 */
+	private java.lang.String loginName;
+	/** 密码 */
+	private java.lang.String loginPassword;
+	/** 职务 */
+	private java.lang.String position;
+	/** 性别 */
+	private java.lang.Integer gender=-1;
+	/** 出生日期 */
+	private java.util.Date birthDateBegin;
+	private java.util.Date birthDateEnd;
+	/** 合同签订日期 */
+	private java.util.Date hireDateBegin;
+	private java.util.Date hireDateEnd;
+	/** 合同到期日期 */
+	private java.util.Date matureDateBegin;
+	private java.util.Date matureDateEnd;
+	/** 身份证号码 */
+	private java.lang.String identityCard;
+	/** 住址 */
+	private java.lang.String address;
+	/** 电话 */
+	private java.lang.String phone;
+	/** 电子邮件 */
+	private java.lang.String email;
+	/** 创建时间 */
+	private java.util.Date ctimeBegin;
+	private java.util.Date ctimeEnd;
+	/** 创建人 */
+	private java.lang.Long adminId;
+	private String adminIdTxt;
 
-  public String getLoginName() {
-    return this.loginName;
-  }
+	public java.lang.Long getStaffId() {
+		return this.staffId;
+	}
+	
+	public void setStaffId(java.lang.Long value) {
+		this.staffId = value;
+	}
+	
+	
+	public java.lang.Integer getDeptId() {
+		return this.deptId;
+	}
+	
+	public void setDeptId(java.lang.Integer value) {
+		this.deptId = value;
+	}
+	
+	public String getDeptIdTxt() {
+		return this.deptIdTxt;
+	}
+	
+	public void setDeptIdTxt(String value) {
+		this.deptIdTxt = value;
+	}
+	
+	public java.lang.String getStaffName() {
+		return this.staffName;
+	}
+	
+	public void setStaffName(java.lang.String value) {
+		this.staffName = value;
+	}
+	
+	public java.lang.String getLoginName() {
+		return this.loginName;
+	}
+	
+	public void setLoginName(java.lang.String value) {
+		this.loginName = value;
+	}
+	
+	public java.lang.String getLoginPassword() {
+		return this.loginPassword;
+	}
+	
+	public void setLoginPassword(java.lang.String value) {
+		this.loginPassword = value;
+	}
+	
+	public java.lang.String getPosition() {
+		return this.position;
+	}
+	
+	public void setPosition(java.lang.String value) {
+		this.position = value;
+	}
+	
+	public java.lang.Integer getGender() {
+		return this.gender;
+	}
+	
+	public void setGender(java.lang.Integer value) {
+		this.gender = value;
+	}
+	
+	public java.util.Date getBirthDateBegin() {
+		return this.birthDateBegin;
+	}
+	
+	public void setBirthDateBegin(java.util.Date value) {
+		this.birthDateBegin = value;
+	}	
+	
+	public java.util.Date getBirthDateEnd() {
+		return this.birthDateEnd;
+	}
+	
+	public void setBirthDateEnd(java.util.Date value) {
+		this.birthDateEnd = value;
+	}
+	
+	public java.util.Date getHireDateBegin() {
+		return this.hireDateBegin;
+	}
+	
+	public void setHireDateBegin(java.util.Date value) {
+		this.hireDateBegin = value;
+	}	
+	
+	public java.util.Date getHireDateEnd() {
+		return this.hireDateEnd;
+	}
+	
+	public void setHireDateEnd(java.util.Date value) {
+		this.hireDateEnd = value;
+	}
+	
+	public java.util.Date getMatureDateBegin() {
+		return this.matureDateBegin;
+	}
+	
+	public void setMatureDateBegin(java.util.Date value) {
+		this.matureDateBegin = value;
+	}	
+	
+	public java.util.Date getMatureDateEnd() {
+		return this.matureDateEnd;
+	}
+	
+	public void setMatureDateEnd(java.util.Date value) {
+		this.matureDateEnd = value;
+	}
+	
+	public java.lang.String getIdentityCard() {
+		return this.identityCard;
+	}
+	
+	public void setIdentityCard(java.lang.String value) {
+		this.identityCard = value;
+	}
+	
+	public java.lang.String getAddress() {
+		return this.address;
+	}
+	
+	public void setAddress(java.lang.String value) {
+		this.address = value;
+	}
+	
+	public java.lang.String getPhone() {
+		return this.phone;
+	}
+	
+	public void setPhone(java.lang.String value) {
+		this.phone = value;
+	}
+	
+	public java.lang.String getEmail() {
+		return this.email;
+	}
+	
+	public void setEmail(java.lang.String value) {
+		this.email = value;
+	}
+	
+	public java.util.Date getCtimeBegin() {
+		return this.ctimeBegin;
+	}
+	
+	public void setCtimeBegin(java.util.Date value) {
+		this.ctimeBegin = value;
+	}	
+	
+	public java.util.Date getCtimeEnd() {
+		return this.ctimeEnd;
+	}
+	
+	public void setCtimeEnd(java.util.Date value) {
+		this.ctimeEnd = value;
+	}
+	
+	
+	public java.lang.Long getAdminId() {
+		return this.adminId;
+	}
+	
+	public void setAdminId(java.lang.Long value) {
+		this.adminId = value;
+	}
+	
+	public String getAdminIdTxt() {
+		return this.adminIdTxt;
+	}
+	
+	public void setAdminIdTxt(String value) {
+		this.adminIdTxt = value;
+	}
+	
 
-  public void setLoginName(String value) {
-    this.loginName = value;
-  }
-
-  public String getLoginPassword() {
-    return this.loginPassword;
-  }
-
-  public void setLoginPassword(String value) {
-    this.loginPassword = value;
-  }
-
-  public String getPosition() {
-    return this.position;
-  }
-
-  public void setPosition(String value) {
-    this.position = value;
-  }
-
-  public Integer getGender() {
-    return this.gender;
-  }
-
-  public void setGender(Integer value) {
-    this.gender = value;
-  }
-
-  public Date getBirthDateBegin() {
-    return this.birthDateBegin;
-  }
-
-  public void setBirthDateBegin(Date value) {
-    this.birthDateBegin = value;
-  }
-
-  public Date getBirthDateEnd() {
-    return this.birthDateEnd;
-  }
-
-  public void setBirthDateEnd(Date value) {
-    this.birthDateEnd = value;
-  }
-
-  public Date getHireDateBegin() {
-    return this.hireDateBegin;
-  }
-
-  public void setHireDateBegin(Date value) {
-    this.hireDateBegin = value;
-  }
-
-  public Date getHireDateEnd() {
-    return this.hireDateEnd;
-  }
-
-  public void setHireDateEnd(Date value) {
-    this.hireDateEnd = value;
-  }
-
-  public Date getMatureDateBegin() {
-    return this.matureDateBegin;
-  }
-
-  public void setMatureDateBegin(Date value) {
-    this.matureDateBegin = value;
-  }
-
-  public Date getMatureDateEnd() {
-    return this.matureDateEnd;
-  }
-
-  public void setMatureDateEnd(Date value) {
-    this.matureDateEnd = value;
-  }
-
-  public String getIdentityCard() {
-    return this.identityCard;
-  }
-
-  public void setIdentityCard(String value) {
-    this.identityCard = value;
-  }
-
-  public String getAddress() {
-    return this.address;
-  }
-
-  public void setAddress(String value) {
-    this.address = value;
-  }
-
-  public String getPhone() {
-    return this.phone;
-  }
-
-  public void setPhone(String value) {
-    this.phone = value;
-  }
-
-  public String getEmail() {
-    return this.email;
-  }
-
-  public void setEmail(String value) {
-    this.email = value;
-  }
-
-  public Date getCtimeBegin() {
-    return this.ctimeBegin;
-  }
-
-  public void setCtimeBegin(Date value) {
-    this.ctimeBegin = value;
-  }
-
-  public Date getCtimeEnd() {
-    return this.ctimeEnd;
-  }
-
-  public void setCtimeEnd(Date value) {
-    this.ctimeEnd = value;
-  }
-
-  public Long getAdminId() {
-    return this.adminId;
-  }
-
-  public void setAdminId(Long value) {
-    this.adminId = value;
-  }
-
-  public String toString()
-  {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-  }
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this,ToStringStyle.MULTI_LINE_STYLE);
+	}
+	
 }
+
