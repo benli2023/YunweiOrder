@@ -4,7 +4,7 @@ Source Host: localhost
 Source Database: yunwei
 Target Host: localhost
 Target Database: yunwei
-Date: 2013-03-16 15:44:59
+Date: 2013-03-16 18:12:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -75,7 +75,7 @@ CREATE TABLE `dept` (
   `parent_id` int(11) DEFAULT NULL COMMENT '上级部门',
   `remark` varchar(256) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`dept_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for funds_record
@@ -200,7 +200,7 @@ CREATE TABLE `staff` (
   `cTime` datetime DEFAULT NULL COMMENT '创建时间',
   `adminId` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`staff_id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for stock_house
@@ -208,6 +208,7 @@ CREATE TABLE `staff` (
 CREATE TABLE `stock_house` (
   `stock_id` bigint(20) NOT NULL AUTO_INCREMENT,
   `staff_id` bigint(20) DEFAULT NULL COMMENT '仓库保管',
+  `stock_name` varchar(256) DEFAULT NULL COMMENT '仓库名称',
   `address` varchar(256) DEFAULT NULL COMMENT '地址',
   `phone` varchar(32) DEFAULT NULL COMMENT '电话',
   `cTime` datetime DEFAULT NULL COMMENT '创建时间',
@@ -284,6 +285,10 @@ INSERT INTO `customer` VALUES ('1', '112', '121', '121', '21', '212', '212', '12
 INSERT INTO `customer` VALUES ('2', 'customer', 'customer', '11', '21', '212', '212', '12', '4412254455', '121', '11', '1211', 'gostart82@gmail.com', '1111', '1', '11', '111', '212', '121', '11', '2013-01-22 00:00:00', '22');
 INSERT INTO `customer` VALUES ('3', 'ijiaicom', 'ij', 'ijiai', 'zhh', 'china', 'gd', 'gz', '89', '22', '34205998', '34207227', '', '', '', '', '', '', '', '', '2013-03-03 17:30:00', '');
 INSERT INTO `customer` VALUES ('4', 'yunweicom', 'yunwei', 'yw', 'zhh1', '中国', '广东省', '广州市', '天河区中山大道西89号华景软件园A天河软件园17层', '', '13310884810', '34207227', '409344451@QQ.com', 'www.yunweisoft.com', '广州银行天河支行', '800144485608010', '广州云为软件科技有限公司', '88889999', '不知道', '知道', '2013-03-03 17:40:38', '重要客户');
+INSERT INTO `dept` VALUES ('2', '仓库部', null, '11');
+INSERT INTO `dept` VALUES ('3', '技术部', null, '1212');
+INSERT INTO `dept` VALUES ('4', '销售部', null, '22');
+INSERT INTO `dept` VALUES ('5', '仓库质检部', '2', '质量检查');
 INSERT INTO `product` VALUES ('2', '6', '7544', 'dd', '11', '12', 'hj', '33333', '12.01', '21.00', '', '', '', '', 'fileUpload/productInfo/e94586aa-a9a8-4556-bc05-dd1b0ca4a61e.jpg', '', '', null);
 INSERT INTO `product` VALUES ('3', '4', '商品名称', '商品名称', '12', '11', 'hj', '1', '12.01', '21.00', '', '', '', '', 'fileUpload/productInfo/34a4d674-c5d3-4460-ae41-535bb622fddd.jpg', '55', '5555', null);
 INSERT INTO `product` VALUES ('5', '6', '7544', 'dd', '11', '12', 'hj', '1', '12.00', '21.00', '', '', '', '', 'fileUpload/productInfo/07e2f104-45ee-49c5-ba0b-ea2c9fc4066a.jpg', '11', '', null);
@@ -296,3 +301,7 @@ INSERT INTO `product` VALUES ('13', null, 'pci专业录音卡PCI', '33333', '111
 INSERT INTO `product` VALUES ('14', null, '11', '11', null, null, 'lxk', '33333', '1280.00', '900.00', '', '', '', '', null, '', '', '2013-03-03 11:36:34');
 INSERT INTO `product` VALUES ('15', null, 'pci22', '22', null, null, '1hj', 'ijiairl8x3', '1280.00', '900.00', '', '', '', '', null, '', '', '2013-03-03 11:40:48');
 INSERT INTO `sale_order` VALUES ('1', '12313', '6', '1', '2013-01-10', '1', '13131', '3131313', '5', '2', '2', '2013-01-11', '2321', '', null, null, null, null);
+INSERT INTO `staff` VALUES ('3', '2', '小明', 'Nick', '123', '123', '1', '2013-03-12', '2013-03-13', '2013-03-27', '4412254455', '4412254455', '4412254455', 'gos2@gmail.com', null, null);
+INSERT INTO `staff` VALUES ('4', '5', 'Jimmy', 'Jimmy', '123', 'Saler', '1', '2013-03-05', '2013-04-01', '2013-03-12', '4412254455', '12', '4412254455', '4412254455@qq.com', null, null);
+INSERT INTO `staff` VALUES ('5', '2', 'Sunny', 'Sunny', '123', 'Saler', '0', '2013-03-12', '2013-03-19', '2013-03-19', '4412254455', '4412254455', '4412254455', 'gos2@gmail.com', null, null);
+INSERT INTO `staff` VALUES ('6', '2', '小明2', 'Jack1', '123', '123', '1', '2013-02-25', '2013-03-20', '2013-03-20', '4412254455', '12', '4412254455', 'gos2@gmail.com', null, null);

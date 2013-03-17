@@ -7,19 +7,22 @@
 <sqlMap>
 
     <resultMap id="RM.StockRecordLine" class="com.yunwei.order.model.StockRecordLine">
-        <result property="stockOperDetailId" column="stock_oper_detail_id"/>
+         <result property="stockOperDetailId" column="stock_oper_detail_id"/>
         <result property="stockOperationId" column="stock_operation_id"/>
+        <result property="stockOperationIdTxt" column="sto1_stockoperationname"/>
         <result property="productId" column="product_id"/>
-        <result property="price" column="price"/>
-        <result property="quantity" column="quantity"/>
-        <result property="haveInvoice" column="have_invoice"/>
-        <result property="invoiceNumber" column="invoice_number"/>
+        <result property="productIdTxt" column="pro2_productname"/>
+         <result property="price" column="price"/>
+         <result property="quantity" column="quantity"/>
+         <result property="haveInvoice" column="have_invoice"/>
+         <result property="invoiceNumber" column="invoice_number"/>
     </resultMap>
 
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="StockRecordLine.columns">
 	    <![CDATA[
-        stock_oper_detail_id ,stock_operation_id ,product_id ,price ,quantity ,have_invoice ,invoice_number 
+         sto0.stock_oper_detail_id , sto0.stock_operation_id , sto0.product_id , sto0.price , sto0.quantity , sto0.have_invoice , sto0.invoice_number  , sto1.stock_operation_name as sto1_stockoperationname, pro2.product_name as pro2_productname
+        
 	    ]]>
 	</sql>
 	
@@ -78,40 +81,38 @@
     <select id="StockRecordLine.getById" resultMap="RM.StockRecordLine">
 	    SELECT <include refid="StockRecordLine.columns"/>
 	    <![CDATA[
-	        FROM stock_record_line 
+	        FROM stock_record_line AS sto0   Left Join stock_record AS sto1 ON sto0.stock_operation_id=sto1.stock_operation_id  Left Join product AS pro2 ON sto0.product_id=pro2.product_id
 	        WHERE 
-		        stock_oper_detail_id = #stockOperDetailId# 
+		        sto0.stock_oper_detail_id = #stockOperDetailId# 
 	    ]]>
     </select>
 
 	<sql id="StockRecordLine.findPage.where">
 	    <dynamic prepend="WHERE">
 		       <isNotEmpty prepend="AND" property="stockOperDetailId">
-		             stock_oper_detail_id = #stockOperDetailId#
+		              sto0.stock_oper_detail_id = #stockOperDetailId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="stockOperationId">
-		             stock_operation_id = #stockOperationId#
+		              sto0.stock_operation_id = #stockOperationId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="productId">
-		             product_id = #productId#
+		              sto0.product_id = #productId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="price">
-		             price = #price#
+		              sto0.price = #price#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="quantity">
-		             quantity = #quantity#
+		              sto0.quantity = #quantity#
 		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="haveInvoice">
-		             have_invoice = #haveInvoice#
-		       </isNotEmpty>
+		       <isNotEqual	prepend="AND" property="haveInvoice" compareValue="-1">  sto0.have_invoice = #haveInvoice#</isNotEqual>	
 		       <isNotEmpty prepend="AND" property="invoiceNumber">
-		             invoice_number = #invoiceNumber#
+		              sto0.invoice_number = #invoiceNumber#
 		       </isNotEmpty>
 	    </dynamic>	
 	</sql>
 	 
     <select id="StockRecordLine.findPage.count" resultClass="long">
-        SELECT count(*) FROM stock_record_line <include refid="StockRecordLine.findPage.where"/>    
+        SELECT count(*) FROM  stock_record_line AS sto0 <include refid="StockRecordLine.findPage.where"/>    
     </select>
     
     <!--
@@ -119,10 +120,10 @@
     	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
     -->
     <select id="StockRecordLine.findPage" resultMap="RM.StockRecordLine">
-    	SELECT <include refid="StockRecordLine.columns"/> FROM stock_record_line 
+    	SELECT <include refid="StockRecordLine.columns"/> FROM stock_record_line AS sto0   Left Join stock_record AS sto1 ON sto0.stock_operation_id=sto1.stock_operation_id  Left Join product AS pro2 ON sto0.product_id=pro2.product_id
 		<include refid="StockRecordLine.findPage.where"/>
 		<isNotEmpty property="sortColumns">
-			ORDER BY $sortColumns$
+			ORDER BY sto0.$sortColumns$
 		</isNotEmpty>
     </select>
 

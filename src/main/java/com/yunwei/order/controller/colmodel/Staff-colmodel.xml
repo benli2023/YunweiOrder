@@ -1,6 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <column-models id="staff">
-	<profile id="staff" default="true" >
+	<profile id="stock" default="true" >
+		<column-model>
+			<header>员工ID</header>
+			<name>staffId</name>
+			<width>50</width>
+			<align>center</align>
+		</column-model>
+		<column-model>
+			<header>员工名称</header>
+			<name>staff_name</name>
+			<width>100</width>
+			<align>center</align>
+		</column-model>
+	</profile>
+	<profile id="staff" >
 		<column-model>
 			<header>员工ID</header>
 			<name>staffId</name>

@@ -9,7 +9,8 @@
 			<%=StockRecordLine.ALIAS_STOCK_OPERATION_ID%>:
 		</td>		
 		<td>
-		<form:input path="stockOperationId" id="stockOperationId" cssClass="validate-integer " maxlength="19" />
+		<yun:button-edit name="stockOperationIdTxt" hiddenName="stockOperationId" id="stockRecordLine_stockOperationId" txtVal="${stockRecordLine.stockOperationIdTxt}"  hiddenVal="${stockRecordLine.stockOperationId}" width="130"  profileId="stock_record_line"/> 
+	
 		<font color='red'><form:errors path="stockOperationId"/></font>
 		</td>
 	</tr>	
@@ -19,7 +20,8 @@
 			<%=StockRecordLine.ALIAS_PRODUCT_ID%>:
 		</td>		
 		<td>
-		<form:input path="productId" id="productId" cssClass="validate-integer " maxlength="19" />
+		<yun:button-edit name="productIdTxt" hiddenName="productId" id="stockRecordLine_productId" txtVal="${stockRecordLine.productIdTxt}"  hiddenVal="${stockRecordLine.productId}" width="130"  profileId="stock"/> 
+	
 		<font color='red'><form:errors path="productId"/></font>
 		</td>
 	</tr>	
@@ -29,7 +31,7 @@
 			<%=StockRecordLine.ALIAS_PRICE%>:
 		</td>		
 		<td>
-		<form:input path="price" id="price" cssClass="validate-integer " maxlength="10" />
+		<form:input path="price" id="price" cssClass="validate-number " maxlength="10" />
 		<font color='red'><form:errors path="price"/></font>
 		</td>
 	</tr>	
@@ -49,7 +51,10 @@
 			<%=StockRecordLine.ALIAS_HAVE_INVOICE%>:
 		</td>		
 		<td>
-		<form:input path="haveInvoice" id="haveInvoice" cssClass="" maxlength="1" />
+		<form:select path="haveInvoice" id="haveInvoice">
+			<form:option value="1" >有</form:option>
+			<form:option value="0" >没有</form:option>
+		</form:select>
 		<font color='red'><form:errors path="haveInvoice"/></font>
 		</td>
 	</tr>	

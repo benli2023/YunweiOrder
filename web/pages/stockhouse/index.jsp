@@ -7,7 +7,9 @@
 
 <rapid:override name="head">
 	<title><%=StockHouse.TABLE_ALIAS%> 维护</title>
-	
+	<%@ include file="../../commons/opera-maskui-dialog-import.jsp" %>
+	<link href="<c:url value="${ctx}/scripts/plugins/popup-input/popup-input.css"/>" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="${ctx}/scripts/plugins/popup-input/popup_selection.js"></script>
 	<script src="${ctx}/scripts/rest.js" ></script>
 	<link href="<c:url value="/widgets/simpletable/simpletable.css"/>" type="text/css" rel="stylesheet">
 	<script type="text/javascript" src="<c:url value="/widgets/simpletable/simpletable.js"/>"></script>
@@ -29,7 +31,12 @@
 				<tr>	
 					<td class="tdLabel"><%=StockHouse.ALIAS_STAFF_ID%></td>		
 					<td>
-						<input value="${query.staffId}" id="staffId" name="staffId" maxlength="19"  class="validate-integer "/>
+						<yun:button-edit name="staffIdTxt" hiddenName="staffId" id="stockHouse_staffId" txtVal="${query.staffIdTxt}"  hiddenVal="${query.staffId}" width="130"  profileId="stock"/> 
+						
+					</td>
+					<td class="tdLabel"><%=StockHouse.ALIAS_STOCK_NAME%></td>		
+					<td>
+						<input value="${query.stockName}" id="stockName" name="stockName" maxlength="256"  class=""/>
 					</td>
 					<td class="tdLabel"><%=StockHouse.ALIAS_ADDRESS%></td>		
 					<td>
@@ -39,10 +46,12 @@
 					<td>
 						<input value="${query.phone}" id="phone" name="phone" maxlength="32"  class=""/>
 					</td>
+				</tr>	
+				<tr>	
 					<td class="tdLabel"><%=StockHouse.ALIAS_CTIME%></td>		
 					<td>
-						<input value="<fmt:formatDate value='${query.ctimeBegin}' pattern='<%=StockHouse.FORMAT_CTIME%>'/>" onclick="WdatePicker({dateFmt:'<%=StockHouse.FORMAT_CTIME%>'})" id="ctimeBegin" name="ctimeBegin"   />
-						<input value="<fmt:formatDate value='${query.ctimeEnd}' pattern='<%=StockHouse.FORMAT_CTIME%>'/>" onclick="WdatePicker({dateFmt:'<%=StockHouse.FORMAT_CTIME%>'})" id="ctimeEnd" name="ctimeEnd"   />
+						<input value="<fmt:formatDate value='${query.ctimeBegin}' pattern='<%=StockHouse.FORMAT_CTIME_DATE%>'/>" onclick="WdatePicker({dateFmt:'<%=StockHouse.FORMAT_CTIME_DATE%>'})" id="ctimeBegin" name="ctimeBegin"   />
+						<input value="<fmt:formatDate value='${query.ctimeEnd}' pattern='<%=StockHouse.FORMAT_CTIME_DATE%>'/>" onclick="WdatePicker({dateFmt:'<%=StockHouse.FORMAT_CTIME_DATE%>'})" id="ctimeEnd" name="ctimeEnd"   />
 					</td>
 				</tr>	
 			</table>
@@ -70,6 +79,7 @@
 				
 				<!-- 排序时为th增加sortColumn即可,new SimpleTable('sortColumns')会为tableHeader自动增加排序功能; -->
 				<th sortColumn="staff_id" ><%=StockHouse.ALIAS_STAFF_ID%></th>
+				<th sortColumn="stock_name" ><%=StockHouse.ALIAS_STOCK_NAME%></th>
 				<th sortColumn="address" ><%=StockHouse.ALIAS_ADDRESS%></th>
 				<th sortColumn="phone" ><%=StockHouse.ALIAS_PHONE%></th>
 				<th sortColumn="cTime" ><%=StockHouse.ALIAS_CTIME%></th>
@@ -85,7 +95,8 @@
 				<td>${page.thisPageFirstElementNumber + status.index}</td>
 				<td><input type="checkbox" name="items" value="${item.stockId}"></td>
 				
-				<td><c:out value='${item.staffId}'/>&nbsp;</td>
+				<td><c:out value='${item.staffIdTxt}'/>&nbsp;</td>
+				<td><c:out value='${item.stockName}'/>&nbsp;</td>
 				<td><c:out value='${item.address}'/>&nbsp;</td>
 				<td><c:out value='${item.phone}'/>&nbsp;</td>
 				<td><c:out value='${item.ctimeString}'/>&nbsp;</td>
@@ -103,9 +114,19 @@
 		<simpletable:pageToolbar page="${page}">
 		显示在这里是为了提示你如何自定义表头,可修改模板删除此行
 		</simpletable:pageToolbar>
-		
 	</div>
 	</form>
+	
+	<script type="text/javascript">
+	 var popupOption={
+		 'stockHouse_staffId': {url:'${ctx}/staff/query',title:'选择负责人',textColumn:'staff_name',valueColumn:'staffId'}
+	 };
+	 PopupSelection.initOption(popupOption); 	
+	</script>
+	  <div id="dialog-modal" title="">
+        <iframe frameborder="0" style="width:100%;height:99%;height:100%\9;" src="about:blank"></iframe>
+    </div>
+	
 </rapid:override>
 
 <%-- jsp模板继承,具体使用请查看: http://code.google.com/p/rapid-framework/wiki/rapid_jsp_extends --%>

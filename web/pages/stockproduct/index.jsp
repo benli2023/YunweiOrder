@@ -7,7 +7,9 @@
 
 <rapid:override name="head">
 	<title><%=StockProduct.TABLE_ALIAS%> 维护</title>
-	
+	<%@ include file="../../commons/opera-maskui-dialog-import.jsp" %>
+	<link href="<c:url value="${ctx}/scripts/plugins/popup-input/popup-input.css"/>" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="${ctx}/scripts/plugins/popup-input/popup_selection.js"></script>
 	<script src="${ctx}/scripts/rest.js" ></script>
 	<link href="<c:url value="/widgets/simpletable/simpletable.css"/>" type="text/css" rel="stylesheet">
 	<script type="text/javascript" src="<c:url value="/widgets/simpletable/simpletable.js"/>"></script>
@@ -29,11 +31,13 @@
 				<tr>	
 					<td class="tdLabel"><%=StockProduct.ALIAS_STOCK_ID%></td>		
 					<td>
-						<input value="${query.stockId}" id="stockId" name="stockId" maxlength="19"  class="validate-integer "/>
+						<yun:button-edit name="stockIdTxt" hiddenName="stockId" id="stockProduct_stockId" txtVal="${query.stockIdTxt}"  hiddenVal="${query.stockId}" width="130"  profileId="stockRecord"/> 
+						
 					</td>
 					<td class="tdLabel"><%=StockProduct.ALIAS_PRODUCT_ID%></td>		
 					<td>
-						<input value="${query.productId}" id="productId" name="productId" maxlength="19"  class="validate-integer "/>
+						<yun:button-edit name="productIdTxt" hiddenName="productId" id="stockProduct_productId" txtVal="${query.productIdTxt}"  hiddenVal="${query.productId}" width="130"  profileId="stock"/> 
+						
 					</td>
 					<td class="tdLabel"><%=StockProduct.ALIAS_QUANTITY%></td>		
 					<td>
@@ -98,8 +102,8 @@
 				<td>${page.thisPageFirstElementNumber + status.index}</td>
 				<td><input type="checkbox" name="items" value="${item.stockProductId}"></td>
 				
-				<td><c:out value='${item.stockId}'/>&nbsp;</td>
-				<td><c:out value='${item.productId}'/>&nbsp;</td>
+				<td><c:out value='${item.stockIdTxt}'/>&nbsp;</td>
+				<td><c:out value='${item.productIdTxt}'/>&nbsp;</td>
 				<td><c:out value='${item.quantity}'/>&nbsp;</td>
 				<td><c:out value='${item.firstEnterDateString}'/>&nbsp;</td>
 				<td><c:out value='${item.outerDateString}'/>&nbsp;</td>
@@ -118,9 +122,20 @@
 		<simpletable:pageToolbar page="${page}">
 		显示在这里是为了提示你如何自定义表头,可修改模板删除此行
 		</simpletable:pageToolbar>
-		
 	</div>
 	</form>
+	
+	<script type="text/javascript">
+	 var popupOption={
+		 'stockProduct_stockId': {url:'${ctx}/stockhouse/query',title:'选择仓库',textColumn:'stock_name',valueColumn:'stockId'},
+		 'stockProduct_productId': {url:'${ctx}/product/query',title:'选择产品',textColumn:'product_name',valueColumn:'productId'}
+	 };
+	 PopupSelection.initOption(popupOption); 	
+	</script>
+	  <div id="dialog-modal" title="">
+        <iframe frameborder="0" style="width:100%;height:99%;height:100%\9;" src="about:blank"></iframe>
+    </div>
+	
 </rapid:override>
 
 <%-- jsp模板继承,具体使用请查看: http://code.google.com/p/rapid-framework/wiki/rapid_jsp_extends --%>

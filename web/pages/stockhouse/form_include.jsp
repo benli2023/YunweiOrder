@@ -9,8 +9,19 @@
 			<%=StockHouse.ALIAS_STAFF_ID%>:
 		</td>		
 		<td>
-		<form:input path="staffId" id="staffId" cssClass="validate-integer " maxlength="19" />
+		<yun:button-edit name="staffIdTxt" hiddenName="staffId" id="stockHouse_staffId" txtVal="${stockHouse.staffIdTxt}"  hiddenVal="${stockHouse.staffId}" width="130"  profileId="stock"/> 
+	
 		<font color='red'><form:errors path="staffId"/></font>
+		</td>
+	</tr>	
+	
+	<tr>	
+		<td class="tdLabel">
+			<%=StockHouse.ALIAS_STOCK_NAME%>:
+		</td>		
+		<td>
+		<form:input path="stockName" id="stockName" cssClass="" maxlength="256" />
+		<font color='red'><form:errors path="stockName"/></font>
 		</td>
 	</tr>	
 	
@@ -31,16 +42,6 @@
 		<td>
 		<form:input path="phone" id="phone" cssClass="" maxlength="32" />
 		<font color='red'><form:errors path="phone"/></font>
-		</td>
-	</tr>	
-	
-	<tr>	
-		<td class="tdLabel">
-			<%=StockHouse.ALIAS_CTIME%>:
-		</td>		
-		<td>
-		<input value="${stockHouse.ctimeString}" onclick="WdatePicker({dateFmt:'<%=StockHouse.FORMAT_CTIME%>'})" id="ctimeString" name="ctimeString"  maxlength="0" class="" />
-		<font color='red'><form:errors path="ctime"/></font>
 		</td>
 	</tr>	
 	

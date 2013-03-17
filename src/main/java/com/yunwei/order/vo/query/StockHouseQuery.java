@@ -1,74 +1,129 @@
+/*
+ * Powered By [rapid-framework]
+ * Web Site: http://www.rapid-framework.org.cn
+ * Google Code: http://code.google.com/p/rapid-framework/
+ * Since 2008 - 2013
+ */
+
 package com.yunwei.order.vo.query;
 
-import java.io.Serializable;
-import java.util.Date;
+import org.apache.commons.lang.builder.EqualsBuilder;
+import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-import com.github.springrest.base.BaseQuery;
+import java.io.Serializable;
 
-public class StockHouseQuery extends BaseQuery
-  implements Serializable
-{
-  private static final long serialVersionUID = 3148176768559230877L;
-  private Long stockId;
-  private Long staffId;
-  private String address;
-  private String phone;
-  private Date ctimeBegin;
-  private Date ctimeEnd;
+import java.util.*;
 
-  public Long getStockId()
-  {
-    return this.stockId;
-  }
+import com.github.springrest.base.*;
+import com.github.springrest.util.*;
+import org.codehaus.jackson.annotate.*;
+import cn.org.rapid_framework.util.*;
+import cn.org.rapid_framework.web.util.*;
+import cn.org.rapid_framework.page.*;
+import cn.org.rapid_framework.page.impl.*;
 
-  public void setStockId(Long value) {
-    this.stockId = value;
-  }
+import com.yunwei.order.model.*;
+import com.yunwei.order.dao.*;
+import com.yunwei.order.service.*;
+import com.yunwei.order.vo.query.*;
 
-  public Long getStaffId() {
-    return this.staffId;
-  }
+/**
+ * @author badqiu email:badqiu(a)gmail.com
+ * @version 1.0
+ * @since 1.0
+ */
 
-  public void setStaffId(Long value) {
-    this.staffId = value;
-  }
 
-  public String getAddress() {
-    return this.address;
-  }
+public class StockHouseQuery extends BaseQuery implements Serializable {
+    private static final long serialVersionUID = 3148176768559230877L;
+    
 
-  public void setAddress(String value) {
-    this.address = value;
-  }
+	/** 仓库ID */
+	private java.lang.Long stockId;
+	/** 仓库负责人 */
+	private java.lang.Long staffId;
+	private String staffIdTxt;
+	/** 仓库名称 */
+	private java.lang.String stockName;
+	/** 地址 */
+	private java.lang.String address;
+	/** 电话 */
+	private java.lang.String phone;
+	/** 创建时间 */
+	private java.util.Date ctimeBegin;
+	private java.util.Date ctimeEnd;
 
-  public String getPhone() {
-    return this.phone;
-  }
+	public java.lang.Long getStockId() {
+		return this.stockId;
+	}
+	
+	public void setStockId(java.lang.Long value) {
+		this.stockId = value;
+	}
+	
+	
+	public java.lang.Long getStaffId() {
+		return this.staffId;
+	}
+	
+	public void setStaffId(java.lang.Long value) {
+		this.staffId = value;
+	}
+	
+	public String getStaffIdTxt() {
+		return this.staffIdTxt;
+	}
+	
+	public void setStaffIdTxt(String value) {
+		this.staffIdTxt = value;
+	}
+	
+	public java.lang.String getStockName() {
+		return this.stockName;
+	}
+	
+	public void setStockName(java.lang.String value) {
+		this.stockName = value;
+	}
+	
+	public java.lang.String getAddress() {
+		return this.address;
+	}
+	
+	public void setAddress(java.lang.String value) {
+		this.address = value;
+	}
+	
+	public java.lang.String getPhone() {
+		return this.phone;
+	}
+	
+	public void setPhone(java.lang.String value) {
+		this.phone = value;
+	}
+	
+	public java.util.Date getCtimeBegin() {
+		return this.ctimeBegin;
+	}
+	
+	public void setCtimeBegin(java.util.Date value) {
+		this.ctimeBegin = value;
+	}	
+	
+	public java.util.Date getCtimeEnd() {
+		return this.ctimeEnd;
+	}
+	
+	public void setCtimeEnd(java.util.Date value) {
+		this.ctimeEnd = value;
+	}
+	
 
-  public void setPhone(String value) {
-    this.phone = value;
-  }
-
-  public Date getCtimeBegin() {
-    return this.ctimeBegin;
-  }
-
-  public void setCtimeBegin(Date value) {
-    this.ctimeBegin = value;
-  }
-
-  public Date getCtimeEnd() {
-    return this.ctimeEnd;
-  }
-
-  public void setCtimeEnd(Date value) {
-    this.ctimeEnd = value;
-  }
-
-  public String toString()
-  {
-    return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-  }
+	public String toString() {
+		return ToStringBuilder.reflectionToString(this,ToStringStyle.MULTI_LINE_STYLE);
+	}
+	
 }
+

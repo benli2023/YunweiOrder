@@ -9,7 +9,8 @@
 			<%=StockProduct.ALIAS_STOCK_ID%>:
 		</td>		
 		<td>
-		<form:input path="stockId" id="stockId" cssClass="validate-integer " maxlength="19" />
+		<yun:button-edit name="stockIdTxt" hiddenName="stockId" id="stockProduct_stockId" txtVal="${stockProduct.stockIdTxt}"  hiddenVal="${stockProduct.stockId}" width="130"  profileId="stockRecord"/> 
+	
 		<font color='red'><form:errors path="stockId"/></font>
 		</td>
 	</tr>	
@@ -19,7 +20,8 @@
 			<%=StockProduct.ALIAS_PRODUCT_ID%>:
 		</td>		
 		<td>
-		<form:input path="productId" id="productId" cssClass="validate-integer " maxlength="19" />
+		<yun:button-edit name="productIdTxt" hiddenName="productId" id="stockProduct_productId" txtVal="${stockProduct.productIdTxt}"  hiddenVal="${stockProduct.productId}" width="130"  profileId="stock"/> 
+	
 		<font color='red'><form:errors path="productId"/></font>
 		</td>
 	</tr>	
@@ -40,6 +42,7 @@
 		</td>		
 		<td>
 		<input value="${stockProduct.firstEnterDateString}" onclick="WdatePicker({dateFmt:'<%=StockProduct.FORMAT_FIRST_ENTER_DATE%>'})" id="firstEnterDateString" name="firstEnterDateString"  maxlength="0" class="" />
+	
 		<font color='red'><form:errors path="firstEnterDate"/></font>
 		</td>
 	</tr>	
@@ -50,6 +53,7 @@
 		</td>		
 		<td>
 		<input value="${stockProduct.outerDateString}" onclick="WdatePicker({dateFmt:'<%=StockProduct.FORMAT_OUTER_DATE%>'})" id="outerDateString" name="outerDateString"  maxlength="0" class="" />
+	
 		<font color='red'><form:errors path="outerDate"/></font>
 		</td>
 	</tr>	

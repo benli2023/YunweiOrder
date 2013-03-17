@@ -7,19 +7,22 @@
 <sqlMap>
 
     <resultMap id="RM.StockProduct" class="com.yunwei.order.model.StockProduct">
-        <result property="stockProductId" column="stock_product_id"/>
+         <result property="stockProductId" column="stock_product_id"/>
         <result property="stockId" column="stock_id"/>
+        <result property="stockIdTxt" column="sto1_stockname"/>
         <result property="productId" column="product_id"/>
-        <result property="quantity" column="quantity"/>
-        <result property="firstEnterDate" column="first_enter_date"/>
-        <result property="outerDate" column="outer_date"/>
-        <result property="price" column="price"/>
+        <result property="productIdTxt" column="pro2_productname"/>
+         <result property="quantity" column="quantity"/>
+         <result property="firstEnterDate" column="first_enter_date"/>
+         <result property="outerDate" column="outer_date"/>
+         <result property="price" column="price"/>
     </resultMap>
 
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="StockProduct.columns">
 	    <![CDATA[
-        stock_product_id ,stock_id ,product_id ,quantity ,first_enter_date ,outer_date ,price 
+         sto0.stock_product_id , sto0.stock_id , sto0.product_id , sto0.quantity , sto0.first_enter_date , sto0.outer_date , sto0.price  , sto1.stock_name as sto1_stockname, pro2.product_name as pro2_productname
+        
 	    ]]>
 	</sql>
 	
@@ -78,46 +81,46 @@
     <select id="StockProduct.getById" resultMap="RM.StockProduct">
 	    SELECT <include refid="StockProduct.columns"/>
 	    <![CDATA[
-	        FROM stock_product 
+	        FROM stock_product AS sto0   Left Join stock_house AS sto1 ON sto0.stock_id=sto1.stock_id  Left Join product AS pro2 ON sto0.product_id=pro2.product_id
 	        WHERE 
-		        stock_product_id = #stockProductId# 
+		        sto0.stock_product_id = #stockProductId# 
 	    ]]>
     </select>
 
 	<sql id="StockProduct.findPage.where">
 	    <dynamic prepend="WHERE">
 		       <isNotEmpty prepend="AND" property="stockProductId">
-		             stock_product_id = #stockProductId#
+		              sto0.stock_product_id = #stockProductId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="stockId">
-		             stock_id = #stockId#
+		              sto0.stock_id = #stockId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="productId">
-		             product_id = #productId#
+		              sto0.product_id = #productId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="quantity">
-		             quantity = #quantity#
+		              sto0.quantity = #quantity#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="firstEnterDateBegin">
-		             first_enter_date >= #firstEnterDateBegin#
+		              sto0.first_enter_date >= #firstEnterDateBegin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="firstEnterDateEnd">
-		             first_enter_date &lt;= #firstEnterDateEnd#
+		              sto0.first_enter_date &lt;= #firstEnterDateEnd#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="outerDateBegin">
-		             outer_date >= #outerDateBegin#
+		              sto0.outer_date >= #outerDateBegin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="outerDateEnd">
-		             outer_date &lt;= #outerDateEnd#
+		              sto0.outer_date &lt;= #outerDateEnd#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="price">
-		             price = #price#
+		              sto0.price = #price#
 		       </isNotEmpty>
 	    </dynamic>	
 	</sql>
 	 
     <select id="StockProduct.findPage.count" resultClass="long">
-        SELECT count(*) FROM stock_product <include refid="StockProduct.findPage.where"/>    
+        SELECT count(*) FROM  stock_product AS sto0 <include refid="StockProduct.findPage.where"/>    
     </select>
     
     <!--
@@ -125,10 +128,10 @@
     	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
     -->
     <select id="StockProduct.findPage" resultMap="RM.StockProduct">
-    	SELECT <include refid="StockProduct.columns"/> FROM stock_product 
+    	SELECT <include refid="StockProduct.columns"/> FROM stock_product AS sto0   Left Join stock_house AS sto1 ON sto0.stock_id=sto1.stock_id  Left Join product AS pro2 ON sto0.product_id=pro2.product_id
 		<include refid="StockProduct.findPage.where"/>
 		<isNotEmpty property="sortColumns">
-			ORDER BY $sortColumns$
+			ORDER BY sto0.$sortColumns$
 		</isNotEmpty>
     </select>
 

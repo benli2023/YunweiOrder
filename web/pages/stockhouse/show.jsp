@@ -7,7 +7,7 @@
 </rapid:override>
 
 <rapid:override name="content">
-	<form:form modelAttribute="stockhouse"  method="post">
+	<form:form modelAttribute="stockhouse"  >
 		<input type="button" value="返回列表" onclick="window.location='${ctx}/stockhouse'"/>
 		<input type="button" value="后退" onclick="history.back();"/>
 		
@@ -17,6 +17,10 @@
 			<tr>	
 				<td class="tdLabel"><%=StockHouse.ALIAS_STAFF_ID%></td>	
 				<td><c:out value='${stockHouse.staffId}'/></td>
+			</tr>
+			<tr>	
+				<td class="tdLabel"><%=StockHouse.ALIAS_STOCK_NAME%></td>	
+				<td><c:out value='${stockHouse.stockName}'/></td>
 			</tr>
 			<tr>	
 				<td class="tdLabel"><%=StockHouse.ALIAS_ADDRESS%></td>	

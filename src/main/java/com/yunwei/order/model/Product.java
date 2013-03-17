@@ -1,16 +1,19 @@
 package com.yunwei.order.model;
 
-import cn.org.rapid_framework.util.DateConvertUtils;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
+
+import cn.org.rapid_framework.util.DateConvertUtils;
 
 import com.github.springrest.base.BaseEntity;
 
@@ -43,6 +46,7 @@ public class Product extends BaseEntity implements Serializable {
 
 	@Length(max = 64)
 	@NotEmpty
+	@JsonProperty("product_name")
 	private String productName;
 
 	@Length(max = 64)

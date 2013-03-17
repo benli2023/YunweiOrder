@@ -7,13 +7,17 @@
 </rapid:override>
 
 <rapid:override name="content">
-	<form:form modelAttribute="stockrecord"  method="post">
+	<form:form modelAttribute="stockrecord"  >
 		<input type="button" value="返回列表" onclick="window.location='${ctx}/stockrecord'"/>
 		<input type="button" value="后退" onclick="history.back();"/>
 		
 		<input type="hidden" id="stockOperationId" name="stockOperationId" value="${stockRecord.stockOperationId}"/>
 	
 		<table class="formTable">
+			<tr>	
+				<td class="tdLabel"><%=StockRecord.ALIAS_STOCK_OPERATION_NAME%></td>	
+				<td><c:out value='${stockRecord.stockOperationName}'/></td>
+			</tr>
 			<tr>	
 				<td class="tdLabel"><%=StockRecord.ALIAS_DEPT_ID%></td>	
 				<td><c:out value='${stockRecord.deptId}'/></td>

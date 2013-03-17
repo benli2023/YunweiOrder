@@ -7,7 +7,9 @@
 
 <rapid:override name="head">
 	<title><%=StockRecordLine.TABLE_ALIAS%> 维护</title>
-	
+	<%@ include file="../../commons/opera-maskui-dialog-import.jsp" %>
+	<link href="<c:url value="${ctx}/scripts/plugins/popup-input/popup-input.css"/>" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="${ctx}/scripts/plugins/popup-input/popup_selection.js"></script>
 	<script src="${ctx}/scripts/rest.js" ></script>
 	<link href="<c:url value="/widgets/simpletable/simpletable.css"/>" type="text/css" rel="stylesheet">
 	<script type="text/javascript" src="<c:url value="/widgets/simpletable/simpletable.js"/>"></script>
@@ -29,15 +31,17 @@
 				<tr>	
 					<td class="tdLabel"><%=StockRecordLine.ALIAS_STOCK_OPERATION_ID%></td>		
 					<td>
-						<input value="${query.stockOperationId}" id="stockOperationId" name="stockOperationId" maxlength="19"  class="validate-integer "/>
+						<yun:button-edit name="stockOperationIdTxt" hiddenName="stockOperationId" id="stockRecordLine_stockOperationId" txtVal="${query.stockOperationIdTxt}"  hiddenVal="${query.stockOperationId}" width="130"  profileId="stock_record_line"/> 
+						
 					</td>
 					<td class="tdLabel"><%=StockRecordLine.ALIAS_PRODUCT_ID%></td>		
 					<td>
-						<input value="${query.productId}" id="productId" name="productId" maxlength="19"  class="validate-integer "/>
+						<yun:button-edit name="productIdTxt" hiddenName="productId" id="stockRecordLine_productId" txtVal="${query.productIdTxt}"  hiddenVal="${query.productId}" width="130"  profileId="stock"/> 
+						
 					</td>
 					<td class="tdLabel"><%=StockRecordLine.ALIAS_PRICE%></td>		
 					<td>
-						<input value="${query.price}" id="price" name="price" maxlength="10"  class="validate-integer "/>
+						<input value="${query.price}" id="price" name="price" maxlength="10"  class="validate-number "/>
 					</td>
 					<td class="tdLabel"><%=StockRecordLine.ALIAS_QUANTITY%></td>		
 					<td>
@@ -47,7 +51,11 @@
 				<tr>	
 					<td class="tdLabel"><%=StockRecordLine.ALIAS_HAVE_INVOICE%></td>		
 					<td>
-						<input value="${query.haveInvoice}" id="haveInvoice" name="haveInvoice" maxlength="1"  class=""/>
+						<select name="haveInvoice">
+							<option value="1" <c:if test="${query.haveInvoice==1}">selected</c:if>>有</option>
+							<option value="0" <c:if test="${query.haveInvoice==0}">selected</c:if>>没有</option>
+							<option value="-1" <c:if test="${query.haveInvoice==-1}">selected</c:if>>不限</option>
+						</select>
 					</td>
 					<td class="tdLabel"><%=StockRecordLine.ALIAS_INVOICE_NUMBER%></td>		
 					<td>
@@ -96,11 +104,11 @@
 				<td>${page.thisPageFirstElementNumber + status.index}</td>
 				<td><input type="checkbox" name="items" value="${item.stockOperDetailId}"></td>
 				
-				<td><c:out value='${item.stockOperationId}'/>&nbsp;</td>
-				<td><c:out value='${item.productId}'/>&nbsp;</td>
+				<td><c:out value='${item.stockOperationIdTxt}'/>&nbsp;</td>
+				<td><c:out value='${item.productIdTxt}'/>&nbsp;</td>
 				<td><c:out value='${item.price}'/>&nbsp;</td>
 				<td><c:out value='${item.quantity}'/>&nbsp;</td>
-				<td><c:out value='${item.haveInvoice}'/>&nbsp;</td>
+				<td><c:choose><c:when test="${item.haveInvoice==1}">有</c:when><c:when test="${item.haveInvoice==0}">没有</c:when></c:choose></td>
 				<td><c:out value='${item.invoiceNumber}'/>&nbsp;</td>
 				<td>
 					<a href="${ctx}/stockrecordline/${item.stockOperDetailId}">查看</a>&nbsp;&nbsp;
@@ -116,9 +124,20 @@
 		<simpletable:pageToolbar page="${page}">
 		显示在这里是为了提示你如何自定义表头,可修改模板删除此行
 		</simpletable:pageToolbar>
-		
 	</div>
 	</form>
+	
+	<script type="text/javascript">
+	 var popupOption={
+		 'stockRecordLine_stockOperationId': {url:'${ctx}/stockrecord/query',title:'选择业务单',textColumn:'stock_operation_name',valueColumn:'stockOperationId'},
+		 'stockRecordLine_productId': {url:'${ctx}/product/query',title:'选择产品',textColumn:'product_name',valueColumn:'productId'}
+	 };
+	 PopupSelection.initOption(popupOption); 	
+	</script>
+	  <div id="dialog-modal" title="">
+        <iframe frameborder="0" style="width:100%;height:99%;height:100%\9;" src="about:blank"></iframe>
+    </div>
+	
 </rapid:override>
 
 <%-- jsp模板继承,具体使用请查看: http://code.google.com/p/rapid-framework/wiki/rapid_jsp_extends --%>

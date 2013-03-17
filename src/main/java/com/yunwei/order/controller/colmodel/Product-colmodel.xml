@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<column-models id="dept">
-	<profile id="dept" default="true" >
+<column-models id="product">
+	<profile id="stock" default="true" >
 		<column-model>
-			<header>部门ID</header>
-			<name>deptId</name>
+			<header>产品ID</header>
+			<name>productId</name>
 			<width>50</width>
 			<align>center</align>
 		</column-model>
 		<column-model>
-			<header>部门名称</header>
-			<name>dept_name</name>
+			<header>商品名称</header>
+			<name>product_name</name>
 			<width>100</width>
 			<align>center</align>
 		</column-model>

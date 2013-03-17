@@ -7,23 +7,31 @@
 <sqlMap>
 
     <resultMap id="RM.StockRecord" class="com.yunwei.order.model.StockRecord">
-        <result property="stockOperationId" column="stock_operation_id"/>
+         <result property="stockOperationId" column="stock_operation_id"/>
+         <result property="stockOperationName" column="stock_operation_name"/>
         <result property="deptId" column="dept_id"/>
+        <result property="deptIdTxt" column="dep1_deptname"/>
         <result property="staffId" column="staff_id"/>
-        <result property="operType" column="oper_type"/>
+        <result property="staffIdTxt" column="sta2_staffname"/>
+         <result property="operType" column="oper_type"/>
         <result property="custId" column="cust_id"/>
-        <result property="operDate" column="oper_date"/>
-        <result property="approvalStatus" column="approval_status"/>
+        <result property="custIdTxt" column="cus3_custname"/>
+         <result property="operDate" column="oper_date"/>
+         <result property="approvalStatus" column="approval_status"/>
         <result property="approvalId" column="approval_id"/>
+        <result property="approvalIdTxt" column="sta4_staffname"/>
         <result property="stockId" column="stock_id"/>
+        <result property="stockIdTxt" column="sto5_stockname"/>
         <result property="toStockId" column="to_stock_id"/>
-        <result property="remark" column="remark"/>
+        <result property="toStockIdTxt" column="sto6_stockname"/>
+         <result property="remark" column="remark"/>
     </resultMap>
 
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="StockRecord.columns">
 	    <![CDATA[
-        stock_operation_id ,dept_id ,staff_id ,oper_type ,cust_id ,oper_date ,approval_status ,approval_id ,stock_id ,to_stock_id ,remark 
+         sto0.stock_operation_id , sto0.stock_operation_name , sto0.dept_id , sto0.staff_id , sto0.oper_type , sto0.cust_id , sto0.oper_date , sto0.approval_status , sto0.approval_id , sto0.stock_id , sto0.to_stock_id , sto0.remark  , dep1.dept_name as dep1_deptname, sta2.staff_name as sta2_staffname, cus3.cust_name as cus3_custname, sta4.staff_name as sta4_staffname, sto5.stock_name as sto5_stockname, sto6.stock_name as sto6_stockname
+        
 	    ]]>
 	</sql>
 	
@@ -31,6 +39,7 @@
     <![CDATA[
         INSERT INTO stock_record (
         	stock_operation_id ,
+        	stock_operation_name ,
         	dept_id ,
         	staff_id ,
         	oper_type ,
@@ -43,6 +52,7 @@
         	remark 
         ) VALUES (
         	#stockOperationId# ,
+        	#stockOperationName# ,
         	#deptId# ,
         	#staffId# ,
         	#operType# ,
@@ -69,6 +79,7 @@
     <update id="StockRecord.update" >
     <![CDATA[
         UPDATE stock_record SET
+	        stock_operation_name = #stockOperationName# ,
 	        dept_id = #deptId# ,
 	        staff_id = #staffId# ,
 	        oper_type = #operType# ,
@@ -94,55 +105,54 @@
     <select id="StockRecord.getById" resultMap="RM.StockRecord">
 	    SELECT <include refid="StockRecord.columns"/>
 	    <![CDATA[
-	        FROM stock_record 
+	        FROM stock_record AS sto0   Left Join dept AS dep1 ON sto0.dept_id=dep1.dept_id  Left Join staff AS sta2 ON sto0.staff_id=sta2.staff_id  Left Join customer AS cus3 ON sto0.cust_id=cus3.cust_id  Left Join staff AS sta4 ON sto0.approval_id=sta4.staff_id  Left Join stock_house AS sto5 ON sto0.stock_id=sto5.stock_id  Left Join stock_house AS sto6 ON sto0.to_stock_id=sto6.stock_id
 	        WHERE 
-		        stock_operation_id = #stockOperationId# 
+		        sto0.stock_operation_id = #stockOperationId# 
 	    ]]>
     </select>
 
 	<sql id="StockRecord.findPage.where">
 	    <dynamic prepend="WHERE">
 		       <isNotEmpty prepend="AND" property="stockOperationId">
-		             stock_operation_id = #stockOperationId#
+		              sto0.stock_operation_id = #stockOperationId#
+		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="stockOperationName">
+		              sto0.stock_operation_name = #stockOperationName#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="deptId">
-		             dept_id = #deptId#
+		              sto0.dept_id = #deptId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="staffId">
-		             staff_id = #staffId#
+		              sto0.staff_id = #staffId#
 		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="operType">
-		             oper_type = #operType#
-		       </isNotEmpty>
+		       <isNotEqual	prepend="AND" property="operType" compareValue="-1">  sto0.oper_type = #operType#</isNotEqual>	
 		       <isNotEmpty prepend="AND" property="custId">
-		             cust_id = #custId#
+		              sto0.cust_id = #custId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="operDateBegin">
-		             oper_date >= #operDateBegin#
+		              sto0.oper_date >= #operDateBegin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="operDateEnd">
-		             oper_date &lt;= #operDateEnd#
+		              sto0.oper_date &lt;= #operDateEnd#
 		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="approvalStatus">
-		             approval_status = #approvalStatus#
-		       </isNotEmpty>
+		       <isNotEqual	prepend="AND" property="approvalStatus" compareValue="-1">  sto0.approval_status = #approvalStatus#</isNotEqual>	
 		       <isNotEmpty prepend="AND" property="approvalId">
-		             approval_id = #approvalId#
+		              sto0.approval_id = #approvalId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="stockId">
-		             stock_id = #stockId#
+		              sto0.stock_id = #stockId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="toStockId">
-		             to_stock_id = #toStockId#
+		              sto0.to_stock_id = #toStockId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="remark">
-		             remark = #remark#
+		              sto0.remark = #remark#
 		       </isNotEmpty>
 	    </dynamic>	
 	</sql>
 	 
     <select id="StockRecord.findPage.count" resultClass="long">
-        SELECT count(*) FROM stock_record <include refid="StockRecord.findPage.where"/>    
+        SELECT count(*) FROM  stock_record AS sto0 <include refid="StockRecord.findPage.where"/>    
     </select>
     
     <!--
@@ -150,10 +160,10 @@
     	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
     -->
     <select id="StockRecord.findPage" resultMap="RM.StockRecord">
-    	SELECT <include refid="StockRecord.columns"/> FROM stock_record 
+    	SELECT <include refid="StockRecord.columns"/> FROM stock_record AS sto0   Left Join dept AS dep1 ON sto0.dept_id=dep1.dept_id  Left Join staff AS sta2 ON sto0.staff_id=sta2.staff_id  Left Join customer AS cus3 ON sto0.cust_id=cus3.cust_id  Left Join staff AS sta4 ON sto0.approval_id=sta4.staff_id  Left Join stock_house AS sto5 ON sto0.stock_id=sto5.stock_id  Left Join stock_house AS sto6 ON sto0.to_stock_id=sto6.stock_id
 		<include refid="StockRecord.findPage.where"/>
 		<isNotEmpty property="sortColumns">
-			ORDER BY $sortColumns$
+			ORDER BY sto0.$sortColumns$
 		</isNotEmpty>
     </select>
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<column-models id="stockHouse">
+	<profile id="stockRecord" default="true" >
+		<column-model>
+			<header>仓库ID</header>
+			<name>stockId</name>
+			<width>50</width>
+			<align>center</align>
+		</column-model>
+		<column-model>
+			<header>仓库名称</header>
+			<name>stock_name</name>
+			<width>100</width>
+			<align>center</align>
+		</column-model>
+		<column-model>
+			<header>地址</header>
+			<name>address</name>
+			<width>50</width>
+			<align>center</align>
+		</column-model>
+		<column-model>
+			<header>电话</header>
+			<name>phone</name>
+			<width>50</width>
+			<align>center</align>
+		</column-model>
+	</profile>
+</column-models>
