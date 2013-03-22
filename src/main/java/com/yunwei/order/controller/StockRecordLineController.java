@@ -4,12 +4,20 @@ import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.web.scope.Flash;
 
 import com.github.springrest.base.BaseRestSpringController;
+import com.github.springrest.base.ColModelProfile;
+import com.github.springrest.util.ColModelFactory;
 import com.yunwei.order.model.StockRecordLine;
 import com.yunwei.order.service.StockRecordLineManager;
 import com.yunwei.order.vo.query.StockRecordLineQuery;
+import com.yunwei.order.vo.query.StockRecordQuery;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -23,6 +31,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.xml.sax.SAXException;
 
 @Controller
 @RequestMapping({"/stockrecordline"})
@@ -32,6 +42,12 @@ public class StockRecordLineController extends BaseRestSpringController<StockRec
   private StockRecordLineManager stockRecordLineManager;
   private final String LIST_ACTION = "redirect:/stockrecordline";
 
+	private ColModelFactory colModelFactory;
+	
+	public void setColModelFactory(ColModelFactory colModelFactory) {
+		this.colModelFactory = colModelFactory;
+	}
+	
   public void setStockRecordLineManager(StockRecordLineManager manager)
   {
     this.stockRecordLineManager = manager;
@@ -50,13 +66,20 @@ public class StockRecordLineController extends BaseRestSpringController<StockRec
   }
 
   @RequestMapping
-  public String index(ModelMap model, StockRecordLineQuery query, HttpServletRequest request, HttpServletResponse response)
+  public String index(ModelMap model, StockRecordLineQuery query, HttpServletRequest request, HttpServletResponse response) throws FileNotFoundException, IOException, SAXException
   {
     Page page = this.stockRecordLineManager.findPage(query);
-
     model.addAllAttributes(toModelMap(page, query));
     return "/stockrecordline/index";
   }
+  
+	@RequestMapping({ "/index.json" })
+	@ResponseBody
+	public Map indexJson(ModelMap model, StockRecordLineQuery query) {
+		Page page = this.stockRecordLineManager.findPage(query);
+		return jsonPagination(page);
+	}
+
 
   @RequestMapping({"/{id}"})
   public String show(ModelMap model, @PathVariable Long id) throws Exception

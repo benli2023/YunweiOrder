@@ -137,6 +137,8 @@ public class StockRecordController extends BaseRestSpringController<StockRecord,
 	@RequestMapping(value="/new")
 	public String _new(ModelMap model,StockRecord stockRecord,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		model.addAttribute("stockRecord",stockRecord);
+		ColModelProfile colModelProfile=colModelFactory.getColModel("StockRecordLine-colmodel.xml",null);
+		model.addAttribute("colModelList", colModelProfile.getColModels());
 		return "/stockrecord/new";
 	}
 	
