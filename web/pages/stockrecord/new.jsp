@@ -11,9 +11,11 @@
 	<script type="text/javascript" src="${ctx}/scripts/plugins/easytab/vendor/jquery.easytabs.min.js"></script>
 	
 	<!-- grid -->
+	
 	<script src="<c:url value="/scripts/plugins/operamasks-ui/js/om-combo.js" />" ></script>
 	<script src="<c:url value="/scripts/plugins/operamasks-ui/js/om-numberfield.js" />"></script>
     <script src="<c:url value="/scripts/plugins/operamasks-ui/js/om-calendar.js" />"></script>
+    <script src="<c:url value="/scripts/plugins/operamasks-ui/js/om-validate.js" />" ></script>
     <script type="text/javascript" src="<c:url value="/scripts/plugins/operamasks-ui/js/om-grid.js" />"></script>
     <script type="text/javascript" src="<c:url value="/scripts/plugins/operamasks-ui/js/om-grid-roweditor.js" />"></script>
 	
@@ -101,9 +103,10 @@
                 title : '表格',
                 width:600,
                 height : 300,
+                editMode:"all",
                 colModel : [ <c:forEach items="${colModelList}" var="current" varStatus="loop">
-        	    			   {header: '<c:out value="${current.header}" />',name:'<c:out value="${current.name}" />',width:'<c:out value="${current.width}" />',align:'<c:out value="${current.align}" />' }<c:if test="${!loop.last}">,</c:if>
-        					  </c:forEach>],
+        	    			   {header: '<c:out value="${current.header}" />',name:'<c:out value="${current.name}" />',width:'<c:out value="${current.width}" />',align:'<c:out value="${current.align}" />' <c:if test="${!empty current.editor}">,editor:{<c:if test="${!empty current.editor.rules}">rules:<c:if test="${fn:length(current.editor.rules)>1}">[</c:if><c:forEach items="${current.editor.rules}" var="rule" varStatus="ruleLoop">['<c:out value="${rule.method}" />',<c:out value="${rule.value}" />,'<c:out value="${rule.message}" />']<c:if test="${!ruleLoop.last}">,</c:if></c:forEach><c:if test="${fn:length(current.editor.rules)>1}">]</c:if>,</c:if>type:'<c:out value="${current.editor.type}" />',editable:<c:out value="${current.editor.editable}" />,name:'<c:out value="${current.editor.name}" />'}</c:if>}<c:if test="${!loop.last}">,</c:if>
+        					</c:forEach>],
 				dataSource : "${ctx}/stockrecordline/index.json",
 				onBeforeEdit : function(){
 					$('#demo >:button').attr("disabled",true);
@@ -116,8 +119,15 @@
 				}
             });
             
+            popupOption['productId']={url:'${ctx}/product/query',title:'选择产品',textColumn:'product_name',valueColumn:'productId'};
+            
+            $('#productId').live('focus',function(){
+            	PopupSelection.openSelection('productId','product');
+            });
+            
+            
             $('#add').click(function(){
-            	$('#grid').omGrid('insertRow',0,{productId:100});
+            	$('#grid').omGrid('insertRow',0);
             });
             $('#del').click(function(){
             	var dels = $('#grid').omGrid('getSelections');

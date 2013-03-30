@@ -6,6 +6,9 @@
 			<name>productId</name>
 			<width>50</width>
 			<align>center</align>
+			<editor>
+				<editable>true</editable>
+			</editor>
 		</column-model>
 		<column-model>
 			<header>产品名称</header>
@@ -18,24 +21,67 @@
 			<name>price</name>
 			<width>50</width>
 			<align>center</align>
+			<editor>
+				<rules>
+					<rule>
+						<method>required</method>
+						<value>true</value>
+						<message>价格是必填的</message>
+					</rule>
+					<rule>
+						<method>number</method>
+						<value>true</value>
+						<message>请填入数字</message>
+					</rule>
+				</rules>
+				<type>omNumberField</type>
+				<editable>true</editable>
+				<name>price</name>
+			</editor>
 		</column-model>
 		<column-model>
 			<header>数量</header>
 			<name>quantity</name>
 			<width>50</width>
 			<align>center</align>
+			<editor>
+				<rules>
+					<rule>
+						<method>required</method>
+						<value>true</value>
+						<message>数量是必填的</message>
+					</rule>
+					<rule>
+						<method>min</method>
+						<value>2</value>
+						<message>数量必须大于2</message>
+					</rule>
+				</rules>
+				<type>omNumberField</type>
+				<editable>true</editable>
+				<name>quantity</name>
+			</editor>
 		</column-model>
 		<column-model>
 			<header>是否有发票</header>
 			<name>haveInvoice</name>
 			<width>100</width>
 			<align>center</align>
+			<editor>
+				<type>omCombo</type>
+				<name>haveInvoice</name>
+				<options>genderOptions</options>
+			</editor>
 		</column-model>
 		<column-model>
 			<header>发票号</header>
 			<name>invoiceNumber</name>
 			<width>100</width>
 			<align>center</align>
+			<editor>
+				<type>omNumberField</type>
+				<editable>true</editable>
+			</editor>
 		</column-model>
 	</profile>
 </column-models>
