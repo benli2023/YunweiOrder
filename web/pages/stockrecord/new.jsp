@@ -5,6 +5,7 @@
 	<%@ include file="../../commons/opera-maskui-dialog-import.jsp" %>
 	<link href="<c:url value="${ctx}/scripts/plugins/popup-input/popup-input.css"/>" type="text/css" rel="stylesheet">
 	<script type="text/javascript" src="${ctx}/scripts/plugins/popup-input/popup_selection.js"></script>
+	<script src="<c:url value="/scripts/json2.js" />" ></script>
 	
 	<link href="<c:url value="${ctx}/scripts/plugins/easytab/css/easytab.css"/>" type="text/css" rel="stylesheet">
 	<script type="text/javascript" src="${ctx}/scripts/plugins/easytab/vendor/jquery.hashchange.min.js"></script>
@@ -27,7 +28,7 @@
 		<input id="submitButton" name="submitButton" type="submit" value="提交" />
 		<input type="button" value="返回列表" onclick="window.location='${ctx}/stockrecord'"/>
 		<input type="button" value="后退" onclick="history.back();"/>
-		
+		<input type="hidden" name="jsonData" id="product_json_data" />
 		<table class="formTable">
 		<%@ include file="form_include.jsp" %>
 		</table>
@@ -37,9 +38,11 @@
 		
 		new Validation(document.forms[0],{onSubmit:true,onFormValidate : function(result,form) {
 			var finalResult = result;
-			
+			finalResult=true;
 			//在这里添加自定义验证
-			
+			var data = $('#grid').omGrid('getChanges');
+			$('#product_json_data').val(JSON.stringify(data));
+			alert($('#product_json_data').val());
 			return disableSubmit(finalResult,'submitButton');
 		}});
 	</script>
@@ -60,7 +63,7 @@
 				<div id="demo" style="margin-left: 30px; margin-top: 20px">
 					<input type="button" id="add" value="新增" /> 
 					<input type="button" id="del" value="删除" /> 
-					<input type="button" id="save" value="保存修改" />
+
 					<table id="grid"></table>
 				</div>
 			</div>
@@ -179,6 +182,7 @@
             $('#save').click(function(){
             	var data = $('#grid').omGrid('getChanges');
             	/*****此处传递data到后台并处理*******/
+            		alert(JSON.stringify(data));
             	/*****保存成功之后执行如下操作********/
             	 $('#grid').omGrid('saveChanges');
             	/******或者执行$('#grid').omGrid('reload');***/

@@ -7,6 +7,7 @@
 
 package com.yunwei.order.service;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -34,12 +35,31 @@ import com.yunwei.order.vo.query.*;
 @Service
 @Transactional
 public class StockRecordManager extends BaseManager<StockRecord,java.lang.Long>{
-
+	private StockRecordLineDao stockRecordLineDao=null;
 	private StockRecordDao stockRecordDao;
-	/**增加setXXXX()方法,spring就可以通过autowire自动设置对象属性,请注意大小写*/
 	public void setStockRecordDao(StockRecordDao dao) {
 		this.stockRecordDao = dao;
 	}
+	
+	public void setStockRecordLineDao(StockRecordLineDao stockRecordLineDao) {
+		this.stockRecordLineDao = stockRecordLineDao;
+	}
+	
+	
+
+	@Override
+	public void save(StockRecord entity) throws DataAccessException {
+		GridEditorJsonData<StockRecordLine> jsonData=entity.getJsonData();
+		List<StockRecordLine> stockRecordLines=jsonData.getInsert();
+		java.lang.Long id=(java.lang.Long)stockRecordDao.save(entity);
+		if(stockRecordLines!=null&&stockRecordLines.size()>0) {
+			for(StockRecordLine stockLine:stockRecordLines) {
+				stockLine.setStockOperationId(id);
+				stockRecordLineDao.save(stockLine);
+			}
+		}
+	}
+
 	public EntityDao getEntityDao() {
 		return this.stockRecordDao;
 	}

@@ -8,23 +8,25 @@
 
 package com.yunwei.order.controller;
 
-import java.util.List;
-import java.util.Map;
-
+import java.beans.PropertyEditorSupport;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import com.github.springrest.base.BaseRestSpringController;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.codehaus.jackson.JsonGenerationException;
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
+import org.codehaus.jackson.type.TypeReference;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,27 +36,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-
-import com.github.springrest.base.ColModelProfile;
-import com.github.springrest.util.ColModelFactory;
-
 import cn.org.rapid_framework.page.Page;
 import cn.org.rapid_framework.web.scope.Flash;
 
-import java.util.*;
-
-import com.github.springrest.base.*;
-import com.github.springrest.util.*;
-import org.codehaus.jackson.annotate.*;
-import cn.org.rapid_framework.util.*;
-import cn.org.rapid_framework.web.util.*;
-import cn.org.rapid_framework.page.*;
-import cn.org.rapid_framework.page.impl.*;
-
-import com.yunwei.order.model.*;
-import com.yunwei.order.dao.*;
-import com.yunwei.order.service.*;
-import com.yunwei.order.vo.query.*;
+import com.github.springrest.base.BaseRestSpringController;
+import com.github.springrest.base.ColModelProfile;
+import com.github.springrest.base.GridEditorJsonData;
+import com.github.springrest.util.ColModelFactory;
+import com.yunwei.order.model.StockRecord;
+import com.yunwei.order.model.StockRecordLine;
+import com.yunwei.order.service.StockRecordManager;
+import com.yunwei.order.vo.query.StockRecordQuery;
 
 /**
  * @author badqiu email:badqiu(a)gmail.com
@@ -70,11 +62,20 @@ public class StockRecordController extends BaseRestSpringController<StockRecord,
 	
 	private StockRecordManager stockRecordManager;
 	private ColModelFactory colModelFactory;
+	private ObjectMapper objectMapper;
+	
 
 	public void setColModelFactory(ColModelFactory colModelFactory) {
 		this.colModelFactory = colModelFactory;
 	}
 	
+
+	public void setObjectMapper(ObjectMapper objectMapper) {
+		this.objectMapper = objectMapper;
+	}
+	
+
+
 	private final String LIST_ACTION = "redirect:/stockrecord";
 	
 	/** 
@@ -88,6 +89,43 @@ public class StockRecordController extends BaseRestSpringController<StockRecord,
 	@InitBinder  
 	public void initBinder(WebDataBinder binder) {  
 	        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));  
+	        binder.registerCustomEditor(GridEditorJsonData.class, new PropertyEditorSupport() {
+	        	@SuppressWarnings("unchecked")
+	        	@Override
+	        	public String getAsText() {
+	        		GridEditorJsonData<StockRecordLine> data=(GridEditorJsonData<StockRecordLine>)this.getValue();
+	        		String result=null;
+	        		try {
+	        			result=objectMapper.writeValueAsString(data);
+	        		} catch (JsonGenerationException e) {
+	        			e.printStackTrace();
+	        		} catch (JsonMappingException e) {
+	        			e.printStackTrace();
+	        		} catch (IOException e) {
+	        			e.printStackTrace();
+	        		}
+	        		return result;
+	        		
+	        	}
+
+	        	@Override
+	        	public void setAsText(String jsonContent) throws IllegalArgumentException {
+	        		GridEditorJsonData<StockRecordLine> data=null;
+	        		try {
+	        			data=objectMapper.readValue(jsonContent, new TypeReference<GridEditorJsonData<StockRecordLine>>() {});
+	        		} catch (JsonParseException e) {
+	        			e.printStackTrace();
+	        		} catch (JsonMappingException e) {
+	        			e.printStackTrace();
+	        		} catch (IOException e) {
+	        			e.printStackTrace();
+	        		}
+	        		this.setValue(data);
+	        	}
+	        	
+	        	
+	        	
+	        });
 	}
 	   
 	/**

@@ -133,6 +133,7 @@ public class StockRecord extends BaseEntity implements java.io.Serializable {
 	private String toStockIdTxt;
 	
 	
+	
     /**
      * 备注       db_column: remark 
      */ 	
@@ -140,6 +141,10 @@ public class StockRecord extends BaseEntity implements java.io.Serializable {
 	
 	
 	private java.lang.String remark;
+	
+	
+	private GridEditorJsonData<StockRecordLine> jsonData=null;
+	
 	
 	//columns END
 
@@ -284,6 +289,14 @@ public class StockRecord extends BaseEntity implements java.io.Serializable {
 	
 	public java.lang.String getRemark() {
 		return this.remark;
+	}
+	
+	public GridEditorJsonData<StockRecordLine> getJsonData() {
+		return jsonData;
+	}
+
+	public void setJsonData(GridEditorJsonData<StockRecordLine> jsonData) {
+		this.jsonData = jsonData;
 	}
 
 	public String toString() {
