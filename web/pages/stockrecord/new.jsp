@@ -97,15 +97,43 @@
       $('#tab-container').easytabs();
     });
     
+    $.validator.addMethod("invoiceNumber", function(value) {
+        if($('#haveInvoice').val()=='是'&&!value)  {
+        	return false;
+        }
+        return true;
+ 	}, '请填写发票号');
+    
     $(document).ready(function() {
             $('#grid').omGrid({
                 limit:10,
                 title : '表格',
-                width:600,
+                width:750,
                 height : 300,
                 editMode:"all",
-                colModel : [ <c:forEach items="${colModelList}" var="current" varStatus="loop">
-        	    			   {header: '<c:out value="${current.header}" />',name:'<c:out value="${current.name}" />',width:'<c:out value="${current.width}" />',align:'<c:out value="${current.align}" />' <c:if test="${!empty current.editor}">,editor:{<c:if test="${!empty current.editor.rules}">rules:<c:if test="${fn:length(current.editor.rules)>1}">[</c:if><c:forEach items="${current.editor.rules}" var="rule" varStatus="ruleLoop">['<c:out value="${rule.method}" />',<c:out value="${rule.value}" />,'<c:out value="${rule.message}" />']<c:if test="${!ruleLoop.last}">,</c:if></c:forEach><c:if test="${fn:length(current.editor.rules)>1}">]</c:if>,</c:if>type:'<c:out value="${current.editor.type}" />',editable:<c:out value="${current.editor.editable}" />,name:'<c:out value="${current.editor.name}" />'}</c:if>}<c:if test="${!loop.last}">,</c:if>
+                colModel : [<c:forEach items="${colModelList}" var="current" varStatus="loop">
+        	    			   { 
+        	    				   header: '<c:out value="${current.header}" />',
+        	    				   name:'<c:out value="${current.name}" />',
+        	    				   width:'<c:out value="${current.width}" />',
+        	    				   align:'<c:out value="${current.align}" />' 
+        	    				   <c:if test="${!empty current.editor}">,
+        	    				   editor:{
+   											<c:if test="${!empty current.editor.rules}">rules:
+        	    					   			<c:if test="${fn:length(current.editor.rules)>1}">[</c:if>
+        	    					   				<c:forEach items="${current.editor.rules}" var="rule" varStatus="ruleLoop">
+        	    					   						<c:if test="${!empty rule.customValidator}">['<c:out value="${rule.customValidator}" />']</c:if>
+        	    					   						<c:if test="${empty rule.customValidator}">['<c:out value="${rule.method}" />',<c:out value="${rule.value}" />,'<c:out value="${rule.message}" />']</c:if>
+        	    					   						<c:if test="${!ruleLoop.last}">,</c:if>
+        	    					   				</c:forEach>
+        	    					   			<c:if test="${fn:length(current.editor.rules)>1}">]</c:if>,
+        	    					   		</c:if>
+        	    				           type:'<c:out value="${current.editor.type}" />',
+        	    				           editable:<c:out value="${current.editor.editable}" />, 
+        	    				           <c:if test="${!empty current.editor.options}">options:<c:out value="${current.editor.options}" escapeXml="false"/>,</c:if>
+        	    				           name:'<c:out value="${current.editor.name}" />'}</c:if>
+        	    				           <c:if test="${!empty current.renderer}">,renderer:<c:out value="${current.renderer}" escapeXml="false"/></c:if>
+        	    				 }<c:if test="${!loop.last}">,</c:if>
         					</c:forEach>],
 				dataSource : "${ctx}/stockrecordline/index.json",
 				onBeforeEdit : function(){
@@ -119,9 +147,20 @@
 				}
             });
             
-            popupOption['productId']={url:'${ctx}/product/query',title:'选择产品',textColumn:'product_name',valueColumn:'productId'};
+            popupOption['productId']={
+            		url:'${ctx}/product/query',
+            		title:'选择产品',
+            		textColumn:'product_name',
+            		valueColumn:'productId',
+            		IdFieldId:'productId',
+            		TxtFieldId:'productIdTxt',
+            		fields:{'price':'salePrice'},
+            		callback:function(rowdata,fieldId) {
+            			$('#grid').omGrid('ValidateRowData');
+            		}
+            	};
             
-            $('#productId').live('focus',function(){
+            $('#productIdTxt').live('focus',function(){
             	PopupSelection.openSelection('productId','product');
             });
             

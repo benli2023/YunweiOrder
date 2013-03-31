@@ -314,15 +314,18 @@ function readURL(input,imageId,ieDivId) {
 					rules:
 					<c:if test="${fn:length(current.editor.rules)>1}">[</c:if>
 					<c:forEach items="${current.editor.rules}" var="rule" varStatus="ruleLoop">
-						['<c:out value="${rule.method}" />','<c:out value="${rule.value}" />','<c:out value="${rule.message}" />']
+						<c:if test="${!empty rule.customValidator}">['<c:out value="${rule.customValidator}" />']</c:if>
+						<c:if test="${empty rule.customValidator}">['<c:out value="${rule.method}" />','<c:out value="${rule.value}" />','<c:out value="${rule.message}" />']</c:if>
 						<c:if test="${!ruleLoop.last}">,</c:if>
 					</c:forEach>
 					<c:if test="${fn:length(current.editor.rules)>1}">]</c:if>,
 					</c:if> 
 					type:'<c:out value="${current.editor.type}" />',
 					editable:<c:out value="${current.editor.editable}" />,
+					<c:if test="${!empty current.editor.options}">options:<c:out value="${current.editor.options}" />,</c:if>
 					name:'<c:out value="${current.editor.name}" />'
 					}
 			</c:if>
+			<c:if test="${!empty current.renderer}">,renderer:<c:out value="${current.renderer}" /></c:if>
 			
  <span style="border-width: 0px; width: 130px;" class="mini-buttonedit"><span style="width: 130px;" class="mini-buttonedit-border"><input type="input" value="" id="stockRecord_stockId" style="width: 103px;" name="stockIdTxt" placeholder="" autocomplete="off" class="mini-buttonedit-input"><input type="hidden" class="popup_hidden_Id" value="" name="stockId"><span onclick="PopupSelection.openSelection('stockRecord_stockId','stockRecord')" onmouseout="PopupSelection.removeClass(this,'mini-buttonedit-button-hover');" onmouseover="PopupSelection.addClass(this,'mini-buttonedit-button-hover');" class="mini-buttonedit-button"><span class="mini-buttonedit-icon"></span></span><span onclick="PopupSelection.clearSelection(this,'stockRecord_stockId')" style="display:none" class="mini-buttonedit-close"></span></span></span>

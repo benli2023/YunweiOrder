@@ -180,6 +180,9 @@
 		       <isNotEmpty prepend="AND" property="ctimeEnd">
 		             cTime &lt;= #ctimeEnd#
 		       </isNotEmpty>
+		       <isNotEmpty prepend="AND" property="searchTerm">
+	        	(  product_name like '%$searchTerm$%'   )
+	           </isNotEmpty>
 	    </dynamic>	
 	</sql>
 	 

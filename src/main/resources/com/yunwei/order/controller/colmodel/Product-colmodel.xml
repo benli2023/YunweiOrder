@@ -10,6 +10,12 @@
 		<column-model>
 			<header>商品名称</header>
 			<name>product_name</name>
+			<width>150</width>
+			<align>center</align>
+		</column-model>
+			<column-model>
+			<header>价格</header>
+			<name>salePrice</name>
 			<width>100</width>
 			<align>center</align>
 		</column-model>
