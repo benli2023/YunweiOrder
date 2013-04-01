@@ -17,17 +17,7 @@
 		</table>
 	</form:form>
 	
-	<script>
-		
-		new Validation(document.forms[0],{onSubmit:true,onFormValidate : function(result,form) {
-			var finalResult = result;
-			//在这里添加自定义验证
-			var data = $('#grid').omGrid('getChanges');
-			$('#product_json_data').val(JSON.stringify(data));
-			alert($('#product_json_data').val());
-			return disableSubmit(finalResult,'submitButton');
-		}});
-	</script>
+	
 
 <%@ include file="tab_include.jsp" %>    
 </rapid:override>
