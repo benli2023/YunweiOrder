@@ -1,9 +1,9 @@
 <%@page import="com.yunwei.order.model.*" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/commons/taglibs.jsp" %>
-
+<form:errors />
 	<input type="hidden" id="stockOperationId" name="stockOperationId" value="${stockRecord.stockOperationId}"/>
-
+	<input type="hidden" name="jsonData" id="product_json_data" />
 	<tr>	
 		<td class="tdLabel">
 			<%=StockRecord.ALIAS_STOCK_OPERATION_NAME%>:
@@ -135,5 +135,7 @@
 		<font color='red'><form:errors path="remark"/></font>
 		</td>
 	</tr>	
+	
+	
 	
 		

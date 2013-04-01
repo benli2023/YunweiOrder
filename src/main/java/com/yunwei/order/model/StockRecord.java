@@ -7,31 +7,20 @@
 
 package com.yunwei.order.model;
 
-import javax.validation.constraints.*;
-import org.hibernate.validator.constraints.*;
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.hibernate.validator.constraints.Length;
 
+import cn.org.rapid_framework.util.DateConvertUtils;
+
+import com.github.springrest.base.BaseEntity;
+import com.github.springrest.base.GridEditorJsonData;
 import com.github.springrest.base.JsonDateSerializer;
-
-import java.util.*;
-
-import com.github.springrest.base.*;
-import com.github.springrest.util.*;
-import org.codehaus.jackson.annotate.*;
-import cn.org.rapid_framework.util.*;
-import cn.org.rapid_framework.web.util.*;
-import cn.org.rapid_framework.page.*;
-import cn.org.rapid_framework.page.impl.*;
-
-import com.yunwei.order.model.*;
-import com.yunwei.order.dao.*;
-import com.yunwei.order.service.*;
-import com.yunwei.order.vo.query.*;
+import com.yunwei.order.model.grid.StockRecordLineEditorData;
 
 /**
  * @author badqiu email:badqiu(a)gmail.com
@@ -143,7 +132,7 @@ public class StockRecord extends BaseEntity implements java.io.Serializable {
 	private java.lang.String remark;
 	
 	
-	private GridEditorJsonData<StockRecordLine> jsonData=null;
+	private StockRecordLineEditorData jsonData=null;
 	
 	
 	//columns END
@@ -291,11 +280,14 @@ public class StockRecord extends BaseEntity implements java.io.Serializable {
 		return this.remark;
 	}
 	
-	public GridEditorJsonData<StockRecordLine> getJsonData() {
+
+	
+
+	public StockRecordLineEditorData getJsonData() {
 		return jsonData;
 	}
 
-	public void setJsonData(GridEditorJsonData<StockRecordLine> jsonData) {
+	public void setJsonData(StockRecordLineEditorData jsonData) {
 		this.jsonData = jsonData;
 	}
 

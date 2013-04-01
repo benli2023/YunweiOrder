@@ -1,16 +1,5 @@
 package com.yunwei.order.controller;
 
-import cn.org.rapid_framework.page.Page;
-import cn.org.rapid_framework.web.scope.Flash;
-
-import com.github.springrest.base.BaseRestSpringController;
-import com.github.springrest.base.ColModelProfile;
-import com.github.springrest.util.ColModelFactory;
-import com.yunwei.order.model.StockRecordLine;
-import com.yunwei.order.service.StockRecordLineManager;
-import com.yunwei.order.vo.query.StockRecordLineQuery;
-import com.yunwei.order.vo.query.StockRecordQuery;
-
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -21,6 +10,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
+
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -33,6 +23,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.xml.sax.SAXException;
+
+import cn.org.rapid_framework.page.Page;
+import cn.org.rapid_framework.web.scope.Flash;
+
+import com.github.springrest.base.BaseRestSpringController;
+import com.github.springrest.util.ColModelFactory;
+import com.yunwei.order.model.StockRecordLine;
+import com.yunwei.order.service.StockRecordLineManager;
+import com.yunwei.order.vo.query.StockRecordLineQuery;
 
 @Controller
 @RequestMapping({"/stockrecordline"})
@@ -76,7 +75,12 @@ public class StockRecordLineController extends BaseRestSpringController<StockRec
 	@RequestMapping({ "/index.json" })
 	@ResponseBody
 	public Map indexJson(ModelMap model, StockRecordLineQuery query) {
-		Page page = this.stockRecordLineManager.findPage(query);
+		Page page=null;
+		if(query.getStockOperationId()==null) {
+			page=new  Page(1,10,0);
+		}else {
+			 page = this.stockRecordLineManager.findPage(query);
+		}
 		return jsonPagination(page);
 	}
 

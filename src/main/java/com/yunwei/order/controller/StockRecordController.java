@@ -45,6 +45,7 @@ import com.github.springrest.base.GridEditorJsonData;
 import com.github.springrest.util.ColModelFactory;
 import com.yunwei.order.model.StockRecord;
 import com.yunwei.order.model.StockRecordLine;
+import com.yunwei.order.model.grid.StockRecordLineEditorData;
 import com.yunwei.order.service.StockRecordManager;
 import com.yunwei.order.vo.query.StockRecordQuery;
 
@@ -89,41 +90,25 @@ public class StockRecordController extends BaseRestSpringController<StockRecord,
 	@InitBinder  
 	public void initBinder(WebDataBinder binder) {  
 	        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));  
-	        binder.registerCustomEditor(GridEditorJsonData.class, new PropertyEditorSupport() {
-	        	@SuppressWarnings("unchecked")
-	        	@Override
-	        	public String getAsText() {
-	        		GridEditorJsonData<StockRecordLine> data=(GridEditorJsonData<StockRecordLine>)this.getValue();
-	        		String result=null;
-	        		try {
-	        			result=objectMapper.writeValueAsString(data);
-	        		} catch (JsonGenerationException e) {
-	        			e.printStackTrace();
-	        		} catch (JsonMappingException e) {
-	        			e.printStackTrace();
-	        		} catch (IOException e) {
-	        			e.printStackTrace();
-	        		}
-	        		return result;
-	        		
-	        	}
-
+	        binder.registerCustomEditor(StockRecordLineEditorData.class, new PropertyEditorSupport() {
 	        	@Override
 	        	public void setAsText(String jsonContent) throws IllegalArgumentException {
+	        		if(jsonContent==null||jsonContent.trim().length()==0) {
+	        			this.setValue(null);
+	        			return;
+	        		}
 	        		GridEditorJsonData<StockRecordLine> data=null;
 	        		try {
-	        			data=objectMapper.readValue(jsonContent, new TypeReference<GridEditorJsonData<StockRecordLine>>() {});
+	        			data=objectMapper.readValue(jsonContent, StockRecordLineEditorData.class);
 	        		} catch (JsonParseException e) {
-	        			e.printStackTrace();
+	        			throw new IllegalArgumentException(e);
 	        		} catch (JsonMappingException e) {
-	        			e.printStackTrace();
+	        			throw new IllegalArgumentException(e);
 	        		} catch (IOException e) {
-	        			e.printStackTrace();
+	        			throw new IllegalArgumentException(e);
 	        		}
 	        		this.setValue(data);
 	        	}
-	        	
-	        	
 	        	
 	        });
 	}
@@ -197,16 +182,17 @@ public class StockRecordController extends BaseRestSpringController<StockRecord,
 	public String edit(ModelMap model,@PathVariable java.lang.Long id) throws Exception {
 		StockRecord stockRecord = (StockRecord)stockRecordManager.getById(id);
 		model.addAttribute("stockRecord",stockRecord);
+		ColModelProfile colModelProfile=colModelFactory.getColModel("StockRecordLine-colmodel.xml",null);
+		model.addAttribute("colModelList", colModelProfile.getColModels());
 		return "/stockrecord/edit";
 	}
 	
 	/** 保存更新,@Valid标注spirng在绑定对象时自动为我们验证对象属性并存放errors在BindingResult  */
-	@RequestMapping(value="/{id}",method=RequestMethod.PUT)
+	@RequestMapping({"/update/{id}"})
 	public String update(ModelMap model,@PathVariable java.lang.Long id,@Valid StockRecord stockRecord,BindingResult errors,HttpServletRequest request,HttpServletResponse response) throws Exception {
 		if(errors.hasErrors()) {
-			return "/stockrecord/edit";
+			return edit(model,id);
 		}
-		
 		stockRecordManager.update(stockRecord);
 		Flash.current().success(UPDATE_SUCCESS);
 		return LIST_ACTION;
