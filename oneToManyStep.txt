@@ -1,0 +1,149 @@
+ ONE 2 Many Step:
+ 
+1.add one hidden field to  from_include.jsp
+<input type="hidden" name="jsonData" id="product_json_data" /> 
+
+2.copy tab_include.jsp to the pages subfolder you want to implement
+tab_include.jsp,after copied,then modify for your request demand
+
+2.1)
+ var popupOption={
+			 'saleOrder_staffId': {url:'${ctx}/staff/query',title:'选择业务员',textColumn:'staff_name',valueColumn:'staffId'},
+			 'saleOrder_custId': {url:'${ctx}/customer/query',title:'选择客户',textColumn:'cust_name',valueColumn:'custId'},
+			 'saleOrder_accountingDeptId': {url:'${ctx}/dept/query',title:'选择部门',textColumn:'dept_name',valueColumn:'deptId'}
+		 };
+ 
+2.2) modify edit.jsp and new.jsp 
+<%@ include file="tab_include.jsp" %>
+
+add other js resources in edit.jsp and new.jsp
+	<%@ include file="../../commons/opera-maskui-dialog-import.jsp" %>
+	<%@ include file="../../commons/operamaskui-grid-roweditor.jsp" %>
+	
+modify the dataSource in tab_include.jsp
+dataSource : "${ctx}/ordergoods/index.json?orderId=${saleOrder.orderId}",
+	
+	
+3.modify Parent Controller
+	3.1 add foreign info the generation xml
+	
+	3.2 copy the generated colmodel xml to the project folder
+	    copy model & query vo to project 
+	    copy controller and sql map to project
+	    
+	3.3
+		add one column to column model
+		<column-model>
+			<header>产品</header>
+			<name>productIdTxt</name>
+			<width>100</width>
+			<align>center</align>
+		</column-model>
+		
+		and remove 
+		<column-model>
+			<header>订单ID</header>
+			<name>orderId</name>
+			<width>100</width>
+			<align>center</align>
+		</column-model>
+		 
+		<column-model>
+			<header>id</header>
+			<name>goodsId</name>
+			<width>50</width>
+			<align>center</align>
+		</column-model>
+		
+		add the editor for each column
+		
+			<editor>
+				<editable>true</editable>
+			</editor>
+		
+		
+		
+	3.4
+	private ColModelFactory colModelFactory;
+	private ObjectMapper objectMapper;
+	
+
+	public void setColModelFactory(ColModelFactory colModelFactory) {
+		this.colModelFactory = colModelFactory;
+	}
+	
+
+	public void setObjectMapper(ObjectMapper objectMapper) {
+		this.objectMapper = objectMapper;
+	}
+	
+	in _new method
+		/** 进入新增 */
+	@RequestMapping(value="/new")
+	public String _new(ModelMap model,SaleOrder saleOrder,HttpServletRequest request,HttpServletResponse response) throws Exception {
+		model.addAttribute("saleOrder",saleOrder);
+		ColModelProfile colModelProfile=colModelFactory.getColModel("OrderGoods-colmodel.xml",null);
+		model.addAttribute("colModelList", colModelProfile.getColModels());
+		return "/saleorder/new";
+	}
+	
+	3.5
+	
+	create a new class OrderGoodsEditorData
+	
+	package com.yunwei.order.model.grid;
+	
+	import com.github.springrest.base.GridEditorJsonData;
+	import com.yunwei.order.model.OrderGoods;
+	
+	public class OrderGoodsEditorData extends GridEditorJsonData<OrderGoods> {
+		private static final long serialVersionUID = 1L;
+	}
+
+   add a new field to SaleOrder
+   
+   private OrderGoodsEditorData jsonData=null;
+
+   modify init Binder in parent Controller
+   /** binder用于bean属性的设置 */
+	@InitBinder  
+	public void initBinder(WebDataBinder binder) {  
+	        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
+	        binder.registerCustomEditor(StockRecordLineEditorData.class, new PropertyEditorSupport() {
+	        	@Override
+	        	public void setAsText(String jsonContent) throws IllegalArgumentException {
+	        		if(jsonContent==null||jsonContent.trim().length()==0) {
+	        			this.setValue(null);
+	        			return;
+	        		}
+	        		GridEditorJsonData<OrderGoods> data=null;
+	        		try {
+	        			data=objectMapper.readValue(jsonContent, OrderGoodsEditorData.class);
+	        		} catch (JsonParseException e) {
+	        			throw new IllegalArgumentException(e);
+	        		} catch (JsonMappingException e) {
+	        			throw new IllegalArgumentException(e);
+	        		} catch (IOException e) {
+	        			throw new IllegalArgumentException(e);
+	        		}
+	        		this.setValue(data);
+	        	}
+	        	
+	        });
+	}
+
+	
+	
+	
+4. modify Child Controller (OrderGoodsController)		
+	@RequestMapping({ "/index.json" })
+	@ResponseBody
+	public Map indexJson(ModelMap model, OrderGoodsQuery query) {
+		Page page=null;
+		if(query.getOrderId()==null) {
+			page=new  Page(1,10,0);
+		}else {
+			 page = this.orderGoodsManager.findPage(query);
+		}
+		return jsonPagination(page);
+	}

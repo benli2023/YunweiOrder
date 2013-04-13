@@ -7,7 +7,7 @@
 </rapid:override>
 
 <rapid:override name="content">
-	<form:form modelAttribute="saleorder"  method="post">
+	<form:form modelAttribute="saleorder"  >
 		<input type="button" value="返回列表" onclick="window.location='${ctx}/saleorder'"/>
 		<input type="button" value="后退" onclick="history.back();"/>
 		

@@ -329,3 +329,14 @@ function readURL(input,imageId,ieDivId) {
 			<c:if test="${!empty current.renderer}">,renderer:<c:out value="${current.renderer}" /></c:if>
 			
  <span style="border-width: 0px; width: 130px;" class="mini-buttonedit"><span style="width: 130px;" class="mini-buttonedit-border"><input type="input" value="" id="stockRecord_stockId" style="width: 103px;" name="stockIdTxt" placeholder="" autocomplete="off" class="mini-buttonedit-input"><input type="hidden" class="popup_hidden_Id" value="" name="stockId"><span onclick="PopupSelection.openSelection('stockRecord_stockId','stockRecord')" onmouseout="PopupSelection.removeClass(this,'mini-buttonedit-button-hover');" onmouseover="PopupSelection.addClass(this,'mini-buttonedit-button-hover');" class="mini-buttonedit-button"><span class="mini-buttonedit-icon"></span></span><span onclick="PopupSelection.clearSelection(this,'stockRecord_stockId')" style="display:none" class="mini-buttonedit-close"></span></span></span>
+ 
+ 
+ http://blog.stevenlevithan.com/archives/validate-phone-number#r4-3
+ http://itreallymatters.net/post/687373166/how-not-to-validate-phone-numbers#.UWkJgUqDDFw
+ http://stackoverflow.com/questions/123559/a-comprehensive-regex-for-phone-number-validation
+ 
+ 
+
+	
+
+ 

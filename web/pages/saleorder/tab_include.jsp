@@ -34,13 +34,10 @@
 
 	<script type="text/javascript">
 	 var popupOption={
-		 'stockRecord_deptId': {url:'${ctx}/dept/query',title:'选择部门',textColumn:'dept_name',valueColumn:'deptId'},
-		 'stockRecord_staffId': {url:'${ctx}/staff/query',title:'选择创建人',textColumn:'staff_name',valueColumn:'staffId'},
-		 'stockRecord_custId': {url:'${ctx}/customer/query',title:'选择客户',textColumn:'cust_name',valueColumn:'custId'},
-		 'stockRecord_approvalId': {url:'${ctx}/staff/query',title:'选择创建人',textColumn:'staff_name',valueColumn:'staffId'},
-		 'stockRecord_stockId': {url:'${ctx}/stockhouse/query',title:'选择仓库',textColumn:'stock_name',valueColumn:'stockId'}
-		 //'stockRecord_toStockId': {url:'${ctx}/stockhouse/query',title:'选择仓库',textColumn:'stock_name',valueColumn:'stockId'}
-	 };
+			 'saleOrder_staffId': {url:'${ctx}/staff/query',title:'选择业务员',textColumn:'staff_name',valueColumn:'staffId'},
+			 'saleOrder_custId': {url:'${ctx}/customer/query',title:'选择客户',textColumn:'cust_name',valueColumn:'custId'},
+			 'saleOrder_accountingDeptId': {url:'${ctx}/dept/query',title:'选择部门',textColumn:'dept_name',valueColumn:'deptId'}
+		 };
 	 PopupSelection.initOption(popupOption); 	
 	</script>
 	  <div id="dialog-modal" title="">
@@ -63,7 +60,7 @@
             $('#grid').omGrid({
                 limit:10,
                 title : '产品列表',
-                width:750,
+                width:1025,
                 height : 300,
                 editMode:"all",
                 colModel : [<c:forEach items="${colModelList}" var="current" varStatus="loop">
@@ -90,7 +87,7 @@
         	    				           <c:if test="${!empty current.renderer}">,renderer:<c:out value="${current.renderer}" escapeXml="false"/></c:if>
         	    				 }<c:if test="${!loop.last}">,</c:if>
         					</c:forEach>],
-				dataSource : "${ctx}/stockrecordline/index.json?stockOperationId=${stockRecord.stockOperationId}",
+				dataSource : "${ctx}/ordergoods/index.json?orderId=${saleOrder.orderId}",
 				onBeforeEdit : function(){
 					$('#demo >:button').attr("disabled",true);
 				},

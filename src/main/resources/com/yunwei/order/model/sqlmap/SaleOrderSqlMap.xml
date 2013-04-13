@@ -7,30 +7,34 @@
 <sqlMap>
 
     <resultMap id="RM.SaleOrder" class="com.yunwei.order.model.SaleOrder">
-        <result property="orderId" column="order_id"/>
-        <result property="orderNo" column="order_no"/>
+         <result property="orderId" column="order_id"/>
+         <result property="orderNo" column="order_no"/>
         <result property="staffId" column="staff_id"/>
+        <result property="staffIdTxt" column="sta1_staffname"/>
         <result property="custId" column="cust_id"/>
-        <result property="orderDate" column="order_date"/>
-        <result property="paymentMode" column="payment_mode"/>
-        <result property="invoiceNo" column="invoice_no"/>
-        <result property="description" column="description"/>
+        <result property="custIdTxt" column="cus2_custname"/>
+         <result property="orderDate" column="order_date"/>
+         <result property="paymentMode" column="payment_mode"/>
+         <result property="invoiceNo" column="invoice_no"/>
+         <result property="description" column="description"/>
         <result property="accountingDeptId" column="accounting_deptId"/>
-        <result property="currency" column="currency"/>
-        <result property="deliveryMethod" column="delivery_method"/>
-        <result property="deliveryDate" column="delivery_date"/>
-        <result property="additionalText" column="additional_text"/>
-        <result property="isAvailable" column="is_available"/>
-        <result property="updator" column="updator"/>
-        <result property="utime" column="uTime"/>
-        <result property="ctime" column="cTime"/>
-        <result property="creatorId" column="creator_Id"/>
+        <result property="accountingDeptIdTxt" column="dep3_deptname"/>
+         <result property="currency" column="currency"/>
+         <result property="deliveryMethod" column="delivery_method"/>
+         <result property="deliveryDate" column="delivery_date"/>
+         <result property="additionalText" column="additional_text"/>
+         <result property="isAvailable" column="is_available"/>
+         <result property="updator" column="updator"/>
+         <result property="utime" column="uTime"/>
+         <result property="ctime" column="cTime"/>
+         <result property="creatorId" column="creator_Id"/>
     </resultMap>
 
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="SaleOrder.columns">
 	    <![CDATA[
-        order_id ,order_no ,staff_id ,cust_id ,order_date ,payment_mode ,invoice_no ,description ,accounting_deptId ,currency ,delivery_method ,delivery_date ,additional_text ,is_available ,updator ,uTime ,cTime ,creator_Id 
+         sal0.order_id , sal0.order_no , sal0.staff_id , sal0.cust_id , sal0.order_date , sal0.payment_mode , sal0.invoice_no , sal0.description , sal0.accounting_deptId , sal0.currency , sal0.delivery_method , sal0.delivery_date , sal0.additional_text , sal0.is_available , sal0.updator , sal0.uTime , sal0.cTime , sal0.creator_Id  , sta1.staff_name as sta1_staffname, cus2.cust_name as cus2_custname, dep3.dept_name as dep3_deptname
+        
 	    ]]>
 	</sql>
 	
@@ -122,85 +126,77 @@
     <select id="SaleOrder.getById" resultMap="RM.SaleOrder">
 	    SELECT <include refid="SaleOrder.columns"/>
 	    <![CDATA[
-	        FROM sale_order 
+	        FROM sale_order AS sal0   Left Join staff AS sta1 ON sal0.staff_id=sta1.staff_id  Left Join customer AS cus2 ON sal0.cust_id=cus2.cust_id  Left Join dept AS dep3 ON sal0.accounting_deptId=dep3.dept_id
 	        WHERE 
-		        order_id = #orderId# 
+		        sal0.order_id = #orderId# 
 	    ]]>
     </select>
 
 	<sql id="SaleOrder.findPage.where">
 	    <dynamic prepend="WHERE">
 		       <isNotEmpty prepend="AND" property="orderId">
-		             order_id = #orderId#
+		              sal0.order_id = #orderId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="orderNo">
-		             order_no = #orderNo#
+		              sal0.order_no = #orderNo#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="staffId">
-		             staff_id = #staffId#
+		              sal0.staff_id = #staffId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="custId">
-		             cust_id = #custId#
+		              sal0.cust_id = #custId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="orderDateBegin">
-		             order_date >= #orderDateBegin#
+		              sal0.order_date >= #orderDateBegin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="orderDateEnd">
-		             order_date &lt;= #orderDateEnd#
+		              sal0.order_date &lt;= #orderDateEnd#
 		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="paymentMode">
-		             payment_mode = #paymentMode#
-		       </isNotEmpty>
+		       <isNotEqual	prepend="AND" property="paymentMode" compareValue="-1">  sal0.payment_mode = #paymentMode#</isNotEqual>	
 		       <isNotEmpty prepend="AND" property="invoiceNo">
-		             invoice_no = #invoiceNo#
+		              sal0.invoice_no = #invoiceNo#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="description">
-		             description = #description#
+		              sal0.description = #description#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="accountingDeptId">
-		             accounting_deptId = #accountingDeptId#
+		              sal0.accounting_deptId = #accountingDeptId#
 		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="currency">
-		             currency = #currency#
-		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="deliveryMethod">
-		             delivery_method = #deliveryMethod#
-		       </isNotEmpty>
+		       <isNotEqual	prepend="AND" property="currency" compareValue="-1">  sal0.currency = #currency#</isNotEqual>	
+		       <isNotEqual	prepend="AND" property="deliveryMethod" compareValue="-1">  sal0.delivery_method = #deliveryMethod#</isNotEqual>	
 		       <isNotEmpty prepend="AND" property="deliveryDateBegin">
-		             delivery_date >= #deliveryDateBegin#
+		              sal0.delivery_date >= #deliveryDateBegin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="deliveryDateEnd">
-		             delivery_date &lt;= #deliveryDateEnd#
+		              sal0.delivery_date &lt;= #deliveryDateEnd#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="additionalText">
-		             additional_text = #additionalText#
+		              sal0.additional_text = #additionalText#
 		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="isAvailable">
-		             is_available = #isAvailable#
-		       </isNotEmpty>
+		       <isNotEqual	prepend="AND" property="isAvailable" compareValue="-1">  sal0.is_available = #isAvailable#</isNotEqual>	
 		       <isNotEmpty prepend="AND" property="updator">
-		             updator = #updator#
+		              sal0.updator = #updator#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="utimeBegin">
-		             uTime >= #utimeBegin#
+		              sal0.uTime >= #utimeBegin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="utimeEnd">
-		             uTime &lt;= #utimeEnd#
+		              sal0.uTime &lt;= #utimeEnd#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="ctimeBegin">
-		             cTime >= #ctimeBegin#
+		              sal0.cTime >= #ctimeBegin#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="ctimeEnd">
-		             cTime &lt;= #ctimeEnd#
+		              sal0.cTime &lt;= #ctimeEnd#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="creatorId">
-		             creator_Id = #creatorId#
+		              sal0.creator_Id = #creatorId#
 		       </isNotEmpty>
 	    </dynamic>	
 	</sql>
 	 
     <select id="SaleOrder.findPage.count" resultClass="long">
-        SELECT count(*) FROM sale_order <include refid="SaleOrder.findPage.where"/>    
+        SELECT count(*) FROM  sale_order AS sal0 <include refid="SaleOrder.findPage.where"/>    
     </select>
     
     <!--
@@ -208,10 +204,10 @@
     	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
     -->
     <select id="SaleOrder.findPage" resultMap="RM.SaleOrder">
-    	SELECT <include refid="SaleOrder.columns"/> FROM sale_order 
+    	SELECT <include refid="SaleOrder.columns"/> FROM sale_order AS sal0   Left Join staff AS sta1 ON sal0.staff_id=sta1.staff_id  Left Join customer AS cus2 ON sal0.cust_id=cus2.cust_id  Left Join dept AS dep3 ON sal0.accounting_deptId=dep3.dept_id
 		<include refid="SaleOrder.findPage.where"/>
 		<isNotEmpty property="sortColumns">
-			ORDER BY $sortColumns$
+			ORDER BY sal0.$sortColumns$
 		</isNotEmpty>
     </select>
 

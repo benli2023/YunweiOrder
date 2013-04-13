@@ -7,26 +7,28 @@
 <sqlMap>
 
     <resultMap id="RM.OrderGoods" class="com.yunwei.order.model.OrderGoods">
-        <result property="goodsId" column="goods_id"/>
-        <result property="goodsCode" column="goods_code"/>
+         <result property="goodsId" column="goods_id"/>
+         <result property="goodsCode" column="goods_code"/>
         <result property="productId" column="product_id"/>
-        <result property="orderId" column="order_id"/>
-        <result property="unit" column="unit"/>
-        <result property="unitPrice" column="unit_price"/>
-        <result property="quantity" column="quantity"/>
-        <result property="handedQuantity" column="handed_quantity"/>
-        <result property="untaxedAmount" column="untaxed_amount"/>
-        <result property="taxRate" column="tax_rate"/>
-        <result property="outputTaxAmount" column="output_tax_amount"/>
-        <result property="taxAmount" column="tax_amount"/>
-        <result property="model" column="model"/>
-        <result property="remark" column="remark"/>
+        <result property="productIdTxt" column="pro1_productname"/>
+         <result property="orderId" column="order_id"/>
+         <result property="unit" column="unit"/>
+         <result property="unitPrice" column="unit_price"/>
+         <result property="quantity" column="quantity"/>
+         <result property="handedQuantity" column="handed_quantity"/>
+         <result property="untaxedAmount" column="untaxed_amount"/>
+         <result property="taxRate" column="tax_rate"/>
+         <result property="outputTaxAmount" column="output_tax_amount"/>
+         <result property="taxAmount" column="tax_amount"/>
+         <result property="model" column="model"/>
+         <result property="remark" column="remark"/>
     </resultMap>
 
 	<!-- 用于select查询公用抽取的列 -->
 	<sql id="OrderGoods.columns">
 	    <![CDATA[
-        goods_id ,goods_code ,product_id ,order_id ,unit ,unit_price ,quantity ,handed_quantity ,untaxed_amount ,tax_rate ,output_tax_amount ,tax_amount ,model ,remark 
+         ord0.goods_id , ord0.goods_code , ord0.product_id , ord0.order_id , ord0.unit , ord0.unit_price , ord0.quantity , ord0.handed_quantity , ord0.untaxed_amount , ord0.tax_rate , ord0.output_tax_amount , ord0.tax_amount , ord0.model , ord0.remark  , pro1.product_name as pro1_productname
+        
 	    ]]>
 	</sql>
 	
@@ -106,61 +108,62 @@
     <select id="OrderGoods.getById" resultMap="RM.OrderGoods">
 	    SELECT <include refid="OrderGoods.columns"/>
 	    <![CDATA[
-	        FROM order_goods 
+	        FROM order_goods AS ord0   Left Join product AS pro1 ON ord0.product_id=pro1.product_id
 	        WHERE 
-		        goods_id = #goodsId# 
+		        ord0.goods_id = #goodsId# 
 	    ]]>
     </select>
 
 	<sql id="OrderGoods.findPage.where">
 	    <dynamic prepend="WHERE">
 		       <isNotEmpty prepend="AND" property="goodsId">
-		             goods_id = #goodsId#
+		              ord0.goods_id = #goodsId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="goodsCode">
-		             goods_code = #goodsCode#
+		              ord0.goods_code = #goodsCode#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="productId">
-		             product_id = #productId#
+		              ord0.product_id = #productId#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="orderId">
-		             order_id = #orderId#
+		              ord0.order_id = #orderId#
 		       </isNotEmpty>
-		       <isNotEmpty prepend="AND" property="unit">
-		             unit = #unit#
-		       </isNotEmpty>
+		       <isNotEqual	prepend="AND" property="unit" compareValue="-1">  ord0.unit = #unit#</isNotEqual>	
 		       <isNotEmpty prepend="AND" property="unitPrice">
-		             unit_price = #unitPrice#
+		              ord0.unit_price = #unitPrice#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="quantity">
-		             quantity = #quantity#
+		              ord0.quantity = #quantity#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="handedQuantity">
-		             handed_quantity = #handedQuantity#
+		              ord0.handed_quantity = #handedQuantity#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="untaxedAmount">
-		             untaxed_amount = #untaxedAmount#
+		              ord0.untaxed_amount = #untaxedAmount#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="taxRate">
-		             tax_rate = #taxRate#
+		              ord0.tax_rate = #taxRate#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="outputTaxAmount">
-		             output_tax_amount = #outputTaxAmount#
+		              ord0.output_tax_amount = #outputTaxAmount#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="taxAmount">
-		             tax_amount = #taxAmount#
+		              ord0.tax_amount = #taxAmount#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="model">
-		             model = #model#
+		              ord0.model = #model#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="remark">
-		             remark = #remark#
+		              ord0.remark = #remark#
 		       </isNotEmpty>
+	       	   <isNotEmpty prepend="AND" property="searchTerm">
+	        	(  ord0.goods_code like '%$searchTerm$%'   )
+	           </isNotEmpty>
 	    </dynamic>	
 	</sql>
 	 
     <select id="OrderGoods.findPage.count" resultClass="long">
-        SELECT count(*) FROM order_goods <include refid="OrderGoods.findPage.where"/>    
+        SELECT count(*) FROM  order_goods AS ord0 <include refid="OrderGoods.findPage.where"/>    
     </select>
     
     <!--
@@ -168,10 +171,10 @@
     	因为分页查询将传 #offset#,#pageSize#,#lastRows# 三个参数,不同的数据库可以根于此三个参数属性应用不同的分页实现
     -->
     <select id="OrderGoods.findPage" resultMap="RM.OrderGoods">
-    	SELECT <include refid="OrderGoods.columns"/> FROM order_goods 
+    	SELECT <include refid="OrderGoods.columns"/> FROM order_goods AS ord0   Left Join product AS pro1 ON ord0.product_id=pro1.product_id
 		<include refid="OrderGoods.findPage.where"/>
 		<isNotEmpty property="sortColumns">
-			ORDER BY $sortColumns$
+			ORDER BY ord0.$sortColumns$
 		</isNotEmpty>
     </select>
 

@@ -7,7 +7,9 @@
 
 <rapid:override name="head">
 	<title><%=SaleOrder.TABLE_ALIAS%> 维护</title>
-	
+	<%@ include file="../../commons/opera-maskui-dialog-import.jsp" %>
+	<link href="<c:url value="${ctx}/scripts/plugins/popup-input/popup-input.css"/>" type="text/css" rel="stylesheet">
+	<script type="text/javascript" src="${ctx}/scripts/plugins/popup-input/popup_selection.js"></script>
 	<script src="${ctx}/scripts/rest.js" ></script>
 	<link href="<c:url value="/widgets/simpletable/simpletable.css"/>" type="text/css" rel="stylesheet">
 	<script type="text/javascript" src="<c:url value="/widgets/simpletable/simpletable.js"/>"></script>
@@ -33,11 +35,13 @@
 					</td>
 					<td class="tdLabel"><%=SaleOrder.ALIAS_STAFF_ID%></td>		
 					<td>
-						<input value="${query.staffId}" id="staffId" name="staffId" maxlength="19"  class="validate-integer "/>
+						<yun:button-edit name="staffIdTxt" hiddenName="staffId" id="saleOrder_staffId" txtVal="${query.staffIdTxt}"  hiddenVal="${query.staffId}" width="130"  profileId="staff"/> 
+						
 					</td>
 					<td class="tdLabel"><%=SaleOrder.ALIAS_CUST_ID%></td>		
 					<td>
-						<input value="${query.custId}" id="custId" name="custId" maxlength="19"  class="validate-integer "/>
+						<yun:button-edit name="custIdTxt" hiddenName="custId" id="saleOrder_custId" txtVal="${query.custIdTxt}"  hiddenVal="${query.custId}" width="130"  profileId="stock"/> 
+						
 					</td>
 					<td class="tdLabel"><%=SaleOrder.ALIAS_ORDER_DATE%></td>		
 					<td>
@@ -48,7 +52,11 @@
 				<tr>	
 					<td class="tdLabel"><%=SaleOrder.ALIAS_PAYMENT_MODE%></td>		
 					<td>
-						<input value="${query.paymentMode}" id="paymentMode" name="paymentMode" maxlength="8"  class=""/>
+						<select name="paymentMode">
+							<option value="1" <c:if test="${query.paymentMode==1}">selected</c:if>>支票</option>
+							<option value="0" <c:if test="${query.paymentMode==0}">selected</c:if>>现金</option>
+							<option value="-1" <c:if test="${query.paymentMode==-1}">selected</c:if>>不限</option>
+						</select>
 					</td>
 					<td class="tdLabel"><%=SaleOrder.ALIAS_INVOICE_NO%></td>		
 					<td>
@@ -60,17 +68,26 @@
 					</td>
 					<td class="tdLabel"><%=SaleOrder.ALIAS_ACCOUNTING_DEPT_ID%></td>		
 					<td>
-						<input value="${query.accountingDeptId}" id="accountingDeptId" name="accountingDeptId" maxlength="19"  class="validate-integer "/>
+						<yun:button-edit name="accountingDeptIdTxt" hiddenName="accountingDeptId" id="saleOrder_accountingDeptId" txtVal="${query.accountingDeptIdTxt}"  hiddenVal="${query.accountingDeptId}" width="130"  profileId="dept"/> 
+						
 					</td>
 				</tr>	
 				<tr>	
 					<td class="tdLabel"><%=SaleOrder.ALIAS_CURRENCY%></td>		
 					<td>
-						<input value="${query.currency}" id="currency" name="currency" maxlength="8"  class=""/>
+						<select name="currency">
+							<option value="1" <c:if test="${query.currency==1}">selected</c:if>>美元</option>
+							<option value="0" <c:if test="${query.currency==0}">selected</c:if>>人民币</option>
+							<option value="-1" <c:if test="${query.currency==-1}">selected</c:if>>不限</option>
+						</select>
 					</td>
 					<td class="tdLabel"><%=SaleOrder.ALIAS_DELIVERY_METHOD%></td>		
 					<td>
-						<input value="${query.deliveryMethod}" id="deliveryMethod" name="deliveryMethod" maxlength="8"  class=""/>
+						<select name="deliveryMethod">
+							<option value="1" <c:if test="${query.deliveryMethod==1}">selected</c:if>>快递</option>
+							<option value="0" <c:if test="${query.deliveryMethod==0}">selected</c:if>>货运</option>
+							<option value="-1" <c:if test="${query.deliveryMethod==-1}">selected</c:if>>不限</option>
+						</select>
 					</td>
 					<td class="tdLabel"><%=SaleOrder.ALIAS_DELIVERY_DATE%></td>		
 					<td>
@@ -85,7 +102,11 @@
 				<tr>	
 					<td class="tdLabel"><%=SaleOrder.ALIAS_IS_AVAILABLE%></td>		
 					<td>
-						<input value="${query.isAvailable}" id="isAvailable" name="isAvailable" maxlength="1"  class=""/>
+						<select name="isAvailable">
+							<option value="1" <c:if test="${query.isAvailable==1}">selected</c:if>>是</option>
+							<option value="0" <c:if test="${query.isAvailable==0}">selected</c:if>>否</option>
+							<option value="-1" <c:if test="${query.isAvailable==-1}">selected</c:if>>不限</option>
+						</select>
 					</td>
 					<td class="tdLabel"><%=SaleOrder.ALIAS_UPDATOR%></td>		
 					<td>
@@ -162,18 +183,18 @@
 				<td><input type="checkbox" name="items" value="${item.orderId}"></td>
 				
 				<td><c:out value='${item.orderNo}'/>&nbsp;</td>
-				<td><c:out value='${item.staffId}'/>&nbsp;</td>
-				<td><c:out value='${item.custId}'/>&nbsp;</td>
+				<td><c:out value='${item.staffIdTxt}'/>&nbsp;</td>
+				<td><c:out value='${item.custIdTxt}'/>&nbsp;</td>
 				<td><c:out value='${item.orderDateString}'/>&nbsp;</td>
-				<td><c:out value='${item.paymentMode}'/>&nbsp;</td>
+				<td><c:choose><c:when test="${item.paymentMode==1}">支票</c:when><c:when test="${item.paymentMode==0}">现金</c:when></c:choose></td>
 				<td><c:out value='${item.invoiceNo}'/>&nbsp;</td>
 				<td><c:out value='${item.description}'/>&nbsp;</td>
-				<td><c:out value='${item.accountingDeptId}'/>&nbsp;</td>
-				<td><c:out value='${item.currency}'/>&nbsp;</td>
-				<td><c:out value='${item.deliveryMethod}'/>&nbsp;</td>
+				<td><c:out value='${item.accountingDeptIdTxt}'/>&nbsp;</td>
+				<td><c:choose><c:when test="${item.currency==1}">美元</c:when><c:when test="${item.currency==0}">人民币</c:when></c:choose></td>
+				<td><c:choose><c:when test="${item.deliveryMethod==1}">快递</c:when><c:when test="${item.deliveryMethod==0}">货运</c:when></c:choose></td>
 				<td><c:out value='${item.deliveryDateString}'/>&nbsp;</td>
 				<td><c:out value='${item.additionalText}'/>&nbsp;</td>
-				<td><c:out value='${item.isAvailable}'/>&nbsp;</td>
+				<td><c:choose><c:when test="${item.isAvailable==1}">是</c:when><c:when test="${item.isAvailable==0}">否</c:when></c:choose></td>
 				<td><c:out value='${item.updator}'/>&nbsp;</td>
 				<td><c:out value='${item.utimeString}'/>&nbsp;</td>
 				<td><c:out value='${item.ctimeString}'/>&nbsp;</td>
@@ -192,9 +213,21 @@
 		<simpletable:pageToolbar page="${page}">
 		显示在这里是为了提示你如何自定义表头,可修改模板删除此行
 		</simpletable:pageToolbar>
-		
 	</div>
 	</form>
+	
+	<script type="text/javascript">
+	 var popupOption={
+		 'saleOrder_staffId': {url:'${ctx}/staff/query',title:'选择创建人',textColumn:'staff_name',valueColumn:'staffId'},
+		 'saleOrder_custId': {url:'${ctx}/customer/query',title:'选择客户',textColumn:'cust_name',valueColumn:'custId'},
+		 'saleOrder_accountingDeptId': {url:'${ctx}/dept/query',title:'选择部门',textColumn:'dept_name',valueColumn:'deptId'}
+	 };
+	 PopupSelection.initOption(popupOption); 	
+	</script>
+	  <div id="dialog-modal" title="">
+        <iframe frameborder="0" style="width:100%;height:99%;height:100%\9;" src="about:blank"></iframe>
+    </div>
+	
 </rapid:override>
 
 <%-- jsp模板继承,具体使用请查看: http://code.google.com/p/rapid-framework/wiki/rapid_jsp_extends --%>
