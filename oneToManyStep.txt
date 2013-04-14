@@ -1,6 +1,7 @@
  ONE 2 Many Step:
  
 1.add one hidden field to  from_include.jsp
+<form:errors />
 <input type="hidden" name="jsonData" id="product_json_data" /> 
 
 2.copy tab_include.jsp to the pages subfolder you want to implement
@@ -87,6 +88,17 @@ dataSource : "${ctx}/ordergoods/index.json?orderId=${saleOrder.orderId}",
 		return "/saleorder/new";
 	}
 	
+	
+	/** 编辑 */
+	@RequestMapping(value="/{id}/edit")
+	public String edit(ModelMap model,@PathVariable java.lang.Long id) throws Exception {
+		SaleOrder saleOrder = (SaleOrder)saleOrderManager.getById(id);
+		model.addAttribute("saleOrder",saleOrder);
+		ColModelProfile colModelProfile=colModelFactory.getColModel("OrderGoods-colmodel.xml",null);
+		model.addAttribute("colModelList", colModelProfile.getColModels());
+		return "/saleorder/edit";
+	}
+	
 	3.5
 	
 	create a new class OrderGoodsEditorData
@@ -147,3 +159,55 @@ dataSource : "${ctx}/ordergoods/index.json?orderId=${saleOrder.orderId}",
 		}
 		return jsonPagination(page);
 	}
+	
+5. modify SaleOrderManager
+
+	private OrderGoodsDao orderGoodsDao;
+
+	public void setOrderGoodsDao(OrderGoodsDao dao) {
+		this.orderGoodsDao = dao;
+	}
+	
+	
+	
+	@Override
+	public void save(SaleOrder entity) throws DataAccessException {
+		OrderGoodsEditorData jsonData = entity.getJsonData();
+		List<OrderGoods> orderGoods = jsonData.getInsert();
+		final java.lang.Long id = (java.lang.Long) saleOrderDao.save(entity);
+		CollectionCallback.forEach(orderGoods, new Callback<OrderGoods>() {
+			public void with(OrderGoods obj) {
+				obj.setOrderId(id);
+				orderGoodsDao.save(obj);
+			}
+		});
+	}
+
+	@Override
+	public void update(SaleOrder entity) throws DataAccessException {
+		OrderGoodsEditorData jsonData = entity.getJsonData();
+		if (jsonData != null) {
+			List<OrderGoods> insertObjs = jsonData.getInsert();
+			List<OrderGoods> deleteObjs = jsonData.getDelete();
+			List<OrderGoods> updateObjs = jsonData.getUpdate();
+			final Long id = entity.getOrderId();
+			CollectionCallback.forEach(insertObjs, new Callback<OrderGoods>() {
+				public void with(OrderGoods obj) {
+					obj.setOrderId(id);
+					orderGoodsDao.save(obj);
+				}
+			});
+			CollectionCallback.forEach(deleteObjs, new Callback<OrderGoods>() {
+				public void with(OrderGoods obj) {
+					orderGoodsDao.deleteById(obj.getGoodsId());
+				}
+			});
+			CollectionCallback.forEach(updateObjs, new Callback<OrderGoods>() {
+				public void with(OrderGoods obj) {
+					orderGoodsDao.update(obj);
+				}
+			});
+		}
+		saleOrderDao.update(entity);
+	}
+	

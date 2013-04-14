@@ -26,9 +26,11 @@ import cn.org.rapid_framework.web.scope.Flash;
 
 import com.github.springrest.base.BaseRestSpringController;
 import com.github.springrest.base.ColModelProfile;
+import com.github.springrest.base.PopupTableParam;
 import com.github.springrest.util.ColModelFactory;
 import com.github.springrest.util.FileUploadUtil;
 import com.yunwei.order.model.Product;
+import com.yunwei.order.model.Staff;
 import com.yunwei.order.service.CategoryManager;
 import com.yunwei.order.service.ProductManager;
 import com.yunwei.order.vo.query.ProductQuery;
@@ -75,12 +77,13 @@ public class ProductController extends BaseRestSpringController<Product, Long>
 	}
 
 	@RequestMapping({ "/query" })
-	public String query(ModelMap model, String fieldId,String profileId) throws Exception {
-		model.addAttribute("fieldId", fieldId);
-		model.addAttribute("jsonURL", "/product/index.json");
-		model.addAttribute("pageTitle",Product.TABLE_ALIAS);
-		ColModelProfile colModelProfile=colModelFactory.getColModel("Product-colmodel.xml",profileId);
+	public String query(ModelMap model,PopupTableParam tableParam) throws Exception {
+		tableParam.setDataSource("/product/index.json");
+		tableParam.setTitle(Product.TABLE_ALIAS);
+		ColModelProfile colModelProfile=colModelFactory.getColModel("Product-colmodel.xml",tableParam.getProfileId());
 		model.addAttribute("colModelList", colModelProfile.getColModels());
+		tableParam.setColModelList(colModelProfile.getColModels());
+		model.addAttribute("tableParam", tableParam);
 		return "/popup/table_window";
 	}
 

@@ -115,13 +115,15 @@ public class DeptController extends BaseRestSpringController<Dept,java.lang.Inte
 	}
 
 	@RequestMapping({ "/query" })
-	public String query(ModelMap model, String fieldId,String profileId) throws Exception {
-		model.addAttribute("fieldId", fieldId);
-		model.addAttribute("jsonURL", "/dept/index.json");
-		model.addAttribute("pageTitle",Dept.TABLE_ALIAS);
-		ColModelProfile colModelProfile=colModelFactory.getColModel("Dept-colmodel.xml",profileId);
+	public String query(ModelMap model,PopupTableParam tableParam) throws Exception {
+		tableParam.setDataSource("/dept/index.json");
+		tableParam.setTitle(Dept.TABLE_ALIAS);
+		ColModelProfile colModelProfile=colModelFactory.getColModel("Dept-colmodel.xml",tableParam.getProfileId());
 		model.addAttribute("colModelList", colModelProfile.getColModels());
+		tableParam.setColModelList(colModelProfile.getColModels());
+		model.addAttribute("tableParam", tableParam);
 		return "/popup/table_window";
+		
 	}
 	
 	

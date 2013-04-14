@@ -17,6 +17,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -42,7 +44,6 @@ import com.github.springrest.util.ColModelFactory;
 import com.yunwei.order.model.OrderGoods;
 import com.yunwei.order.model.SaleOrder;
 import com.yunwei.order.model.grid.OrderGoodsEditorData;
-import com.yunwei.order.model.grid.StockRecordLineEditorData;
 import com.yunwei.order.service.SaleOrderManager;
 import com.yunwei.order.vo.query.SaleOrderQuery;
 
@@ -57,6 +58,8 @@ import com.yunwei.order.vo.query.SaleOrderQuery;
 public class SaleOrderController extends BaseRestSpringController<SaleOrder,java.lang.Long>{
 	//默认多列排序,example: username desc,createTime asc
 	protected static final String DEFAULT_SORT_COLUMNS = null; 
+	
+	Log ERROR_LOGGER=LogFactory.getLog("ERROR."+this.getClass().getName());
 	
 	private SaleOrderManager saleOrderManager;
 	private ColModelFactory colModelFactory;
@@ -82,7 +85,7 @@ public class SaleOrderController extends BaseRestSpringController<SaleOrder,java
 	@InitBinder  
 	public void initBinder(WebDataBinder binder) {  
 	        binder.registerCustomEditor(Date.class, new CustomDateEditor(new SimpleDateFormat("yyyy-MM-dd"), true));
-	        binder.registerCustomEditor(StockRecordLineEditorData.class, new PropertyEditorSupport() {
+	        binder.registerCustomEditor(OrderGoodsEditorData.class, new PropertyEditorSupport() {
 	        	@Override
 	        	public void setAsText(String jsonContent) throws IllegalArgumentException {
 	        		if(jsonContent==null||jsonContent.trim().length()==0) {
@@ -93,10 +96,13 @@ public class SaleOrderController extends BaseRestSpringController<SaleOrder,java
 	        		try {
 	        			data=objectMapper.readValue(jsonContent, OrderGoodsEditorData.class);
 	        		} catch (JsonParseException e) {
+	        			ERROR_LOGGER.error("ERROR occur during parse json data", e);
 	        			throw new IllegalArgumentException(e);
 	        		} catch (JsonMappingException e) {
+	        			ERROR_LOGGER.error("ERROR occur during parse json data", e);
 	        			throw new IllegalArgumentException(e);
 	        		} catch (IOException e) {
+	        			ERROR_LOGGER.error("ERROR occur during parse json data", e);
 	        			throw new IllegalArgumentException(e);
 	        		}
 	        		this.setValue(data);
@@ -159,6 +165,8 @@ public class SaleOrderController extends BaseRestSpringController<SaleOrder,java
 	public String edit(ModelMap model,@PathVariable java.lang.Long id) throws Exception {
 		SaleOrder saleOrder = (SaleOrder)saleOrderManager.getById(id);
 		model.addAttribute("saleOrder",saleOrder);
+		ColModelProfile colModelProfile=colModelFactory.getColModel("OrderGoods-colmodel.xml",null);
+		model.addAttribute("colModelList", colModelProfile.getColModels());
 		return "/saleorder/edit";
 	}
 	

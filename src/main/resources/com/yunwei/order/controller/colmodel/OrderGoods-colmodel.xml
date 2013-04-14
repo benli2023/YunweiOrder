@@ -1,13 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <column-models id="orderGoods">
 	<profile id="order" default="true" >
+		<!--
+		<column-model>
+			<header>id</header>
+			<name>goodsId</name>
+			<width>50</width>
+			<align>center</align>
+		</column-model>
+		-->
 		<column-model>
 			<header>编码或条形码</header>
 			<name>goods_code</name>
 			<width>100</width>
 			<align>center</align>
 			<editor>
-				<editable>true</editable>
+				<editable>false</editable>
 			</editor>
 		</column-model>
 		<column-model>
@@ -38,13 +46,39 @@
 					{
 					  dataSource:[
 						{text:"请选择",value:""},
-						{text:"个" , value:"1"},
 						{text:"只",value:"0"},
+						{text:"个" , value:"1"},
 						{text:"批",value:"2"}],
 						editable: false 
 					}
     			]]>
     			</options>
+			</editor>
+			<renderer><![CDATA[
+    			function unitRenderer(value){
+    				if(typeof value=='string') {
+    					value=parseInt(value);
+    				}
+			        if(0 === value){
+			            return "只";
+			        }else if(1 === value){
+			            return "个";
+			        }else if(2 === value) {
+			        	return "批";
+			        }else{
+			            return "";
+			        }
+		    	}
+    			]]>
+    		</renderer>
+		</column-model>
+		<column-model>
+			<header>单价</header>
+			<name>unitPrice</name>
+			<width>50</width>
+			<align>center</align>
+			<editor>
+				<editable>true</editable>
 			</editor>
 		</column-model>
 		<column-model>
@@ -65,6 +99,7 @@
 				<editable>true</editable>
 			</editor>
 		</column-model>
+		<!--
 		<column-model>
 			<header>未税金额</header>
 			<name>untaxedAmount</name>
@@ -83,8 +118,9 @@
 				<editable>true</editable>
 			</editor>
 		</column-model>
+		-->
 		<column-model>
-			<header>销项税额</header>
+			<header>含税额</header>
 			<name>outputTaxAmount</name>
 			<width>50</width>
 			<align>center</align>
@@ -92,6 +128,7 @@
 				<editable>true</editable>
 			</editor>
 		</column-model>
+		<!--
 		<column-model>
 			<header>税额</header>
 			<name>taxAmount</name>
@@ -101,6 +138,7 @@
 				<editable>true</editable>
 			</editor>
 		</column-model>
+		-->
 		<column-model>
 			<header>型号</header>
 			<name>model</name>

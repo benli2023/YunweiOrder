@@ -1,6 +1,7 @@
 <%@page import="com.yunwei.order.model.*" %>
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ include file="/commons/taglibs.jsp" %>
+	<form:errors />
 	<input type="hidden" id="orderId" name="orderId" value="${saleOrder.orderId}"/>
 	<input type="hidden" name="jsonData" id="product_json_data" />
 	<tr>	

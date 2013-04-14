@@ -13,7 +13,19 @@
 			<width>150</width>
 			<align>center</align>
 		</column-model>
-			<column-model>
+		<column-model>
+			<header>商品编码</header>
+			<name>product_code</name>
+			<width>150</width>
+			<align>center</align>
+		</column-model>
+		<column-model>
+			<header>商品型号</header>
+			<name>product_spec</name>
+			<width>150</width>
+			<align>center</align>
+		</column-model>
+		<column-model>
 			<header>价格</header>
 			<name>salePrice</name>
 			<width>100</width>

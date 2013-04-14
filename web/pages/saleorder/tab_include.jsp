@@ -34,6 +34,11 @@
 
 	<script type="text/javascript">
 	 var popupOption={
+			 dialogWidth:600,
+			 dialogHeight:465,
+			 tableWidth:500,
+     		 tableHeight:300,
+     		 limit:10,
 			 'saleOrder_staffId': {url:'${ctx}/staff/query',title:'选择业务员',textColumn:'staff_name',valueColumn:'staffId'},
 			 'saleOrder_custId': {url:'${ctx}/customer/query',title:'选择客户',textColumn:'cust_name',valueColumn:'custId'},
 			 'saleOrder_accountingDeptId': {url:'${ctx}/dept/query',title:'选择部门',textColumn:'dept_name',valueColumn:'deptId'}
@@ -106,7 +111,11 @@
             		valueColumn:'productId',
             		IdFieldId:'productId',
             		TxtFieldId:'productIdTxt',
-            		fields:{'price':'salePrice'},
+            		tableWidth:750,
+            		tableHeight:400,
+            		dialogWidth:800,
+        			dialogHeight:465,
+            		fields:{'unitPrice':'salePrice','goods_code':'product_code','model':'product_spec'},
             		callback:function(rowdata,fieldId) {
             			$('#grid').omGrid('ValidateRowData');
             		}

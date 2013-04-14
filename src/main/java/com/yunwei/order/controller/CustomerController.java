@@ -115,12 +115,13 @@ public class CustomerController extends BaseRestSpringController<Customer,java.l
 	}
 
 	@RequestMapping({ "/query" })
-	public String query(ModelMap model, String fieldId,String profileId) throws Exception {
-		model.addAttribute("fieldId", fieldId);
-		model.addAttribute("jsonURL", "/customer/index.json");
-		model.addAttribute("pageTitle",Customer.TABLE_ALIAS);
-		ColModelProfile colModelProfile=colModelFactory.getColModel("Customer-colmodel.xml",profileId);
+	public String query(ModelMap model,PopupTableParam tableParam) throws Exception {
+		tableParam.setDataSource("/customer/index.json");
+		tableParam.setTitle(Customer.TABLE_ALIAS);
+		ColModelProfile colModelProfile=colModelFactory.getColModel("Customer-colmodel.xml",tableParam.getProfileId());
 		model.addAttribute("colModelList", colModelProfile.getColModels());
+		tableParam.setColModelList(colModelProfile.getColModels());
+		model.addAttribute("tableParam", tableParam);
 		return "/popup/table_window";
 	}
 	

@@ -5,7 +5,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -27,6 +26,7 @@ import cn.org.rapid_framework.web.scope.Flash;
 
 import com.github.springrest.base.BaseRestSpringController;
 import com.github.springrest.base.ColModelProfile;
+import com.github.springrest.base.PopupTableParam;
 import com.github.springrest.base.UserContext;
 import com.github.springrest.util.ColModelFactory;
 import com.yunwei.order.model.Category;
@@ -77,13 +77,15 @@ public class CategoryController extends
 	}
 
 	@RequestMapping({ "/query" })
-	public String query(ModelMap model, String fieldId,String profileId) throws Exception {
-		model.addAttribute("fieldId", fieldId);
-		model.addAttribute("jsonURL", "/category/index.json");
-		model.addAttribute("pageTitle",Category.TABLE_ALIAS);
-		ColModelProfile colModelProfile=colModelFactory.getColModel("category-colmodel.xml",profileId);
+	public String query(ModelMap model,PopupTableParam tableParam) throws Exception {
+		tableParam.setDataSource("/category/index.json");
+		tableParam.setTitle(Category.TABLE_ALIAS);
+		ColModelProfile colModelProfile=colModelFactory.getColModel("category-colmodel.xml",tableParam.getProfileId());
 		model.addAttribute("colModelList", colModelProfile.getColModels());
+		tableParam.setColModelList(colModelProfile.getColModels());
+		model.addAttribute("tableParam", tableParam);
 		return "/popup/table_window";
+		
 	}
 
 	@RequestMapping({ "/{id}" })

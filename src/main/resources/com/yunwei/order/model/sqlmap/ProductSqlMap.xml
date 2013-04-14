@@ -181,7 +181,7 @@
 		             cTime &lt;= #ctimeEnd#
 		       </isNotEmpty>
 		       <isNotEmpty prepend="AND" property="searchTerm">
-	        	(  product_name like '%$searchTerm$%'   )
+	        	(  product_name like '%$searchTerm$%'  or product_code like  '%$searchTerm$%'  or product_spec like '%$searchTerm$%' )
 	           </isNotEmpty>
 	    </dynamic>	
 	</sql>

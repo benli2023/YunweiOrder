@@ -108,9 +108,7 @@
 	        additional_text = #additionalText# ,
 	        is_available = #isAvailable# ,
 	        updator = #updator# ,
-	        uTime = #utime# ,
-	        cTime = #ctime# ,
-	        creator_Id = #creatorId# 
+	        uTime = #utime#
         WHERE 
 	        order_id = #orderId# 
     ]]>

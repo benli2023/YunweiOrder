@@ -7,31 +7,16 @@
 
 package com.yunwei.order.model;
 
-import javax.validation.constraints.*;
-import org.hibernate.validator.constraints.*;
+import java.math.BigDecimal;
+
 import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.map.annotate.JsonSerialize;
+import org.hibernate.validator.constraints.Length;
 
-import com.github.springrest.base.JsonDateSerializer;
-
-import java.util.*;
-
-import com.github.springrest.base.*;
-import com.github.springrest.util.*;
-import org.codehaus.jackson.annotate.*;
-import cn.org.rapid_framework.util.*;
-import cn.org.rapid_framework.web.util.*;
-import cn.org.rapid_framework.page.*;
-import cn.org.rapid_framework.page.impl.*;
-
-import com.yunwei.order.model.*;
-import com.yunwei.order.dao.*;
-import com.yunwei.order.service.*;
-import com.yunwei.order.vo.query.*;
+import com.github.springrest.base.BaseEntity;
 
 /**
  * @author badqiu email:badqiu(a)gmail.com
@@ -111,7 +96,7 @@ public class OrderGoods extends BaseEntity implements java.io.Serializable {
 	
 	
 	
-	private Long unitPrice;
+	private BigDecimal unitPrice;
 	
 	
     /**
@@ -238,13 +223,15 @@ public class OrderGoods extends BaseEntity implements java.io.Serializable {
 	public java.lang.Integer getUnit() {
 		return this.unit;
 	}
-	public void setUnitPrice(Long value) {
-		this.unitPrice = value;
-	}
 	
-	public Long getUnitPrice() {
-		return this.unitPrice;
+	public BigDecimal getUnitPrice() {
+		return unitPrice;
 	}
+
+	public void setUnitPrice(BigDecimal unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+
 	public void setQuantity(java.lang.Integer value) {
 		this.quantity = value;
 	}

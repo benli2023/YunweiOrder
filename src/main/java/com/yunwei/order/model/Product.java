@@ -51,6 +51,7 @@ public class Product extends BaseEntity implements Serializable {
 
 	@Length(max = 64)
 	@NotEmpty
+	@JsonProperty("product_code")
 	private String productCode;
 	private Integer ceilLimit;
 	private Integer lowLimit;
@@ -59,6 +60,7 @@ public class Product extends BaseEntity implements Serializable {
 	private String pinyCode;
 
 	@Length(max = 64)
+	@JsonProperty("product_spec")
 	private String productSpec;
 	private BigDecimal salePrice;
 	private BigDecimal purchasePrice;

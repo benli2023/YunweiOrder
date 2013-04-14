@@ -115,12 +115,13 @@ public class StaffController extends BaseRestSpringController<Staff,java.lang.Lo
 	}
 
 	@RequestMapping({ "/query" })
-	public String query(ModelMap model, String fieldId,String profileId) throws Exception {
-		model.addAttribute("fieldId", fieldId);
-		model.addAttribute("jsonURL", "/staff/index.json");
-		model.addAttribute("pageTitle",Staff.TABLE_ALIAS);
-		ColModelProfile colModelProfile=colModelFactory.getColModel("Staff-colmodel.xml",profileId);
+	public String query(ModelMap model,PopupTableParam tableParam) throws Exception {
+		tableParam.setDataSource("/staff/index.json");
+		tableParam.setTitle(Staff.TABLE_ALIAS);
+		ColModelProfile colModelProfile=colModelFactory.getColModel("Staff-colmodel.xml",tableParam.getProfileId());
 		model.addAttribute("colModelList", colModelProfile.getColModels());
+		tableParam.setColModelList(colModelProfile.getColModels());
+		model.addAttribute("tableParam", tableParam);
 		return "/popup/table_window";
 	}
 	

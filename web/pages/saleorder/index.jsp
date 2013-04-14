@@ -123,12 +123,6 @@
 						<input value="<fmt:formatDate value='${query.ctimeEnd}' pattern='<%=SaleOrder.FORMAT_CTIME%>'/>" onclick="WdatePicker({dateFmt:'<%=SaleOrder.FORMAT_CTIME%>'})" id="ctimeEnd" name="ctimeEnd"   />
 					</td>
 				</tr>	
-				<tr>	
-					<td class="tdLabel"><%=SaleOrder.ALIAS_CREATOR_ID%></td>		
-					<td>
-						<input value="${query.creatorId}" id="creatorId" name="creatorId" maxlength="19"  class="validate-integer "/>
-					</td>
-				</tr>	
 			</table>
 		</fieldset>
 		<div class="handleControl">
